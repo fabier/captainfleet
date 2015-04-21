@@ -1,0 +1,195 @@
+@import "common-mixins";
+
+@bgDefault      : #218b9c;
+@bgHighlight    : #3b789f;
+@colDefault     : #ffffff;
+@colHighlight   : #ffffff;
+@dropDown       : true;
+.ddm() when (@dropDown) {
+  > .dropdown-menu {
+    background-color: @bgDefault;
+    > li > a {
+      color: @colDefault;
+      &:hover, &:focus {
+        color: @colHighlight;
+        background-color: @bgHighlight;
+      }
+    }
+    .divider {
+      background-color: @bgHighlight;
+    }
+  }
+}
+
+.navbar-default {
+  background-color: @bgDefault;
+  border-color: @bgHighlight;
+  .navbar-brand {
+    color: @colDefault;
+    &:hover, &:focus {
+      color: @colHighlight;
+    }
+  }
+  .navbar-text {
+    color: @colDefault;
+  }
+  .navbar-nav {
+    > li {
+      > a {
+        color: @colDefault;
+        &:hover, &:focus {
+          color: @colHighlight;
+        }
+      }
+      .ddm
+    }
+    > .active {
+      > a, > a:hover, > a:focus {
+        color: @colHighlight;
+        background-color: @bgHighlight;
+      }
+    }
+    > .open {
+      > a, > a:hover, > a:focus {
+        color: @colHighlight;
+        background-color: @bgHighlight;
+      }
+    }
+  }
+  .navbar-toggle {
+    border-color: @bgHighlight;
+    &:hover, &:focus {
+      background-color: @bgHighlight;
+    }
+    .icon-bar {
+      background-color: @colDefault;
+    }
+  }
+  .navbar-collapse,
+  .navbar-form {
+    border-color: @colDefault;
+  }
+  .navbar-link {
+    color: @colDefault;
+    &:hover {
+      color: @colHighlight;
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  .navbar-default .navbar-nav .open .dropdown-menu {
+    > li > a {
+      color: @colDefault;
+      &:hover, &:focus {
+        color: @colHighlight;
+      }
+    }
+    > .active {
+      > a, > a:hover, > a:focus {
+        color: @colHighlight;
+        background-color: @bgHighlight;
+      }
+    }
+  }
+}
+
+.navbar {
+  .box-shadow(0 0px 5px rgba(32, 32, 32, 0.6));
+}
+
+body {
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.wrapper {
+  margin-top: 20px;
+}
+
+footer {
+  color: @colDefault;
+  width: 100%;
+  padding: 10px;
+  position: fixed;
+  background-color: @bgDefault;
+  display: block;
+  bottom: 0px;
+  .box-shadow(0 -1px 4px #ccc);
+  //.box-shadow(0 -1px 5px rgba(32, 32, 32, 0.6));
+  text-align: center;
+  margin-top: -50px;
+  height: 50px
+}
+
+.padding-top-20 {
+  padding-top: 20px;
+}
+
+.panel {
+  border-color: @bgDefault;
+}
+
+.panel > .panel-heading {
+  background-image: none;
+  background-color: @bgDefault;
+  color: white;
+}
+
+.display-block {
+  display: block;
+}
+
+.noHover:hover, .noHover:focus {
+  text-decoration: none;
+}
+
+.transparent {
+  background: transparent;
+}
+
+.white {
+  color: white;
+}
+
+.black {
+  color: black;
+}
+
+.nopadding {
+  padding: 0;
+}
+
+.nomargin {
+  margin: 0;
+}
+
+.center-block {
+  float: none;
+}
+
+.vertical-center {
+  min-height: 100%; /* Fallback for browsers do NOT support vh unit */
+  min-height: 100vh; /* These two lines are counted as one :-)       */
+
+  display: flex;
+  align-items: center;
+}
+
+tr.clickable-row {
+  cursor: pointer;
+}
+
+tr.clickable-row:hover {
+  background: @bgDefault !important;
+  color: @colDefault !important;
+}
+
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus {
+  z-index: 0;
+}

@@ -1,0 +1,82 @@
+<html>
+
+<head>
+    <meta name='layout' content='admin'/>
+    <title>Roles</title>
+</head>
+
+<body>
+
+<div class="container margin-top-20">
+    <div class="row">
+        <div class="col-sm-2">
+            <g:render template="/templates/lateralMenuAdmin"/>
+        </div>
+
+        <div class="col-sm-10">
+            <div class="row">
+                <g:render template="/templates/flashMessage"/>
+
+                <div class="col-sm-6">
+                    <g:form action='roleSearch' name='roleSearchForm' class="form-horizontal">
+                        <div class="form-group">
+                            <label for="authority" class="col-sm-2 control-label">Role</label>
+
+                            <div class="col-sm-8">
+                                <input class="form-control" id="authority" name="authority" placeholder="Search"
+                                       value="${params.authority ?: ""}"/>
+                            </div>
+
+                            <div class="col-sm-2">
+                                <button type="submit" class="btn btn-primary">
+                                    Search
+                                </button>
+                            </div>
+                        </div>
+                    </g:form>
+                </div>
+            </div>
+
+            <g:if test="${searched}">
+                <div class="row">
+                    <table class="table table-hover small nomargin">
+                        <thead>
+                        <tr>
+                            <th>
+                                #
+                            </th>
+                            <th>
+                                Nom
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <g:each in="${results}" var="role">
+                            <tr class="clickable-row"
+                                data-href="${createLink(action: "edit", id: role.id)}">
+                                <td>
+                                    ${fieldValue(bean: role, field: "id")}
+                                </td>
+                                <td>
+                                    ${fieldValue(bean: role, field: "authority")}
+                                </td>
+                            </tr>
+                        </g:each>
+                        </tbody>
+                    </table>
+
+                    <g:if test="${totalCount > results.size()}">
+                        <nav class="text-center">
+                            <ul class="pagination">
+                                <g:paginate next="&gt;" prev="&lt;" maxsteps="5" action="search"
+                                            total="${totalCount}"/>
+                            </ul>
+                        </nav>
+                    </g:if>
+                </div>
+            </g:if>
+        </div>
+    </div>
+</div>
+</body>
+</html>
