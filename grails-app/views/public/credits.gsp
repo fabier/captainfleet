@@ -38,6 +38,12 @@
                     <g:link url="http://www.openstreetmap.org/copyright" target="_blank">
                         Données disponible sous la licence Open Database Licence
                     </g:link>
+                </li>
+                <li>&nbsp;</li>
+                <li>
+                    <p>Tiles Courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img
+                            src="http://developer.mapquest.com/content/osm/mq_logo.png"></p>
+                </li>
             </ul>
         </div>
     </div>
