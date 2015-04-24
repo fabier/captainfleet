@@ -11,9 +11,9 @@ function initMap(mapId) {
             zoom: 3
         })
     });
+    map.addControl(new ol.control.ScaleLine());
     return map;
 }
-
 
 function zoomToExtent(map, minx, miny, maxx, maxy) {
     min = ol.proj.transform([minx, miny], 'EPSG:4326', 'EPSG:3857');
