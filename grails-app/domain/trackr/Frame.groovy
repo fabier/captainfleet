@@ -1,6 +1,6 @@
 package trackr
 
-class Frame {
+class Frame extends BaseDomain {
 
     // Device emetteur du message
     Device device
@@ -31,12 +31,6 @@ class Frame {
 
     // Received Signal Strength Indication, en dB
     Float rssi
-
-    // Date de création en base
-    Date dateCreated
-
-    // Date de dernière modification en base
-    Date lastUpdated
 
     static hasOne = [device: Device]
 

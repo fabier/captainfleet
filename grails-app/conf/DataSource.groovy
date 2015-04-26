@@ -3,7 +3,9 @@ dataSource {
     dbCreate = "update"
     driverClassName = "org.postgresql.Driver"
     url = "jdbc:postgresql://localhost:5432/trackr"
-    dialect = org.hibernate.dialect.PostgreSQL9Dialect
+// //     dialect = org.hibernate.dialect.PostgreSQL9Dialect
+// //    dialect = org.hibernate.dialect.PostgreSQLDialect
+    dialect = org.hibernatespatial.postgis.PostgisDialect
     username = "dev"
     password = "dev"
 }

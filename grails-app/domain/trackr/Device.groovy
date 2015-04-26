@@ -1,9 +1,6 @@
 package trackr
 
-class Device {
-
-    // Nom du device
-    String name
+class Device extends BaseEntity {
 
     // Identifiant sigfox
     String sigfoxId
@@ -16,12 +13,6 @@ class Device {
 
     // Code unique permettant d'associer un device à son compte
     String code
-
-    // Date de création en base
-    Date dateCreated
-
-    // Date de dernière modification en base
-    Date lastUpdated
 
     static hasMany = [frames: Frame]
 

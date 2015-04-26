@@ -9,13 +9,13 @@
             <g:if test="${mapOptions}">
             <g:each in="${mapOptions.mapMarkerLayers}" var="mapMarkerLayer">
             <g:each in="${mapMarkerLayer.points}" var="point">
-            addPoint(map, ${point.getDirectPosition().coordinate[0]}, ${point.getDirectPosition().coordinate[1]},
+            addPoint(map, ${point.getCoordinate().getOrdinate(0)}, ${point.getCoordinate().getOrdinate(1)},
                     "${assetPath(src:mapMarkerLayer.mapMarkerStyle.path)}");
             </g:each>
             </g:each>
             <g:if test="${mapOptions.boundingBox}">
-            zoomToExtent(map, ${mapOptions.boundingBox.getMinimum(0)}, ${mapOptions.boundingBox.getMinimum(1)},
-                    ${mapOptions.boundingBox.getMaximum(0)}, ${mapOptions.boundingBox.getMaximum(1)});
+            zoomToExtent(map, ${mapOptions.boundingBox.getMinX()}, ${mapOptions.boundingBox.getMinY()},
+                    ${mapOptions.boundingBox.getMaxX()}, ${mapOptions.boundingBox.getMaxY()});
             </g:if>
             </g:if>
         });

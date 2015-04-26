@@ -28,21 +28,35 @@ grails.project.dependency.resolution = {
         //mavenRepo 'http://download.java.net/maven/2/'
         //mavenRepo 'http://repository.jboss.com/maven2/'
 
+        // Pour Geotools
         mavenRepo 'http://download.osgeo.org/webdav/geotools/'
+
+        // Pour HibernateSpatial
+        mavenRepo 'http://www.hibernatespatial.org/repository/'
+
+        // Pour PostGis
+        mavenRepo 'http://www.datanucleus.org/downloads/maven2/'
     }
 
     dependencies {
-        // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
-        // runtime 'mysql:mysql-connector-java:5.1.27'
+        // Driver base de données
+        runtime 'org.postgresql:postgresql:9.4-1201-jdbc41'
 
-        runtime 'org.postgresql:postgresql:9.2-1003-jdbc4'
+        // Cache entities
         compile 'net.sf.ehcache:ehcache:2.8.5'
 
-        geotools.version = '13.0'
-        compile "org.geotools:gt-shapefile:${geotools.version}"
-        compile "org.geotools:gt-swing:${geotools.version}"
-        compile "org.geotools:gt-geometry:${geotools.version}"
+		// Librairies utilitaires
         compile "org.apache.commons:commons-lang3:3.4"
+
+        // Base de données géographique
+        compile "com.vividsolutions:jts:1.13"
+        compile('org.postgis:postgis-jdbc:2.1.0') {
+            exclude 'postgresql:postgresql:9.1-901.jdbc3'
+        }
+        compile('org.hibernatespatial:hibernate-spatial-postgis:1.1.1') {
+            exclude 'org.hibernate:hibernate-core:3.6.0.Final'
+            excludes 'javassist'
+        }
     }
 
     plugins {

@@ -1,7 +1,7 @@
 package trackr
 
-import org.geotools.geometry.GeometryBuilder
-import org.geotools.referencing.crs.DefaultGeographicCRS
+import com.vividsolutions.jts.geom.Coordinate
+import com.vividsolutions.jts.geom.GeometryFactory
 import org.springframework.security.access.annotation.Secured
 
 @Secured("hasRole('ROLE_USER')")
@@ -25,9 +25,8 @@ class FrameController {
         DataDecoded dataDecoded = decoderService.tryDecode(frame.data)
         MapOptions mapOptions
         if (dataDecoded) {
-            GeometryBuilder geometryBuilder = new GeometryBuilder(DefaultGeographicCRS.WGS84);
-            Set<org.opengis.geometry.primitive.Point> points = [geometryBuilder.createPoint(dataDecoded.longitude, dataDecoded.latitude)]
-            long delay = frame.dateCreated.getTime() - frame.time.getTime()
+            GeometryFactory geometryBuilder = new GeometryFactory();
+            Set<com.vividsolutions.jts.geom.Point> points = [geometryBuilder.createPoint(new Coordinate(dataDecoded.longitude, dataDecoded.latitude))]
             mapOptions = mapService.buildUsingPoints(points)
         } else {
             mapOptions = mapService.defaultMapOptions()

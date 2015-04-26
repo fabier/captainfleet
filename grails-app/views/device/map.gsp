@@ -49,13 +49,14 @@
 
             <g:each in="${mapOptions.mapMarkerLayers}" var="mapMarkerLayer">
             <g:if test="${!dataDecodedList.isEmpty()}">
-            addPoint(map, ${dataDecodedList.first().longitude}, ${dataDecodedList.first().latitude}, "${assetPath(src:mapMarkerLayer.mapMarkerStyle.path)}");
-            addPoint(map, ${dataDecodedList.last().longitude}, ${dataDecodedList.last().latitude}, "${assetPath(src:mapMarkerLayer.mapMarkerStyle.path)}");
+            addPoint(map, ${dataDecodedList.first().longitude}, ${dataDecodedList.first().latitude},
+                    "${assetPath(src:mapMarkerLayer.mapMarkerStyle.path)}");
+            addPoint(map, ${dataDecodedList.last().longitude}, ${dataDecodedList.last().latitude},
+                    "${assetPath(src:mapMarkerLayer.mapMarkerStyle.path)}");
             </g:if>
             </g:each>
-
-            zoomToExtent(map, ${mapOptions.boundingBox.getMinimum(0)}, ${mapOptions.boundingBox.getMinimum(1)},
-                    ${mapOptions.boundingBox.getMaximum(0)}, ${mapOptions.boundingBox.getMaximum(1)});
+            zoomToExtent(map, ${mapOptions.boundingBox.getMinX()}, ${mapOptions.boundingBox.getMinY()},
+                    ${mapOptions.boundingBox.getMaxX()}, ${mapOptions.boundingBox.getMaxY()});
             </g:if>
         });
     </script>

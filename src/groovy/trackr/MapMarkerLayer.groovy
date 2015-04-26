@@ -5,5 +5,5 @@ package trackr
  */
 class MapMarkerLayer {
     MapMarkerStyle mapMarkerStyle
-    Set<org.opengis.geometry.primitive.Point> points
+    Set<com.vividsolutions.jts.geom.Point> points
 }

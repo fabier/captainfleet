@@ -1,8 +1,8 @@
 package trackr
 
+import com.vividsolutions.jts.geom.Coordinate
+import com.vividsolutions.jts.geom.GeometryFactory
 import org.apache.commons.lang3.time.DateUtils
-import org.geotools.geometry.GeometryBuilder
-import org.geotools.referencing.crs.DefaultGeographicCRS
 import org.springframework.security.access.annotation.Secured
 
 @Secured("hasRole('ROLE_USER')")
@@ -42,17 +42,17 @@ class DeviceController {
             order("dateCreated", "asc")
         }
         List<DataDecoded> dataDecodedList = new ArrayList()
-        GeometryBuilder geometryBuilder = new GeometryBuilder(DefaultGeographicCRS.WGS84);
-        Set<org.opengis.geometry.primitive.Point> points = new HashSet<>()
+        GeometryFactory geometryFactory = new GeometryFactory()
+        Set<com.vividsolutions.jts.geom.Point> points = new HashSet<>()
         if (frames.isEmpty()) {
-            points.add(geometryBuilder.createPoint(0.0, -80.0))
-            points.add(geometryBuilder.createPoint(0.0, 80.0))
+            points.add(geometryFactory.createPoint(new Coordinate(0.0, -80.0)))
+            points.add(geometryFactory.createPoint(new Coordinate(0.0, 80.0)))
         } else {
             frames.each {
                 DataDecoded dataDecoded = decoderService.tryDecode(it.data)
                 if (dataDecoded) {
                     dataDecodedList.add(dataDecoded)
-                    points.add(geometryBuilder.createPoint(dataDecoded.longitude, dataDecoded.latitude))
+                    points.add(geometryFactory.createPoint(new Coordinate(dataDecoded.longitude, dataDecoded.latitude)))
                 }
             }
         }

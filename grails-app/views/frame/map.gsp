@@ -8,10 +8,11 @@
             var map = initMap('map');
             <g:if test="${mapOptions}">
             <g:each in="${mapOptions.mapMarkerLayers}" var="mapMarkerLayer">
-            addPoint(map, ${dataDecoded.longitude}, ${dataDecoded.latitude}, "${assetPath(src:mapMarkerLayer.mapMarkerStyle.path)}");
+            addPoint(map, ${dataDecoded.longitude}, ${dataDecoded.latitude},
+                    "${assetPath(src:mapMarkerLayer.mapMarkerStyle.path)}");
             </g:each>
-            zoomToExtent(map, ${mapOptions.boundingBox.getMinimum(0)}, ${mapOptions.boundingBox.getMinimum(1)},
-                    ${mapOptions.boundingBox.getMaximum(0)}, ${mapOptions.boundingBox.getMaximum(1)});
+            zoomToExtent(map, ${mapOptions.boundingBox.getMinX()}, ${mapOptions.boundingBox.getMinY()},
+                    ${mapOptions.boundingBox.getMaxX()}, ${mapOptions.boundingBox.getMaxY()});
             </g:if>
         });
     </script>

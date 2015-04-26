@@ -1,6 +1,6 @@
 package trackr
 
-class UserDevice {
+class UserDevice extends BaseDomain {
     /**
      * Utilisateur qui peut voir ce device
      */
@@ -11,12 +11,6 @@ class UserDevice {
      */
     Device device
 
-    // Date de création en base
-    Date dateCreated
-
-    // Date de dernière modification en base
-    Date lastUpdated
-
     static constraints = {
         user nullable: false, unique: ['device']
     }
@@ -24,6 +18,5 @@ class UserDevice {
     static UserDevice create(User user, Device device, boolean flush = false) {
         def instance = new UserDevice(user: user, device: device)
         instance.save(flush: flush, insert: true)
-        instance
     }
 }
