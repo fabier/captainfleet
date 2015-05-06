@@ -2,7 +2,6 @@ package trackr
 
 import com.vividsolutions.jts.geom.Coordinate
 import com.vividsolutions.jts.geom.Envelope
-import com.vividsolutions.jts.geom.Geometry
 import com.vividsolutions.jts.geom.GeometryFactory
 import com.vividsolutions.jts.geom.MultiPoint
 import grails.transaction.Transactional
@@ -18,9 +17,9 @@ class MapService {
         Set<com.vividsolutions.jts.geom.Point> points = new HashSet<>()
         devices.each {
             Frame lastFrame = deviceService.lastFrame(it)
-            DataDecoded dataDecoded = decoderService.tryDecode(lastFrame.data)
-            if (dataDecoded) {
-                points.add(getGeometryFactory().createPoint(new Coordinate(dataDecoded.longitude, dataDecoded.latitude)))
+            FrameData_V1 frameData = decoderService.tryDecode_V1(lastFrame.data)
+            if (frameData) {
+                points.add(getGeometryFactory().createPoint(new Coordinate(frameData.longitude, frameData.latitude)))
             }
         }
         if (points.isEmpty()) {
@@ -56,8 +55,8 @@ class MapService {
         Set<com.vividsolutions.jts.geom.Point> points = new HashSet<>()
         devices.each {
             Frame randomFrame = deviceService.randomFrame(it)
-            DataDecoded dataDecoded = decoderService.tryDecode(randomFrame.data)
-            points.add(getGeometryFactory().createPoint(new Coordinate(dataDecoded.longitude, dataDecoded.latitude)))
+            FrameData_V1 frameData = decoderService.tryDecode_V1(randomFrame.data)
+            points.add(getGeometryFactory().createPoint(new Coordinate(frameData.longitude, frameData.latitude)))
         }
         if (points.isEmpty()) {
             return defaultMapOptions()

@@ -7,13 +7,13 @@ import java.security.SecureRandom
 @Transactional
 class CodeGeneratorService {
 
-    private SecureRandom random = new SecureRandom();
+    SecureRandom random = new SecureRandom();
 
-    public String newCode() {
+    String newCode() {
         return new BigInteger(130, random).toString(32)
     }
 
-    public String newCode(int length) {
+    String newCode(int length) {
         if (length > 0) {
             String code = newCode()
             if (code.length() > length) {
@@ -25,15 +25,15 @@ class CodeGeneratorService {
         }
     }
 
-    public String newCodeUppercase() {
+    String newCodeUppercase() {
         return newCode().toUpperCase()
     }
 
-    public String newCodeUppercase(int length) {
+    String newCodeUppercase(int length) {
         return newCode(length).toUpperCase()
     }
 
-    public String newCodeForDevice() {
+    String newCodeForDevice() {
         return newCodeUppercase(6)
     }
 }

@@ -11,18 +11,19 @@ class Device extends BaseEntity {
     // Famille de device
     DeviceFamily deviceFamily
 
+    // Type de device
+    DeviceType deviceType
+
     // Code unique permettant d'associer un device à son compte
     String code
 
     static hasMany = [frames: Frame]
 
     static constraints = {
-        name nullable: true
         sigfoxId nullable: false, unique: true
-        dateCreated nullable: true
-        lastUpdated nullable: true
         deviceState nullable: true
         code nullable: true
         deviceFamily nullable: true
+        deviceType nullable: true
     }
 }

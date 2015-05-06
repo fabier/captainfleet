@@ -41,7 +41,7 @@ class DeviceController {
             between("dateCreated", dateLowerBound, dateUpperBound)
             order("dateCreated", "asc")
         }
-        List<DataDecoded> dataDecodedList = new ArrayList()
+        List<FrameData_V1> frameDataList = new ArrayList()
         GeometryFactory geometryFactory = new GeometryFactory()
         Set<com.vividsolutions.jts.geom.Point> points = new HashSet<>()
         if (frames.isEmpty()) {
@@ -49,10 +49,10 @@ class DeviceController {
             points.add(geometryFactory.createPoint(new Coordinate(0.0, 80.0)))
         } else {
             frames.each {
-                DataDecoded dataDecoded = decoderService.tryDecode(it.data)
-                if (dataDecoded) {
-                    dataDecodedList.add(dataDecoded)
-                    points.add(geometryFactory.createPoint(new Coordinate(dataDecoded.longitude, dataDecoded.latitude)))
+                FrameData_V1 frameData = decoderService.tryDecode_V1(it.data)
+                if (frameData) {
+                    frameDataList.add(frameData)
+                    points.add(geometryFactory.createPoint(new Coordinate(frameData.longitude, frameData.latitude)))
                 }
             }
         }
@@ -62,7 +62,7 @@ class DeviceController {
                 date           : date ?: new Date(),
                 now            : new Date(),
                 frames         : frames,
-                dataDecodedList: dataDecodedList,
+                frameDataList: frameDataList,
                 mapOptions     : mapOptions
         ]
     }

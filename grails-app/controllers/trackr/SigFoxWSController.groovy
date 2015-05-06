@@ -110,6 +110,14 @@ class SigFoxWSController {
             }
         }
 
+        String deviceProtocol = null
+        if (params.deviceProtocol == null) {
+            // Pas de symbole deviceProtocol transmis !
+            log.warn("No deviceProtocol transmitted to WebService ! (deviceProtocol == null)")
+        } else {
+            deviceProtocol = params.deviceProtocol
+        }
+
         Frame frame = new Frame()
 
         frame.device = device
@@ -126,8 +134,8 @@ class SigFoxWSController {
         frame.save()
 
         if (device.deviceFamily == null) {
-            DataDecoded dataDecoded = decoderService.tryDecode(data)
-            if (dataDecoded) {
+            FrameData frameData = decoderService.tryDecode(data, deviceProtocol)
+            if (frameData) {
                 device.deviceFamily = DeviceFamily.TRACKER
             } else {
                 device.deviceFamily = DeviceFamily.UNKNOWN

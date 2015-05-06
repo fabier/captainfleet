@@ -1,5 +1,3 @@
-import com.vividsolutions.jts.geom.*
-
 // configuration for plugin testing - will not be included in the plugin zip
 grails.views.gsp.encoding = "UTF-8"
 grails.converters.encoding = "UTF-8"
@@ -196,7 +194,6 @@ beans {
 
 /* Added by the Hibernate Spatial Plugin. */
 grails.gorm.default.mapping = {
-   /* Added by the Hibernate Spatial Plugin. */
    'user-type'(type:org.hibernatespatial.GeometryUserType, class:com.vividsolutions.jts.geom.Geometry)
    'user-type'(type:org.hibernatespatial.GeometryUserType, class:com.vividsolutions.jts.geom.GeometryCollection)
    'user-type'(type:org.hibernatespatial.GeometryUserType, class:com.vividsolutions.jts.geom.LineString)

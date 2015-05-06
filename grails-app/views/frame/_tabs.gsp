@@ -34,7 +34,7 @@
                     <td align="right">Data</td>
                     <td colspan="2" class="col-sm-9">
                         <span class="display-block">
-                            <code>0x${f.data.toUpperCase()}</code>
+                            <code>0x${f.data}</code>
                         </span>
                     </td>
                 </tr>
@@ -43,70 +43,70 @@
         </div>
     </g:each>
 
-    <g:if test="${dataDecoded}">
+    <g:if test="${frameData}">
         <table class="table table-hover table-nolineseparator small nomargin">
             <tbody>
             <tr>
                 <td align="right" class="col-sm-3">Latitude</td>
-                <td class="col-sm-6">${dataDecoded.latitude}</td>
+                <td class="col-sm-6"><g:formatNumber number="${frameData.latitude}" maxFractionDigits="6"/></td>
                 <td class="col-sm-3">
                     <span class="display-block">
-                        <code>0x${dataDecoded.hexaLatitude().toUpperCase()}</code>
+                        <code>0x${frameData.hexaLatitude()}</code>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td align="right">Longitude</td>
-                <td>${dataDecoded.longitude}</td>
+                <td><g:formatNumber number="${frameData.longitude}" maxFractionDigits="6"/></td>
                 <td colspan="4">
                     <span class="display-block">
-                        <code>0x${dataDecoded.hexaLongitude().toUpperCase()}</code>
+                        <code>0x${frameData.hexaLongitude()}</code>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td align="right">GPS TimeToFix</td>
-                <td>${dataDecoded.gpsTimeToFix} s</td>
+                <td><g:formatNumber number="${frameData.gpsTimeToFix}" maxFractionDigits="3"/> s</td>
                 <td colspan="4">
                     <span class="display-block">
-                        <code>0x${dataDecoded.hexaGpsTimeToFix().toUpperCase()}</code>
+                        <code>0x${frameData.hexaGpsTimeToFix()}</code>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td align="right">Tension panneau solaire</td>
-                <td>${dataDecoded.solarArrayVoltage} V</td>
+                <td><g:formatNumber number="${frameData.solarArrayVoltage}" maxFractionDigits="3"/> V</td>
                 <td colspan="4">
                     <span class="display-block">
-                        <code>0x${dataDecoded.hexaSolarArrayVoltage().toUpperCase()}</code>
+                        <code>0x${frameData.hexaSolarArrayVoltage()}</code>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td align="right">Tension condensateur</td>
-                <td>${dataDecoded.superCapacitorVoltage} V</td>
+                <td><g:formatNumber number="${frameData.superCapacitorVoltage}" maxFractionDigits="3"/> V</td>
                 <td colspan="4">
                     <span class="display-block">
-                        <code>0x${dataDecoded.hexaSuperCapacitorVoltage().toUpperCase()}</code>
+                        <code>0x${frameData.hexaSuperCapacitorVoltage()}</code>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td align="right">Nb de protections capacité</td>
-                <td>${dataDecoded.superCapacitorProtectCount}</td>
+                <td>${frameData.superCapacitorProtectCount}</td>
                 <td colspan="4">
                     <span class="display-block">
-                        <code>0x${dataDecoded.hexaSuperCapacitorProtectCount().toUpperCase()}</code>
+                        <code>0x${frameData.hexaSuperCapacitorProtectCount()}</code>
                     </span>
                 </td>
             </tr>
             <g:set var="isDayBinary"
-                   value="${formatBinary(value: dataDecoded.isDayAndFrameCount >> 3 & 0b0001, padding: 1)}"/>
+                   value="${formatBinary(value: frameData.isDay ? 1 : 0, padding: 1)}"/>
             <g:set var="frameCountBinary"
-                   value="${formatBinary(value: dataDecoded.isDayAndFrameCount & 0b0111, padding: 3)}"/>
+                   value="${formatBinary(value: frameData.frameCount, padding: 3)}"/>
             <tr>
                 <td align="right">Jour</td>
-                <td>${dataDecoded.isDay ? "Oui" : "Non"}</td>
+                <td>${frameData.isDay ? "Oui" : "Non"}</td>
                 <td colspan="4">
                     <span class="display-block">
                         <code>0b${isDayBinary}</code>
@@ -115,7 +115,7 @@
             </tr>
             <tr>
                 <td align="right">Compteur de trames</td>
-                <td>${dataDecoded.frameCount}</td>
+                <td>${frameData.frameCount}</td>
                 <td colspan="4">
                     <span class="display-block">
                         <code>0b${frameCountBinary}</code>

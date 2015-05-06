@@ -22,11 +22,11 @@ class FrameController {
 
     def map(long id) {
         Frame frame = Frame.get(id)
-        DataDecoded dataDecoded = decoderService.tryDecode(frame.data)
+        FrameData_V1 frameData = decoderService.tryDecode_V1(frame.data)
         MapOptions mapOptions
-        if (dataDecoded) {
+        if (frameData) {
             GeometryFactory geometryBuilder = new GeometryFactory();
-            Set<com.vividsolutions.jts.geom.Point> points = [geometryBuilder.createPoint(new Coordinate(dataDecoded.longitude, dataDecoded.latitude))]
+            Set<com.vividsolutions.jts.geom.Point> points = [geometryBuilder.createPoint(new Coordinate(frameData.longitude, frameData.latitude))]
             mapOptions = mapService.buildUsingPoints(points)
         } else {
             mapOptions = mapService.defaultMapOptions()
@@ -40,11 +40,11 @@ class FrameController {
         }
 
         render view: "map", model: [
-                frame      : frame,
-                device     : frame.device,
-                dataDecoded: dataDecoded,
-                frames     : frames,
-                mapOptions : mapOptions
+                frame     : frame,
+                device    : frame.device,
+                frameData : frameData,
+                frames    : frames,
+                mapOptions: mapOptions
         ]
     }
 }

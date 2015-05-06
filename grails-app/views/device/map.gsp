@@ -24,8 +24,8 @@
             var map = initMap('map');
             <g:if test="${mapOptions}">
             var markers = [];
-            <g:each in="${dataDecodedList}" var="dataDecoded" status="i">
-            markers[${i}] = ol.proj.transform([${dataDecoded.longitude}, ${dataDecoded.latitude}], 'EPSG:4326', 'EPSG:3857');
+            <g:each in="${frameDataList}" var="frameData" status="i">
+            markers[${i}] = ol.proj.transform([${frameData.longitude}, ${frameData.latitude}], 'EPSG:4326', 'EPSG:3857');
             </g:each>
             var lineFeature = new ol.Feature({
                 geometry: new ol.geom.LineString(markers, 'XY'),
@@ -48,10 +48,10 @@
             map.addLayer(layerLines);
 
             <g:each in="${mapOptions.mapMarkerLayers}" var="mapMarkerLayer">
-            <g:if test="${!dataDecodedList.isEmpty()}">
-            addPoint(map, ${dataDecodedList.first().longitude}, ${dataDecodedList.first().latitude},
+            <g:if test="${!frameDataList.isEmpty()}">
+            addPoint(map, ${frameDataList.first().longitude}, ${frameDataList.first().latitude},
                     "${assetPath(src:mapMarkerLayer.mapMarkerStyle.path)}");
-            addPoint(map, ${dataDecodedList.last().longitude}, ${dataDecodedList.last().latitude},
+            addPoint(map, ${frameDataList.last().longitude}, ${frameDataList.last().latitude},
                     "${assetPath(src:mapMarkerLayer.mapMarkerStyle.path)}");
             </g:if>
             </g:each>

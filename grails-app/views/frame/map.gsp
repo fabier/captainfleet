@@ -8,7 +8,7 @@
             var map = initMap('map');
             <g:if test="${mapOptions}">
             <g:each in="${mapOptions.mapMarkerLayers}" var="mapMarkerLayer">
-            addPoint(map, ${dataDecoded.longitude}, ${dataDecoded.latitude},
+            addPoint(map, ${frameData.longitude}, ${frameData.latitude},
                     "${assetPath(src:mapMarkerLayer.mapMarkerStyle.path)}");
             </g:each>
             zoomToExtent(map, ${mapOptions.boundingBox.getMinX()}, ${mapOptions.boundingBox.getMinY()},
@@ -32,7 +32,7 @@
                         <li class="active">Frame ${frame.id}</li>
                     </g:render>
 
-                    <g:render template="/frame/tabs" model="[frames: frames, dataDecoded: dataDecoded]"/>
+                    <g:render template="/frame/tabs" model="[frames: frames, frameData: frameData]"/>
                 </div>
             </div>
         </div>
