@@ -10,7 +10,7 @@
 <div class="container">
     <g:render template="/templates/flashMessage"/>
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-md-12">
             <div class="alert alert-warning">
                 Cette page n'existe pas.
             </div>

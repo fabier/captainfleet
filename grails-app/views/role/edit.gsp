@@ -9,11 +9,11 @@
 
 <div class="container margin-top-20">
     <div class="row">
-        <div class="col-sm-2">
+        <div class="col-md-2">
             <g:render template="/templates/lateralMenuAdmin"/>
         </div>
 
-        <div class="col-sm-10">
+        <div class="col-md-10">
             <div class="row">
                 <g:render template="/templates/flashMessage"/>
 
@@ -23,15 +23,15 @@
                     Soyez absolument sûrs de ce que vous faites avant de modifier un rôle !
                 </div>
 
-                <div class="col-sm-6">
+                <div class="col-md-6">
                     <g:form action='update' class="form-horizontal" id="${role.id}">
                         <g:hiddenField name="id" value="${role?.id}"/>
                         <g:hiddenField name="version" value="${role?.version}"/>
 
                         <div class="form-group">
-                            <label for="authority" class="col-sm-2 control-label">Role</label>
+                            <label for="authority" class="col-md-2 control-label">Role</label>
 
-                            <div class="col-sm-10">
+                            <div class="col-md-10">
                                 <input class="form-control" id="authority" name="authority" placeholder="Name"
                                        value="${role.authority ?: ""}"/>
                             </div>
@@ -39,7 +39,7 @@
 
 
                         <div class="form-group">
-                            <div class="col-sm-10 col-sm-offset-2">
+                            <div class="col-md-10 col-md-offset-2">
                                 <button type="submit" class="btn btn-primary">
                                     Enregistrer
                                 </button>

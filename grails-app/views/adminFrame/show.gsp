@@ -9,11 +9,11 @@
 
 <div class="container margin-top-20">
     <div class="row">
-        <div class="col-sm-2">
+        <div class="col-md-2">
             <g:render template="/templates/lateralMenuAdmin"/>
         </div>
 
-        <div class="col-sm-10">
+        <div class="col-md-10">
             <g:render template="/templates/flashMessage"/>
 
             <g:render template="/templates/breadcrumb">

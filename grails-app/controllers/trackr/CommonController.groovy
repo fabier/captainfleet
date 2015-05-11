@@ -15,16 +15,25 @@ class CommonController {
     def index() {
         User user = springSecurityService.currentUser
         def devices = UserDevice.findAllByUser(user)*.device
-        MapOptions mapOptions
         if (devices == null || devices.isEmpty()) {
+            // Pas de device pour cet utilisateur, on lui affiche des valeurs "aléatoires"
             def devicesToFillMap = Device.findAllByDeviceState(DeviceState.NORMAL)
-            mapOptions = mapService.buildFromDevicesUsingRandomFrame(devicesToFillMap)
+            MapOptions mapOptions = mapService.buildFromDevicesUsingRandomFrame(devicesToFillMap)
+            render view: "index", model: [
+                    devices   : devices,
+                    mapOptions: mapOptions
+            ]
+        } else if (devices.size() == 1) {
+            // Un seul device, on redirige directement vers la page du device en question
+            Device device = devices.get(0)
+            redirect controller: "device", action: "map", id: device.id
         } else {
-            mapOptions = mapService.buildFromDevicesUsingLastFrame(devices)
+            // Plusieurs devices
+            MapOptions mapOptions = mapService.buildFromDevicesUsingLastFrame(devices)
+            render view: "index", model: [
+                    devices   : devices,
+                    mapOptions: mapOptions
+            ]
         }
-        render view: "index", model: [
-                devices   : devices,
-                mapOptions: mapOptions
-        ]
     }
 }

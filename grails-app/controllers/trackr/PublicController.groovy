@@ -42,6 +42,10 @@ class PublicController {
         render view: "credits"
     }
 
+    def plans() {
+        render view: "plans"
+    }
+
     def '404'() {
         render view: "404"
     }
@@ -54,27 +58,27 @@ class PublicController {
             String messageWithBr = contactCommand.message.replaceAll("\\n", "<br/>")
             String message = "<html><head></head><body>${messageWithBr}</body></html>"
             String messageAck = "<html><head></head><body>Bonjour,<br/><br/>" +
-                    "Vous venez d'envoyer le message suivant à Tracklala.<br/>" +
+                    "Vous venez d'envoyer le message suivant à CaptainFleet.<br/>" +
                     "Nous nous efforçons de répondre à votre demande dans les plus brefs délais.<br/><br/>" +
                     "Cordialement,<br/><br/>" +
-                    "L'équipe Tracklala.<br/><br/>" +
+                    "L'équipe CaptainFleet.<br/><br/>" +
                     "#######################<br/><br/>" +
                     "Sujet : ${contactCommand.subject}<br/><br/>" +
                     "Message : <br/><br/>" +
                     "${messageWithBr}</body></html>"
             mailService.sendMail {
                 async true
-                to "Tracklala <${grailsApplication.config.grails.mail.username}>"
-                subject "[Tracklala Contact] ${contactCommand.subject}"
+                to "CaptainFleet <${grailsApplication.config.grails.mail.username}>"
+                subject "[CaptainFleet Contact] ${contactCommand.subject}"
                 html message
                 from contactCommand.email
             }
             mailService.sendMail {
                 async true
                 to contactCommand.email
-                subject "Tracklala - Confirmation d'envoi d'un message"
+                subject "CaptainFleet - Confirmation d'envoi d'un message"
                 html messageAck
-                from "Tracklala <${grailsApplication.config.grails.mail.username}>"
+                from "CaptainFleet <${grailsApplication.config.grails.mail.username}>"
             }
             flash.message = "Votre message a été envoyé, il sera traité dans les plus brefs délais."
             redirect action: "contact"

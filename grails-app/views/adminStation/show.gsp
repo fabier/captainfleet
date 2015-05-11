@@ -9,11 +9,11 @@
 
 <div class="container margin-top-20">
     <div class="row">
-        <div class="col-sm-2">
+        <div class="col-md-2">
             <g:render template="/templates/lateralMenuAdmin"/>
         </div>
 
-        <div class="col-sm-10">
+        <div class="col-md-10">
             <g:render template="/templates/flashMessage"/>
 
             <g:render template="/templates/breadcrumb">
@@ -53,7 +53,7 @@
     </div>
 
     <div class="row">
-        <div class="col-sm-6 center-block">
+        <div class="col-md-6 center-block">
             <nav class="text-center">
                 <g:paginate next="&gt;" prev="&lt;" maxsteps="5" controller="adminDevice" id="${device.id}" action="show"
                             total="${totalCount}"/>

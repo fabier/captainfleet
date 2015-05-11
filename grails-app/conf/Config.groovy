@@ -59,8 +59,8 @@ grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 ]
 
 grails.plugin.springsecurity.ui.register.postRegisterUrl = '/'
-grails.plugin.springsecurity.ui.register.emailFrom = 'noreply@tracklala.com'
-grails.plugin.springsecurity.ui.register.emailSubject = 'Tracklala - Valider votre email'
+grails.plugin.springsecurity.ui.register.emailFrom = 'noreply@captainfleet.com'
+grails.plugin.springsecurity.ui.register.emailSubject = 'CaptainFleet - Valider votre email'
 grails.plugin.springsecurity.ui.register.defaultRoleNames = ['ROLE_USER']
 grails.plugin.springsecurity.ui.password.validationRegex = '^.*(?=.*[a-zA-Z\\d]).*$' // Au moins quelques caractères
 grails.plugin.springsecurity.ui.password.minLength = 4
@@ -80,15 +80,15 @@ grails {
                     emailBody = '''\
 Bonjour $user.username,<br/>
 <br/>
-Vous venez de créer un compte sur <a href="http://www.tracklala.com">Tracklala</a> et nous vous en remercions !<br/>
+Vous venez de créer un compte sur <a href="http://www.captainfleet.com">CaptainFleet</a> et nous vous en remercions !<br/>
 <br/>
 Merci de <strong><a href="$url">cliquer ici</a></strong> pour terminer la procédure d'enregistrement, ou copier coller l'adresse suivante dans votre navigateur :<br/>
 $url<br/>
 <br/>
 Merci de ne pas répondre à ce message automatique.
 '''
-                    emailFrom = 'Tracklala <noreply@tracklala.com>'
-                    emailSubject = 'Tracklala - Création de compte'
+                    emailFrom = 'CaptainFleet <noreply@captainfleet.com>'
+                    emailSubject = 'CaptainFleet - Création de compte'
                     defaultRoleNames = ['ROLE_USER']
                     postRegisterUrl = null // use defaultTargetUrl if not set
                 }
@@ -97,7 +97,7 @@ Merci de ne pas répondre à ce message automatique.
                     emailBody = '''\
 Hi $user.username,<br/>
 <br/>
-Vous, ou quelqu'un se faisant passer pour vous, venez de faire une demande de mise à zéro de votre mot de passe sur <a href="http://www.tracklala.com">Tracklala</a>.<br/>
+Vous, ou quelqu'un se faisant passer pour vous, venez de faire une demande de mise à zéro de votre mot de passe sur <a href="http://www.captainfleet.com">CaptainFleet</a>.<br/>
 <br/>
 SI vous n'avez pas fait cette demande, alors ignorez ce message et supprimez le, aucun changement de sera appliqué à votre compte.<br/>
 <br/>
@@ -105,8 +105,8 @@ Si vous êtes bien celui qui a fait la demande, alors <a href="$url">cliquez ici
 <br/>
 Merci de ne pas répondre à ce message automatique.
 '''
-                    emailFrom = 'Tracklala <noreply@tracklala.com>'
-                    emailSubject = 'Tracklala - Réinitialisation du mot de passe'
+                    emailFrom = 'CaptainFleet <noreply@captainfleet.com>'
+                    emailSubject = 'CaptainFleet - Réinitialisation du mot de passe'
                     postResetUrl = null // use defaultTargetUrl if not set
                 }
             }
@@ -118,7 +118,7 @@ grails {
     mail {
         host = "smtp.1und1.de"
         port = 587
-        username = "noreply@tracklala.com"
+        username = "noreply@captainfleet.com"
         password = "MRr0PGkWS93Kzeb"
         props = ["mail.smtp.auth"                  : "true",
                  "mail.smtp.socketFactory.port"    : "587",
@@ -194,16 +194,16 @@ beans {
 
 /* Added by the Hibernate Spatial Plugin. */
 grails.gorm.default.mapping = {
-   'user-type'(type:org.hibernatespatial.GeometryUserType, class:com.vividsolutions.jts.geom.Geometry)
-   'user-type'(type:org.hibernatespatial.GeometryUserType, class:com.vividsolutions.jts.geom.GeometryCollection)
-   'user-type'(type:org.hibernatespatial.GeometryUserType, class:com.vividsolutions.jts.geom.LineString)
-   'user-type'(type:org.hibernatespatial.GeometryUserType, class:com.vividsolutions.jts.geom.Point)
-   'user-type'(type:org.hibernatespatial.GeometryUserType, class:com.vividsolutions.jts.geom.Polygon)
-   'user-type'(type:org.hibernatespatial.GeometryUserType, class:com.vividsolutions.jts.geom.MultiLineString)
-   'user-type'(type:org.hibernatespatial.GeometryUserType, class:com.vividsolutions.jts.geom.MultiPoint)
-   'user-type'(type:org.hibernatespatial.GeometryUserType, class:com.vividsolutions.jts.geom.MultiPolygon)
-   'user-type'(type:org.hibernatespatial.GeometryUserType, class:com.vividsolutions.jts.geom.LinearRing)
-   'user-type'(type:org.hibernatespatial.GeometryUserType, class:com.vividsolutions.jts.geom.Puntal)
-   'user-type'(type:org.hibernatespatial.GeometryUserType, class:com.vividsolutions.jts.geom.Lineal)
-   'user-type'(type:org.hibernatespatial.GeometryUserType, class:com.vividsolutions.jts.geom.Polygonal)
+    'user-type'(type: org.hibernatespatial.GeometryUserType, class: com.vividsolutions.jts.geom.Geometry)
+    'user-type'(type: org.hibernatespatial.GeometryUserType, class: com.vividsolutions.jts.geom.GeometryCollection)
+    'user-type'(type: org.hibernatespatial.GeometryUserType, class: com.vividsolutions.jts.geom.LineString)
+    'user-type'(type: org.hibernatespatial.GeometryUserType, class: com.vividsolutions.jts.geom.Point)
+    'user-type'(type: org.hibernatespatial.GeometryUserType, class: com.vividsolutions.jts.geom.Polygon)
+    'user-type'(type: org.hibernatespatial.GeometryUserType, class: com.vividsolutions.jts.geom.MultiLineString)
+    'user-type'(type: org.hibernatespatial.GeometryUserType, class: com.vividsolutions.jts.geom.MultiPoint)
+    'user-type'(type: org.hibernatespatial.GeometryUserType, class: com.vividsolutions.jts.geom.MultiPolygon)
+    'user-type'(type: org.hibernatespatial.GeometryUserType, class: com.vividsolutions.jts.geom.LinearRing)
+    'user-type'(type: org.hibernatespatial.GeometryUserType, class: com.vividsolutions.jts.geom.Puntal)
+    'user-type'(type: org.hibernatespatial.GeometryUserType, class: com.vividsolutions.jts.geom.Lineal)
+    'user-type'(type: org.hibernatespatial.GeometryUserType, class: com.vividsolutions.jts.geom.Polygonal)
 }

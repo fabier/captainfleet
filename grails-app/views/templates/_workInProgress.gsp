@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-sm-12">
+    <div class="col-md-12">
         <div class="alert alert-info">
             <p>
                 <i class="glyphicon glyphicon-time"></i>

@@ -66,30 +66,40 @@
 
 <div class="container-fluid">
     <div class="row-fluid">
-        <div class="col-sm-4 wrapper">
+        <div class="col-md-4 wrapper">
             <div class="row">
-                <div class="col-sm-12">
+                <div class="col-md-12">
                     <g:render template="/templates/breadcrumb">
                         <g:render template="/templates/breadcrumb/home"/>
                         <li class="active">Device ${device.sigfoxId}</li>
                     </g:render>
 
-                    <g:form action="map" id="${device.id}" class="form-horizontal">
-                        <div class="form-group">
-                            <label for="date" class="col-sm-2 control-label">Date</label>
 
-                            <div class="col-sm-6">
-                                <input type="text" class="form-control" id="date" name="date"
-                                       value="${date ? formatDate(date: date, format: "yyyy/MM/dd") : ""}"/>
-                            </div>
-
-                            <div class="col-sm-2">
-                                <button type="submit" class="btn btn-primary">
-                                    OK
-                                </button>
-                            </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <g:link action="map" id="${device.id}" params="[date: raw(formatDate(date: previousDay, format: 'yyyy/MM/dd'))]"
+                                    class="btn btn-primary small">&vltri;</g:link>
                         </div>
-                    </g:form>
+
+                        <div class="col-md-6">
+
+                            <g:form action="map" id="${device.id}" class="form-horizontal">
+                                <div class="form-group">
+                                    <label for="date" class="col-md-2 control-label">Date</label>
+
+                                    <div class="col-md-10">
+                                        <input type="text" class="form-control" id="date" name="date"
+                                               value="${date ? formatDate(date: date, format: "yyyy/MM/dd") : ""}"/>
+                                    </div>
+                                </div>
+                            </g:form>
+                        </div>
+
+                        <div class="col-md-3">
+                            <g:link action="map" id="${device.id}" params="[date: raw(formatDate(date: nextDay, format: 'yyyy/MM/dd'))]"
+                                    class="btn btn-primary small pull-right">&vrtri;</g:link>
+                        </div>
+                    </div>
 
                     <g:if test="${frames.isEmpty()}">
                         <p class="alert alert-warning">

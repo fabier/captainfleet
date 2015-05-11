@@ -13,7 +13,7 @@
 
 <body>
 <div class="container-fluid">
-    <div class="col-sm-4 wrapper-lateral">
+    <div class="col-md-4 wrapper-lateral">
         <div class="row">
             <table class="table table-hover small">
                 <thead>

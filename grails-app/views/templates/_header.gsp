@@ -9,19 +9,19 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <g:link uri="/" class="navbar-brand">Tracklala</g:link>
+            <g:link uri="/" class="navbar-brand">CaptainFleet</g:link>
         </div>
 
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
                 <li class="${controllerName == 'public' && actionName == "about" ? "active" : ""}">
                     <g:link controller="public" action="about">
-                        A propos
+                        Présentation
                     </g:link>
                 </li>
-                <li class="${controllerName == 'public' && actionName == "contact" ? "active" : ""}">
-                    <g:link controller="public" action="contact">
-                        Contact
+                <li class="${controllerName == 'public' && actionName == "plans" ? "active" : ""}">
+                    <g:link controller="public" action="plans">
+                        Tarifs
                     </g:link>
                 </li>
                 <sec:ifLoggedIn>

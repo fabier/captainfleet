@@ -9,25 +9,25 @@
 
 <div class="container margin-top-20">
     <div class="row">
-        <div class="col-sm-2">
+        <div class="col-md-2">
             <g:render template="/templates/lateralMenuAdmin"/>
         </div>
 
-        <div class="col-sm-10">
+        <div class="col-md-10">
             <div class="row">
                 <g:render template="/templates/flashMessage"/>
 
-                <div class="col-sm-6">
+                <div class="col-md-6">
                     <g:form action='roleSearch' name='roleSearchForm' class="form-horizontal">
                         <div class="form-group">
-                            <label for="authority" class="col-sm-2 control-label">Role</label>
+                            <label for="authority" class="col-md-2 control-label">Role</label>
 
-                            <div class="col-sm-8">
+                            <div class="col-md-8">
                                 <input class="form-control" id="authority" name="authority" placeholder="Search"
                                        value="${params.authority ?: ""}"/>
                             </div>
 
-                            <div class="col-sm-2">
+                            <div class="col-md-2">
                                 <button type="submit" class="btn btn-primary">
                                     Search
                                 </button>

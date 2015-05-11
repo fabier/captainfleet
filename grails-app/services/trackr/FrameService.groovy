@@ -1,6 +1,7 @@
 package trackr
 
 import grails.transaction.Transactional
+import grails.util.Pair
 
 @Transactional
 class FrameService {
@@ -89,6 +90,59 @@ class FrameService {
             }
         } else {
             return Collections.emptyList()
+        }
+    }
+
+    Pair<Frame, Frame> getPreviousAndNextFrame(Frame frame) {
+//        List<Frame> frames = getFramesForDevice(frame.device)
+//        int index = frames.indexOf(frame)
+        Frame previousFrame = getPreviousFrame(frame)
+        Frame nextFrame = getNextFrame(frame)
+//        if (index >= 0) {
+//            if (index - 1 >= 0) {
+//                previousFrame = frames.get(index - 1)
+//            }
+//            if (index + 1 < frames.size()) {
+//                nextFrame = frames.get(index + 1)
+//            }
+//        }
+        return new Pair(previousFrame, nextFrame)
+    }
+
+    Frame getPreviousFrame(Frame frame) {
+        Frame.createCriteria().get {
+            lt("id", frame.id)
+            eq("device", frame.device)
+            eq("duplicate", false)
+            order("dateCreated", "desc")
+            maxResults(1)
+        }
+    }
+
+    Frame getNextFrame(Frame frame) {
+        Frame.createCriteria().get {
+            gt("id", frame.id)
+            eq("device", frame.device)
+            eq("duplicate", false)
+            order("dateCreated", "asc")
+            maxResults(1)
+        }
+    }
+
+    List<Frame> getFramesForDevice(Device device) {
+        Frame.withCriteria {
+            eq("device", device)
+            eq("duplicate", false)
+            order("dateCreated", "asc")
+        }
+    }
+
+    List<Frame> getFramesForDevice(Device device, Date dateLowerBound, Date dateUpperBound) {
+        Frame.withCriteria {
+            eq("device", device)
+            eq("duplicate", false)
+            between("dateCreated", dateLowerBound, dateUpperBound)
+            order("dateCreated", "asc")
         }
     }
 }

@@ -9,13 +9,32 @@
 
 <div class="container">
     <g:render template="/templates/flashMessage"/>
-    <div class=" row">
-        <div class="col-sm-6 center-block">
-            <div class="alert alert-info">
+    <div class="row">
+        <div class="col-md-8 center-block">
+            <div class="jumbotron">
                 <p>
-                    Crédits et mentions légales
+                    <strong>Crédits</strong>
+                    <br/>
+                    <small>et mentions légales</small>
                 </p>
             </div>
+
+            <p>
+                <strong>
+                    Toutes les technologies employées dans
+                    <span class="captain-fleet">CaptainFleet</span>
+                    sont des standards massivement utilisés dans l'industrie.
+                </strong>
+            </p>
+
+            <p>
+                Ces technologies permettent à
+                <span class="captain-fleet">CaptainFleet</span>
+                d'être stable, simple à faire évoluer et d'être riche en fonctionnalités.
+            </p>
+
+            <br/>
+            <br/>
 
             <ul class="list-unstyled">
                 <li>
@@ -43,6 +62,32 @@
                 <li>
                     <p>Tiles Courtesy of <a href="http://www.mapquest.com/" target="_blank">MapQuest</a> <img
                             src="http://developer.mapquest.com/content/osm/mq_logo.png"></p>
+                </li>
+                <li>&nbsp;</li>
+                <li>
+                    <p>
+                        <strong>Grails 2.4.5</strong>
+                        <br/>
+                        <a href="http://www.grails.org">http://www.grails.org</a>
+                    </p>
+                </li>
+                <li>&nbsp;</li>
+                <li>
+                    <p>
+                        <strong>PostgreSQL 9.4 avec PostGis</strong>
+                        <br/>
+                        <a href="http://www.postgresql.com">http://www.postgresql.com</a>
+                        <br/>
+                        <a href="http://www.postgis.org">http://www.postgis.org</a>
+                    </p>
+                </li>
+                <li>&nbsp;</li>
+                <li>
+                    <p>
+                        <strong>Glassfish 4.1</strong>
+                        <br/>
+                        <a href="http://www.glassfish.org">http://www.glassfish.org</a>
+                    </p>
                 </li>
             </ul>
         </div>

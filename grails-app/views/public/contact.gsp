@@ -10,18 +10,20 @@
 <div class="container">
     <g:render template="/templates/flashMessage"/>
     <div class="row">
-        <div class="col-md-6 center-block">
+        <div class="col-md-8 center-block">
             <g:if test="${flash.message}">
                 <g:link uri="/" class="btn btn-primary">
                     Revenir à la page d'accueil
                 </g:link>
             </g:if>
             <g:else>
-                <div class="alert alert-info">
+                <div class="jumbotron">
                     <p>
-                        Envoyez un message avec le formulaire ci dessous.
-                        <br/>
-                        Merci de renseigner votre adresse email.
+                        <strong>Envoyez un message avec le formulaire ci dessous.</strong>
+                        <sec:ifNotLoggedIn>
+                            <br/>
+                            <small>Merci de renseigner votre adresse email.</small>
+                        </sec:ifNotLoggedIn>
                     </p>
                 </div>
 
@@ -33,7 +35,8 @@
                             <sec:ifLoggedIn>
                                 <input type="email" class="form-control" id="email" name="email"
                                        placeholder="Votre adresse email"
-                                       value="${sec.loggedInUserInfo(field: "username")}"/>
+                                       value="${sec.loggedInUserInfo(field: "username")}"
+                                       disabled="disabled"/>
                             </sec:ifLoggedIn>
                             <sec:ifNotLoggedIn>
                                 <input type="email" class="form-control" id="email" name="email"

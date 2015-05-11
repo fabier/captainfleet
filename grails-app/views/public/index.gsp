@@ -36,43 +36,47 @@
                 <div class="jumbotron header-background nomargin">
                     <div class="container">
                         <div class="row">
-                            <div class="col-sm-8">
-                                <h1>Tracklala</h1>
+                            <div class="col-md-8">
+                                <h1 class="captain-fleet">CaptainFleet</h1>
 
                                 <p class="small">
-                                    Tracklala est un outil de suivi, il vous permet de savoir où sont vos véhicules, vos bateaux, vos engins agricoles.
+                                    <span class="captain-fleet">CaptainFleet</span> est un outil de gestion de flotte, il vous permet de savoir où sont vos véhicules, vos bateaux, vos engins agricoles.
                                 </p>
-                                <g:link controller="register" action="index" class="btn btn-success">
+                                <g:link controller="public" action="about" class="btn btn-link">
+                                    <i class="glyphicon glyphicon-arrow-right"></i>
+                                    <g:message code="trackr.discoverMore"/>
+                                </g:link>
+                                <g:link controller="register" action="index" class="btn btn-success pull-right">
                                     <g:message code="trackr.createAccount"/>
                                 </g:link>
                             </div>
 
-                            <div class="col-sm-4">
+                            <div class="col-md-4">
                                 <form action='${postUrl}' method='POST' id="loginForm" name="loginForm"
                                       class="form-horizontal">
                                     <div class="form-group">
-                                        <label for="username" class="col-sm-4 control-label">
+                                        <label for="username" class="col-md-4 control-label">
                                             <g:message code="trackr.email" default="Email"/>
                                         </label>
 
-                                        <div class="col-sm-8">
+                                        <div class="col-md-8">
                                             <input name="j_username" id="username" class="form-control"/>
                                         </div>
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="password" class="col-sm-4 control-label">
+                                        <label for="password" class="col-md-4 control-label">
                                             <g:message code="trackr.password" default="Mot de passe"/>
                                         </label>
 
-                                        <div class="col-sm-8">
+                                        <div class="col-md-8">
                                             <input type="password" name="j_password" id="password"
                                                    class="form-control"/>
                                         </div>
                                     </div>
 
                                     <div class="form-group">
-                                        <div class="col-sm-8 col-sm-offset-4">
+                                        <div class="col-md-8 col-md-offset-4">
                                             <input type='checkbox' class='chk' name='${rememberMeParameter}'
                                                    id='remember_me' checked='checked'/>
                                             <label for='remember_me'>
@@ -83,7 +87,7 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <div class="col-sm-8 col-sm-offset-4">
+                                        <div class="col-md-8 col-md-offset-4">
                                             <button type="submit" class="btn btn-primary">
                                                 <g:message code="trackr.login" default="Se connecter"/>
                                             </button>

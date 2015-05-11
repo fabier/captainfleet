@@ -7,7 +7,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-sm-8 center-block">
+        <div class="col-md-8 center-block">
 
             <g:render template="/templates/flashMessage"/>
 

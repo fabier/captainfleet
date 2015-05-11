@@ -8,11 +8,11 @@
 <body>
 <div class="container margin-top-20">
     <div class="row">
-        <div class="col-sm-2">
+        <div class="col-md-2">
             <g:render template="/templates/lateralMenuAccount"/>
         </div>
 
-        <div class="col-sm-10">
+        <div class="col-md-10">
             <g:render template="/templates/flashMessage"/>
 
             <g:if test="${devices.isEmpty()}">
@@ -31,14 +31,14 @@
             </g:else>
             <g:form action="addDevice" class="form-horizontal">
                 <div class="form-group">
-                    <label for="code" class="col-sm-2 control-label">Code</label>
+                    <label for="code" class="col-md-2 control-label">Code</label>
 
-                    <div class="col-sm-2">
+                    <div class="col-md-2">
                         <g:field class="form-control" type="text" name="code" value="${params.code}"
                                  placeholder="Code"/>
                     </div>
 
-                    <div class="col-sm-2">
+                    <div class="col-md-2">
                         <button type="submit" class="btn btn-primary">
                             <i class="glyphicon glyphicon-plus-sign"></i>
                             Ajouter

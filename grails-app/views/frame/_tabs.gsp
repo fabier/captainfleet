@@ -1,4 +1,4 @@
-<ul class="nav nav-tabs">
+<ul class="nav nav-tabs margin-top-20">
     <g:each in="${frames}" var="f" status="i">
         <li role="presentation" class="${i == 0 ? "active" : ""}">
             <a href="#station-${f.stationId}" data-toggle="tab">Station ${f.station.sigfoxId}</a>
@@ -12,8 +12,8 @@
             <table class="table table-hover table-nolineseparator small nomargin">
                 <tbody>
                 <tr>
-                    <td align="right" class="col-sm-3">Signal</td>
-                    <td colspan="2" class="col-sm-9">${f.signal} dB</td>
+                    <td align="right" class="col-md-3">Signal</td>
+                    <td colspan="2" class="col-md-9">${f.signal} dB</td>
                 </tr>
                 <tr>
                     <td align="right">RSSI</td>
@@ -32,7 +32,7 @@
                 </tr>
                 <tr>
                     <td align="right">Data</td>
-                    <td colspan="2" class="col-sm-9">
+                    <td colspan="2" class="col-md-9">
                         <span class="display-block">
                             <code>0x${f.data}</code>
                         </span>
@@ -47,9 +47,9 @@
         <table class="table table-hover table-nolineseparator small nomargin">
             <tbody>
             <tr>
-                <td align="right" class="col-sm-3">Latitude</td>
-                <td class="col-sm-6"><g:formatNumber number="${frameData.latitude}" maxFractionDigits="6"/></td>
-                <td class="col-sm-3">
+                <td align="right" class="col-md-3">Latitude</td>
+                <td class="col-md-6"><g:formatNumber number="${frameData.latitude}" maxFractionDigits="6"/></td>
+                <td class="col-md-3">
                     <span class="display-block">
                         <code>0x${frameData.hexaLatitude()}</code>
                     </span>

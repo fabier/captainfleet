@@ -25,10 +25,10 @@
 <body>
 <div class="container-fluid">
     <div class="row-fluid">
-        <div class="col-sm-4 wrapper">
+        <div class="col-md-4 wrapper">
             <g:if test="${devices}">
                 <div class="row">
-                    <div class="col-sm-12">
+                    <div class="col-md-12">
                         <table class="table table-hover small nomargin">
                             <thead>
                             <th>#</th>
@@ -54,7 +54,7 @@
             </g:if>
             <g:else>
                 <div class="row">
-                    <div class="col-sm-12">
+                    <div class="col-md-12">
                         <div class="alert alert-info">
                             Vous n'avez pas encore de boitier associé à votre compte
                         </div>
@@ -62,7 +62,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-sm-12">
+                    <div class="col-md-12">
                         <g:link controller="account" action="devices" class="btn btn-primary center-block">
                             Cliquez ici pour associer votre boitier
                         </g:link>

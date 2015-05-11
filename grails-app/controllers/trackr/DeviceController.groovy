@@ -9,6 +9,7 @@ import org.springframework.security.access.annotation.Secured
 class DeviceController {
 
     DecoderService decoderService
+    FrameService frameService
     ParserService parserService
     MapService mapService
 
@@ -35,12 +36,7 @@ class DeviceController {
         }
         Date dateLowerBound = DateUtils.truncate(date, Calendar.DAY_OF_MONTH)
         Date dateUpperBound = DateUtils.addDays(dateLowerBound, 1)
-        def frames = Frame.withCriteria {
-            eq("device", device)
-            eq("duplicate", false)
-            between("dateCreated", dateLowerBound, dateUpperBound)
-            order("dateCreated", "asc")
-        }
+        def frames = frameService.getFramesForDevice(device, dateLowerBound, dateUpperBound)
         List<FrameData_V1> frameDataList = new ArrayList()
         GeometryFactory geometryFactory = new GeometryFactory()
         Set<com.vividsolutions.jts.geom.Point> points = new HashSet<>()
@@ -57,13 +53,25 @@ class DeviceController {
             }
         }
         MapOptions mapOptions = mapService.buildUsingPoints(points)
+
+        date = date ?: new Date()
+
+        Calendar calendar = Calendar.getInstance()
+        calendar.setTime(date)
+        calendar.add(Calendar.DAY_OF_YEAR, -1)
+        def previousDay = calendar.getTime()
+        calendar.add(Calendar.DAY_OF_YEAR, 2)
+        def nextDay = calendar.getTime()
+
         render view: "map", model: [
-                device         : device,
-                date           : date ?: new Date(),
-                now            : new Date(),
-                frames         : frames,
+                device       : device,
+                date         : date,
+                previousDay  : previousDay,
+                nextDay      : nextDay,
+                now          : new Date(),
+                frames       : frames,
                 frameDataList: frameDataList,
-                mapOptions     : mapOptions
+                mapOptions   : mapOptions
         ]
     }
 }
