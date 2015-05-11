@@ -8,6 +8,9 @@ class Frame extends BaseDomain {
     // Station qui a recu le message
     Station station
 
+    // Protocole utilisé par cette trame
+    FrameProtocol frameProtocol
+
     // Donnée utile
     String data
 
@@ -37,6 +40,7 @@ class Frame extends BaseDomain {
     static constraints = {
         device nullable: true
         time nullable: true
+        frameProtocol nullable: true
         epochTime nullable: true
         duplicate nullable: true
         signal nullable: true

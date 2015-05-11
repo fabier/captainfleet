@@ -4,14 +4,14 @@ import grails.transaction.Transactional
 
 @Transactional
 class DecoderService {
-
-    FrameData tryDecode(String data, String deviceProtocol) {
-        switch (deviceProtocol) {
-            case "v1":
-                return tryDecode_V1(data)
-            case "v2":
+    FrameData_V1 tryDecode(Frame frame) {
+        switch (frame.frameProtocol) {
+            case FrameProtocol.V1:
+                return tryDecode_V1(frame.data)
+            case FrameProtocol.V2:
+                return tryDecode_V2(frame.data)
             default:
-                return tryDecode_V2(data)
+                return tryDecode_V1(frame.data)
         }
     }
 

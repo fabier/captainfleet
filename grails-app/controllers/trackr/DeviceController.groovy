@@ -45,7 +45,7 @@ class DeviceController {
             points.add(geometryFactory.createPoint(new Coordinate(0.0, 80.0)))
         } else {
             frames.each {
-                FrameData_V1 frameData = decoderService.tryDecode_V1(it.data)
+                FrameData_V1 frameData = decoderService.tryDecode(it)
                 if (frameData) {
                     frameDataList.add(frameData)
                     points.add(geometryFactory.createPoint(new Coordinate(frameData.longitude, frameData.latitude)))

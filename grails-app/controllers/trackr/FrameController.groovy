@@ -23,7 +23,7 @@ class FrameController {
 
     def map(long id) {
         Frame frame = Frame.get(id)
-        FrameData_V1 frameData = decoderService.tryDecode_V1(frame.data)
+        FrameData_V1 frameData = decoderService.tryDecode(frame)
         MapOptions mapOptions
         if (frameData) {
             GeometryFactory geometryBuilder = new GeometryFactory();
