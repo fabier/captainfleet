@@ -16,7 +16,7 @@ abstract class FrameData {
     double latitude
 
     /**
-     * Longitude en ° [-180.0180.0]
+     * Longitude en ° [-180.0:180.0]
      */
     double longitude
 
@@ -45,27 +45,55 @@ abstract class FrameData {
      */
     int frameCount
 
-    def hexaLatitude() {
-        data.substring(0, 8).toUpperCase()
+    String hexaLatitude() {
+        "0x${data.substring(0, 8).toUpperCase()}"
     }
 
-    def hexaLongitude() {
-        data.substring(8, 16).toUpperCase()
+    String hexaLongitude() {
+        "0x${data.substring(8, 16).toUpperCase()}"
     }
 
-    def hexaGpsTimeToFix() {
-        data.substring(16, 18).toUpperCase()
+    String hexaGpsTimeToFix() {
+        null
     }
 
-    def hexaSolarArrayVoltage() {
-        data.substring(18, 20).toUpperCase()
+    String hexaSolarArrayVoltage() {
+        null
     }
 
-    def hexaSuperCapacitorVoltage() {
-        data.substring(20, 22).toUpperCase()
+    String hexaSuperCapacitorVoltage() {
+        null
     }
 
-    def hexaSuperCapacitorProtectCount() {
-        data.substring(22, 23).toUpperCase()
+    String hexaSuperCapacitorProtectCount() {
+        null
+    }
+
+    String hexaHdop() {
+        null
+    }
+
+    String hexaSatelliteCount() {
+        null
+    }
+
+    String hexaSpeed() {
+        null
+    }
+
+    String hexaAzimuth() {
+        null
+    }
+
+    final String hexaIsDay() {
+        String.format("0b%1s", Integer.toBinaryString(isDay ? 1 : 0)).replaceAll(' ', '0')
+    }
+
+    final String hexaFrameCount() {
+        String.format("0b%3s", Integer.toBinaryString(frameCount)).replaceAll(' ', '0')
+    }
+
+    boolean hasGeolocationData() {
+        Math.abs(longitude) >= Float.MIN_VALUE && Math.abs(latitude) >= Float.MIN_VALUE
     }
 }

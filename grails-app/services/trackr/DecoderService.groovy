@@ -4,7 +4,12 @@ import grails.transaction.Transactional
 
 @Transactional
 class DecoderService {
-    FrameData_V1 tryDecode(Frame frame) {
+    /**
+     *
+     * @param frame
+     * @return
+     */
+    FrameData tryDecode(Frame frame) {
         switch (frame.frameProtocol) {
             case FrameProtocol.V1:
                 return tryDecode_V1(frame.data)
@@ -144,7 +149,7 @@ class DecoderService {
                 def solarArrayVoltage = ((last4Bytes >> 5) & 0b11111) * 0.1d
 
                 // IIIII : Tension supercapacité entre 0 et 2.91V, pas de 90mV
-                def superCapacitorVoltage = (last4Bytes & 0b11111) * 0.9d
+                def superCapacitorVoltage = (last4Bytes & 0b11111) * 0.09d
 
                 frameData = new FrameData_V2(
                         data: data,

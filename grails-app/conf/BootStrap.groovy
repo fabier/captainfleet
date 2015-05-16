@@ -36,6 +36,7 @@ class BootStrap {
 
         Frame.executeUpdate("Update Frame set frameProtocol = :frameProtocol where frameProtocol is null", [frameProtocol: FrameProtocol.V1])
     }
+
     def destroy = {
     }
 }

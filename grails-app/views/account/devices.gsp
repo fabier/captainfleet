@@ -18,14 +18,14 @@
             <g:if test="${devices.isEmpty()}">
                 <div class="alert alert-info">
                     <p>
-                        Vous n'avez pas encore de terminal associé à votre compte, veuillez saisir le code inscrit au dos du boitier pour l'associer à votre compte.
+                        Vous n'avez pas encore de boitier associé à votre compte, veuillez saisir le code inscrit au dos du boitier pour l'associer à votre compte.
                     </p>
                 </div>
             </g:if>
             <g:else>
                 <div class="alert alert-info">
                     <p>
-                        Pour associer un nouveau device tapez son code, puis validez.
+                        Pour associer un nouveau boitier tapez son code, puis cliquez sur "Ajouter".
                     </p>
                 </div>
             </g:else>
@@ -50,7 +50,7 @@
             <table class="table table-hover small nomargin">
                 <thead>
                 <th>#</th>
-                <th>Nom du terminal</th>
+                <th>Nom du boitier</th>
                 <th></th>
                 </thead>
                 <tbody>

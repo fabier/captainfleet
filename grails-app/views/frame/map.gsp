@@ -8,8 +8,10 @@
             var map = initMap('map');
             <g:if test="${mapOptions}">
             <g:each in="${mapOptions.mapMarkerLayers}" var="mapMarkerLayer">
+            <g:if test="${frameData.hasGeolocationData()}" >
             addPoint(map, ${frameData.longitude}, ${frameData.latitude},
                     "${assetPath(src:mapMarkerLayer.mapMarkerStyle.path)}");
+            </g:if>
             </g:each>
             zoomToExtent(map, ${mapOptions.boundingBox.getMinX()}, ${mapOptions.boundingBox.getMinY()},
                     ${mapOptions.boundingBox.getMaxX()}, ${mapOptions.boundingBox.getMaxY()});
@@ -44,7 +46,8 @@
 
                         <div class="col-md-3">
                             <g:if test="${nextFrame}">
-                                <g:link action="map" id="${nextFrame.id}" class="btn btn-primary small pull-right">&vrtri;</g:link>
+                                <g:link action="map" id="${nextFrame.id}"
+                                        class="btn btn-primary small pull-right">&vrtri;</g:link>
                             </g:if>
                         </div>
                     </div>

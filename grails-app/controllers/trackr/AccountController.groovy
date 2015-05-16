@@ -45,10 +45,10 @@ class AccountController {
         Device device = Device.findByCode(params.code)
         if (device) {
             UserDevice.create(user, device)
-            flash.message = "Vous avez maintenant le terminal '${params.code}' accessible."
+            flash.message = "Vous avez maintenant le boitier '${params.code}' accessible."
             redirect action: "devices"
         } else {
-            flash.error = "Impossible de trouver un terminal avec le code '${params.code}'.<br/>Veuillez vérifier votre saisie."
+            flash.error = "Impossible de trouver un boitier avec le code '${params.code}'.<br/>Veuillez vérifier votre saisie."
             redirect action: "devices"
         }
     }

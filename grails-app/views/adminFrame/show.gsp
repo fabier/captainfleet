@@ -26,7 +26,7 @@
                 <li class="active">Frame ${frame.id}</li>
             </g:render>
 
-            <g:render template="/frame/tabs" model="[frames: frames, frameData: frameData]"/>
+            <g:render template="/frame/tabs" model="[frames: frames, frame: frame, frameData: frameData]"/>
         </div>
     </div>
 </div>

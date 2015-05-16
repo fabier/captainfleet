@@ -2,7 +2,6 @@ package trackr
 
 import com.vividsolutions.jts.geom.Coordinate
 import com.vividsolutions.jts.geom.GeometryFactory
-import grails.util.Pair
 import org.springframework.security.access.annotation.Secured
 
 @Secured("hasRole('ROLE_USER')")
@@ -23,15 +22,16 @@ class FrameController {
 
     def map(long id) {
         Frame frame = Frame.get(id)
-        FrameData_V1 frameData = decoderService.tryDecode(frame)
+        FrameData frameData = decoderService.tryDecode(frame)
         MapOptions mapOptions
+        Set<com.vividsolutions.jts.geom.Point> points
         if (frameData) {
-            GeometryFactory geometryBuilder = new GeometryFactory();
-            Set<com.vividsolutions.jts.geom.Point> points = [geometryBuilder.createPoint(new Coordinate(frameData.longitude, frameData.latitude))]
-            mapOptions = mapService.buildUsingPoints(points)
-        } else {
-            mapOptions = mapService.defaultMapOptions()
+            if (frameData.hasGeolocationData()) {
+                GeometryFactory geometryBuilder = new GeometryFactory();
+                points = [geometryBuilder.createPoint(new Coordinate(frameData.longitude, frameData.latitude))]
+            }
         }
+        mapOptions = mapService.buildUsingPoints(points)
 
         def frames = new ArrayList<Frame>()
         frames.add(frame)

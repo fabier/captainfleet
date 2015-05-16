@@ -32,7 +32,7 @@
                         <table class="table table-hover small nomargin">
                             <thead>
                             <th>#</th>
-                            <th>Nom du terminal</th>
+                            <th>Nom du boitier</th>
                             <th></th>
                             </thead>
                             <tbody>
@@ -60,15 +60,15 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="row">
-                    <div class="col-md-12">
-                        <g:link controller="account" action="devices" class="btn btn-primary center-block">
-                            Cliquez ici pour associer votre boitier
-                        </g:link>
-                    </div>
-                </div>
             </g:else>
+            <div class="row pull-down">
+                <div class="col-md-12">
+                    <g:link controller="account" action="devices" class="btn btn-primary">
+                        <i class="glyphicon glyphicon-plus-sign"></i>
+                        Ajouter un nouveau boitier
+                    </g:link>
+                </div>
+            </div>
         </div>
 
         <g:render template="/templates/map8col"/>

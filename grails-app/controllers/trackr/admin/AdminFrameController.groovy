@@ -1,9 +1,9 @@
 package trackr.admin
 
 import org.springframework.security.access.annotation.Secured
-import trackr.FrameData_V1
 import trackr.DecoderService
 import trackr.Frame
+import trackr.FrameData
 import trackr.FrameService
 
 @Secured("hasRole('ROLE_ADMIN')")
@@ -15,7 +15,7 @@ class AdminFrameController {
 
     def show(long id) {
         Frame frame = Frame.get(id)
-        FrameData_V1 frameData = decoderService.tryDecode_V1(frame.data)
+        FrameData frameData = decoderService.tryDecode(frame.data)
 
         def frames = new ArrayList<Frame>()
         frames.add(frame)
@@ -25,10 +25,10 @@ class AdminFrameController {
         }
 
         render view: "show", model: [
-                frame      : frame,
-                device     : frame.device,
+                frame    : frame,
+                device   : frame.device,
                 frameData: frameData,
-                frames     : frames
+                frames   : frames
         ]
     }
 }

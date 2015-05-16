@@ -1,9 +1,4 @@
 package trackr
-
-import groovy.util.logging.Log
-
-import java.util.logging.Level
-
 /**
  * <code>
  * XXXXXXXXYYYYYYYYZABBCCDE (12 octets)<br/>
@@ -23,4 +18,24 @@ class FrameData_V1 extends FrameData {
      * Nombre de fois où la super capacité a été déchargée pour la protéger
      */
     int superCapacitorProtectCount
+
+    @Override
+    String hexaGpsTimeToFix() {
+        "0x${data.substring(16, 18).toUpperCase()}"
+    }
+
+    @Override
+    String hexaSolarArrayVoltage() {
+        "0x${data.substring(18, 20).toUpperCase()}"
+    }
+
+    @Override
+    String hexaSuperCapacitorVoltage() {
+        "0x${data.substring(20, 22).toUpperCase()}"
+    }
+
+    @Override
+    String hexaSuperCapacitorProtectCount() {
+        "0x${data.substring(22, 23).toUpperCase()}"
+    }
 }

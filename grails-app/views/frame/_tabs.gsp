@@ -1,3 +1,4 @@
+<%@ page import="trackr.FrameProtocol" %>
 <ul class="nav nav-tabs margin-top-20">
     <g:each in="${frames}" var="f" status="i">
         <li role="presentation" class="${i == 0 ? "active" : ""}">
@@ -51,7 +52,7 @@
                 <td class="col-md-6"><g:formatNumber number="${frameData.latitude}" maxFractionDigits="6"/></td>
                 <td class="col-md-3">
                     <span class="display-block">
-                        <code>0x${frameData.hexaLatitude()}</code>
+                        <code>${frameData.hexaLatitude()}</code>
                     </span>
                 </td>
             </tr>
@@ -60,68 +61,17 @@
                 <td><g:formatNumber number="${frameData.longitude}" maxFractionDigits="6"/></td>
                 <td colspan="4">
                     <span class="display-block">
-                        <code>0x${frameData.hexaLongitude()}</code>
+                        <code>${frameData.hexaLongitude()}</code>
                     </span>
                 </td>
             </tr>
-            <tr>
-                <td align="right">GPS TimeToFix</td>
-                <td><g:formatNumber number="${frameData.gpsTimeToFix}" maxFractionDigits="3"/> s</td>
-                <td colspan="4">
-                    <span class="display-block">
-                        <code>0x${frameData.hexaGpsTimeToFix()}</code>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td align="right">Tension panneau solaire</td>
-                <td><g:formatNumber number="${frameData.solarArrayVoltage}" maxFractionDigits="3"/> V</td>
-                <td colspan="4">
-                    <span class="display-block">
-                        <code>0x${frameData.hexaSolarArrayVoltage()}</code>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td align="right">Tension condensateur</td>
-                <td><g:formatNumber number="${frameData.superCapacitorVoltage}" maxFractionDigits="3"/> V</td>
-                <td colspan="4">
-                    <span class="display-block">
-                        <code>0x${frameData.hexaSuperCapacitorVoltage()}</code>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td align="right">Nb de protections capacité</td>
-                <td>${frameData.superCapacitorProtectCount}</td>
-                <td colspan="4">
-                    <span class="display-block">
-                        <code>0x${frameData.hexaSuperCapacitorProtectCount()}</code>
-                    </span>
-                </td>
-            </tr>
-            <g:set var="isDayBinary"
-                   value="${formatBinary(value: frameData.isDay ? 1 : 0, padding: 1)}"/>
-            <g:set var="frameCountBinary"
-                   value="${formatBinary(value: frameData.frameCount, padding: 3)}"/>
-            <tr>
-                <td align="right">Jour</td>
-                <td>${frameData.isDay ? "Oui" : "Non"}</td>
-                <td colspan="4">
-                    <span class="display-block">
-                        <code>0b${isDayBinary}</code>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td align="right">Compteur de trames</td>
-                <td>${frameData.frameCount}</td>
-                <td colspan="4">
-                    <span class="display-block">
-                        <code>0b${frameCountBinary}</code>
-                    </span>
-                </td>
-            </tr>
+
+            <g:if test="${frame.frameProtocol == FrameProtocol.V1}">
+                <g:render template="frameV1" model="[frameData: frameData]"/>
+            </g:if>
+            <g:elseif test="${frame.frameProtocol == FrameProtocol.V2}">
+                <g:render template="frameV2" model="[frameData: frameData]"/>
+            </g:elseif>
         </table>
     </g:if>
 </div>

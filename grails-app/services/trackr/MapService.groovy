@@ -17,31 +17,36 @@ class MapService {
         Set<com.vividsolutions.jts.geom.Point> points = new HashSet<>()
         devices.each {
             Frame lastFrame = deviceService.lastFrame(it)
-            FrameData_V1 frameData = decoderService.tryDecode(lastFrame)
+            FrameData frameData = decoderService.tryDecode(lastFrame)
             if (frameData) {
-                points.add(getGeometryFactory().createPoint(new Coordinate(frameData.longitude, frameData.latitude)))
+                if (frameData.hasGeolocationData()) {
+                    points.add(getGeometryFactory().createPoint(new Coordinate(frameData.longitude, frameData.latitude)))
+                }
             }
         }
-        if (points.isEmpty()) {
-            return defaultMapOptions()
-        } else {
-            return buildUsingPoints(points)
-        }
+        return buildUsingPoints(points)
     }
 
     MapOptions buildUsingPoints(Set<com.vividsolutions.jts.geom.Point> points) {
-        MultiPoint multiPoint = getGeometryFactory().createMultiPoint(GeometryFactory.toPointArray(points))
-        Envelope envelope = multiPoint.getEnvelopeInternal()
-        MapMarkerStyle markerStyle = new MapMarkerStyle(
-                path: "markers/car.png"
-        )
-        return new MapOptions(
-                boundingBox: envelope,
-                mapMarkerLayers: [new MapMarkerLayer(
-                        mapMarkerStyle: markerStyle,
-                        points: points
-                )]
-        )
+        if (points != null && !points.isEmpty()) {
+            MultiPoint multiPoint = getGeometryFactory().createMultiPoint(GeometryFactory.toPointArray(points))
+            Envelope envelope = multiPoint.getEnvelopeInternal()
+            MapMarkerStyle markerStyle = new MapMarkerStyle(
+                    path: "markers/car.png"
+            )
+            return new MapOptions(
+                    boundingBox: envelope,
+                    mapMarkerLayers: [new MapMarkerLayer(
+                            mapMarkerStyle: markerStyle,
+                            points: points
+                    )]
+            )
+        } else {
+            Set<com.vividsolutions.jts.geom.Point> staticPoints = new HashSet()
+            staticPoints.add(getGeometryFactory().createPoint(new Coordinate(0.0, -80.0)))
+            staticPoints.add(getGeometryFactory().createPoint(new Coordinate(0.0, 80.0)))
+            return buildUsingPoints(staticPoints)
+        }
     }
 
     MapOptions defaultMapOptions() {
@@ -55,7 +60,7 @@ class MapService {
         Set<com.vividsolutions.jts.geom.Point> points = new HashSet<>()
         devices.each {
             Frame randomFrame = deviceService.randomFrame(it)
-            FrameData_V1 frameData = decoderService.tryDecode(randomFrame)
+            FrameData frameData = decoderService.tryDecode(randomFrame)
             points.add(getGeometryFactory().createPoint(new Coordinate(frameData.longitude, frameData.latitude)))
         }
         if (points.isEmpty()) {
