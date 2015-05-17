@@ -7,8 +7,8 @@
         $(function () {
             var map = initMap('map');
             selectLayer(map, "Stamen Watercolor");
-            <g:each in="${mapOptions.mapMarkerLayers}" var="mapMarkerLayer">
-            <g:each in="${mapMarkerLayer.points}" var="point">
+            <g:each in="${mapOptions?.mapMarkerLayers}" var="mapMarkerLayer">
+            <g:each in="${mapMarkerLayer?.points}" var="point">
             addPoint(map, ${point.getCoordinate().getOrdinate(0)}, ${point.getCoordinate().getOrdinate(1)},
                     "${assetPath(src:mapMarkerLayer.mapMarkerStyle.path)}");
             </g:each>

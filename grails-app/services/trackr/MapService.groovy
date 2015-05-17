@@ -59,7 +59,7 @@ class MapService {
     MapOptions buildFromDevicesUsingRandomFrame(List<Device> devices) {
         Set<com.vividsolutions.jts.geom.Point> points = new HashSet<>()
         devices.each {
-            Frame randomFrame = deviceService.randomFrame(it)
+            Frame randomFrame = deviceService.randomFrameWithGeolocation(it)
             FrameData frameData = decoderService.tryDecode(randomFrame)
             points.add(getGeometryFactory().createPoint(new Coordinate(frameData.longitude, frameData.latitude)))
         }
