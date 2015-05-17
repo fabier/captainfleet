@@ -10,13 +10,17 @@ class DecoderService {
      * @return
      */
     FrameData tryDecode(Frame frame) {
-        switch (frame.frameProtocol) {
-            case FrameProtocol.V1:
-                return tryDecode_V1(frame.data)
-            case FrameProtocol.V2:
-                return tryDecode_V2(frame.data)
-            default:
-                return tryDecode_V1(frame.data)
+        if (frame) {
+            switch (frame.frameProtocol) {
+                case FrameProtocol.V1:
+                    return tryDecode_V1(frame.data)
+                case FrameProtocol.V2:
+                    return tryDecode_V2(frame.data)
+                default:
+                    return tryDecode_V1(frame.data)
+            }
+        } else {
+            null
         }
     }
 

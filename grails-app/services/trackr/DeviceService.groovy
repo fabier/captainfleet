@@ -34,7 +34,7 @@ class DeviceService {
             eq("duplicate", false)
             maxResults(1)
             uniqueResult()
-            sqlRestriction "data not like '0000000000000000%' order by random()" // lat !=0  et long != 0
+            sqlRestriction "length(data) = 24 AND data not like '0000000000000000%' order by random()" // lat !=0  et long != 0
             // http://stackoverflow.com/questions/2810693/hibernate-criteria-api-get-n-random-rows
         }
     }
