@@ -22,10 +22,28 @@ class RegisterController extends grails.plugin.springsecurity.ui.RegisterControl
             return
         }
 
-        String salt = saltSource instanceof NullSaltSource ? null : command.username
-        def user = lookupUserClass().newInstance(email: command.email, username: command.username,
-                accountLocked: true, enabled: true)
+        def User = command.grailsApplication.getDomainClass(SpringSecurityUtils.securityConfig.userLookup.userDomainClassName).clazz
+        def user = User.findByEmail(command.email)
+        if (user) {
+            if (user.accountLocked) {
+                // On va renvoyer le mail de validation automatiquement
+            } else {
+                // Le compte existe déjà et il est actif
+                flash.error = message(code: 'registerCommand.user.alreadyUnlocked', args: [
+                        createLink(controller: "login"),
+                        createLink(controller: "register", action: "forgotPassword")
+                ])
+                flash.chainedParams = params
+                redirect action: 'index'
+                return
+            }
+        } else {
+            // Création du compte utilisateur
+            user = lookupUserClass().newInstance(email: command.email, username: command.username,
+                    accountLocked: true, enabled: true)
+        }
 
+        String salt = saltSource instanceof NullSaltSource ? null : command.username
         RegistrationCode registrationCode = springSecurityUiService.register(user, command.password, salt)
         if (registrationCode == null || registrationCode.hasErrors()) {
             // null means problem creating the user
@@ -35,21 +53,27 @@ class RegisterController extends grails.plugin.springsecurity.ui.RegisterControl
             return
         }
 
-        String url = generateLink('verifyRegistration', [t: registrationCode.token])
-
-        def conf = SpringSecurityUtils.securityConfig
-        def body = conf.ui.register.emailBody
-        if (body.contains('$')) {
-            body = evaluate(body, [user: user, url: url])
+        // Préparation et envoi du mail
+        try {
+            String url = generateLink('verifyRegistration', [t: registrationCode.token])
+            def conf = SpringSecurityUtils.securityConfig
+            def body = conf.ui.register.emailBody
+            if (body.contains('$')) {
+                body = evaluate(body, [user: user, url: url])
+            }
+            mailService.sendMail {
+                to command.email
+                from conf.ui.register.emailFrom
+                subject conf.ui.register.emailSubject
+                html body.toString()
+            }
+            render view: 'index', model: [emailSent: true]
+        } catch (Exception e) {
+            // Le mail n'est pas parti, on affiche une erreur
+            flash.error = message(code: 'registerCommand.email.errorDuringSend')
+            flash.chainedParams = params
+            redirect action: 'index'
         }
-        mailService.sendMail {
-            to command.email
-            from conf.ui.register.emailFrom
-            subject conf.ui.register.emailSubject
-            html body.toString()
-        }
-
-        render view: 'index', model: [emailSent: true]
     }
 
     def verifyRegistration() {
@@ -75,7 +99,7 @@ class RegisterController extends grails.plugin.springsecurity.ui.RegisterControl
                 return
             }
             user.accountLocked = false
-            user.save(flush:true)
+            user.save(flush: true)
             def UserRole = lookupUserRoleClass()
             def Role = lookupRoleClass()
             for (roleName in conf.ui.register.defaultRoleNames) {
@@ -109,15 +133,7 @@ class RegisterCommand {
 
     static constraints = {
         username blank: false
-        email blank: false, email: true, validator: { value, command ->
-            if (value) {
-                def User = command.grailsApplication.getDomainClass(
-                        SpringSecurityUtils.securityConfig.userLookup.userDomainClassName).clazz
-                if (User.findByEmail(value)) {
-                    return 'registerCommand.email.unique'
-                }
-            }
-        }
+        email blank: false, email: true
         password blank: false, validator: RegisterController.passwordValidator
         password2 validator: RegisterController.password2Validator
     }

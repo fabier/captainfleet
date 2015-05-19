@@ -51,6 +51,14 @@
                         </table>
                     </div>
                 </div>
+                <div class="row pull-down">
+                    <div class="col-md-12">
+                        <g:link controller="account" action="devices" class="btn btn-primary">
+                            <i class="glyphicon glyphicon-plus-sign"></i>
+                            Ajouter un nouveau boitier
+                        </g:link>
+                    </div>
+                </div>
             </g:if>
             <g:else>
                 <div class="row">
@@ -60,15 +68,15 @@
                         </div>
                     </div>
                 </div>
-            </g:else>
-            <div class="row pull-down">
-                <div class="col-md-12">
-                    <g:link controller="account" action="devices" class="btn btn-primary">
-                        <i class="glyphicon glyphicon-plus-sign"></i>
-                        Ajouter un nouveau boitier
-                    </g:link>
+                <div class="row">
+                    <div class="col-md-12">
+                        <g:link controller="account" action="devices" class="btn btn-primary">
+                            <i class="glyphicon glyphicon-plus-sign"></i>
+                            Ajouter un nouveau boitier
+                        </g:link>
+                    </div>
                 </div>
-            </div>
+            </g:else>
         </div>
 
         <g:render template="/templates/map8col"/>
