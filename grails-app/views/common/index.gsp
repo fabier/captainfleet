@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta name="layout" content="map"/>
-    <title>Carte</title>
+    <title>CaptainFleet - Accueil</title>
     <script type="application/javascript">
         $(function () {
             var map = initMap('map');
@@ -33,7 +33,7 @@
                             <thead>
                             <th>#</th>
                             <th>Nom du boitier</th>
-                            <th></th>
+                            <th>Code</th>
                             </thead>
                             <tbody>
                             <g:each in="${devices}" var="device">
@@ -41,21 +41,19 @@
                                     data-href="${createLink(controller: "device", action: "map", id: device.id)}">
                                     <td>${device.sigfoxId}</td>
                                     <td>${device.name}</td>
-                                    <td>
-                                        <i class="glyphicon glyphicon-log-in"></i>
-                                        Accéder au détail
-                                    </td>
+                                    <td>${device.code}</td>
                                 </tr>
                             </g:each>
                             </tbody>
                         </table>
                     </div>
                 </div>
-                <div class="row pull-down">
+
+                <div class="row">
                     <div class="col-md-12">
-                        <g:link controller="account" action="devices" class="btn btn-primary">
+                        <g:link controller="account" action="devices" class="btn btn-primary"
+                                title="Ajouter un nouveau boitier">
                             <i class="glyphicon glyphicon-plus-sign"></i>
-                            Ajouter un nouveau boitier
                         </g:link>
                     </div>
                 </div>
@@ -68,6 +66,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="row">
                     <div class="col-md-12">
                         <g:link controller="account" action="devices" class="btn btn-primary">

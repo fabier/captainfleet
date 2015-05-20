@@ -71,4 +71,18 @@ class DeviceController {
                 mapOptions   : mapOptions
         ]
     }
+
+    def edit(long id) {
+        Device device = Device.get(id)
+        render view: "edit", model: [
+                device: device
+        ]
+    }
+
+    def update(long id) {
+        Device device = Device.get(id)
+        bindData(device, params)
+        device.save()
+        redirect action: "edit", id: id
+    }
 }

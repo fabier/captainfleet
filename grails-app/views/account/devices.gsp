@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta name="layout" content="main"/>
-    <title>Mon compte</title>
+    <title>CaptainFleet - Boitiers</title>
 </head>
 
 <body>
@@ -51,18 +51,15 @@
                 <thead>
                 <th>#</th>
                 <th>Nom du boitier</th>
-                <th></th>
+                <th>Code</th>
                 </thead>
                 <tbody>
                 <g:each in="${devices}" var="device">
-                    <tr>
+                    <tr class="clickable-row"
+                        data-href="${createLink(controller: "device", action: "edit", id: device.id)}">
                         <td>${device.sigfoxId}</td>
                         <td>${device.name}</td>
-                        <td>
-                            <g:link controller="device" action="map" id="${device.id}">
-                                Accéder au détail
-                            </g:link>
-                        </td>
+                        <td>${device.code}</td>
                     </tr>
                 </g:each>
                 </tbody>

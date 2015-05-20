@@ -2,7 +2,8 @@
 <html>
 <head>
     <meta name="layout" content="map"/>
-    <title>Carte</title>
+    <title>CaptainFleet - Boitier</title>
+    <asset:javascript src="deviceMap.js"/>
     <script type="application/javascript">
         $(function () {
             var dateInput = $('#date');
@@ -20,7 +21,10 @@
                         "${createLink(controller: "device", action: "map", id: device.id, params: [date:"_DATE_"])}"
                                 .replace("_DATE_", $("#date").datepicker('getFormattedDate'));
             });
-
+        });
+    </script>
+    <script type="application/javascript">
+        $(function () {
             var map = initMap('map');
             <g:if test="${mapOptions}">
             var markers = [];
@@ -77,7 +81,8 @@
 
                     <div class="row">
                         <div class="col-md-3">
-                            <g:link action="map" id="${device.id}" params="[date: raw(formatDate(date: previousDay, format: 'yyyy/MM/dd'))]"
+                            <g:link action="map" id="${device.id}"
+                                    params="[date: raw(formatDate(date: previousDay, format: 'yyyy/MM/dd'))]"
                                     class="btn btn-primary small">&vltri;</g:link>
                         </div>
 
@@ -96,7 +101,8 @@
                         </div>
 
                         <div class="col-md-3">
-                            <g:link action="map" id="${device.id}" params="[date: raw(formatDate(date: nextDay, format: 'yyyy/MM/dd'))]"
+                            <g:link action="map" id="${device.id}"
+                                    params="[date: raw(formatDate(date: nextDay, format: 'yyyy/MM/dd'))]"
                                     class="btn btn-primary small pull-right">&vrtri;</g:link>
                         </div>
                     </div>
