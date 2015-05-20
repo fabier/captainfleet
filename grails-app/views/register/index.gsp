@@ -2,7 +2,7 @@
 
 <head>
     <meta name='layout' content='main'/>
-    <title><g:message code='spring.security.ui.register.title'/></title>
+    <title>CaptainFleet - Créer un compte</title>
 </head>
 
 <body>

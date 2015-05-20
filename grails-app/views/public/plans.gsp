@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta name="layout" content="main"/>
-    <title>Plans</title>
+    <title>CaptainFleet - Plans</title>
 </head>
 
 <body>

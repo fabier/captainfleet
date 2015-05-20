@@ -1,7 +1,7 @@
 <html>
 <head>
     <meta name='layout' content='admin'/>
-    <title>User</title>
+    <title>CaptainFleet - Utilisateur</title>
 </head>
 
 <body>

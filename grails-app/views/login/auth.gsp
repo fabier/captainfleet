@@ -2,7 +2,7 @@
 
 <head>
     <g:set var="hideLoginBlock" value="${true}" scope="request"/>
-    <title><g:message code='spring.security.ui.login.title'/></title>
+    <title>CaptainFleet - Connexion</title>
     <meta name='layout' content='main'/>
 </head>
 

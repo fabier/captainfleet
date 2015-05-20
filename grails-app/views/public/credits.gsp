@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta name="layout" content="main"/>
-    <title>Credits</title>
+    <title>CaptainFleet - Credits</title>
 </head>
 
 <body>

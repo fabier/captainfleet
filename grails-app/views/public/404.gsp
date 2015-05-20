@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Erreur 404</title>
     <meta name="layout" content="main">
+    <title>CaptainFleet - Cette page n'existe pas</title>
     <g:if env="development"><asset:stylesheet src="errors.css"/></g:if>
 </head>
 

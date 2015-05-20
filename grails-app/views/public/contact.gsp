@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta name="layout" content="main"/>
-    <title>Contact</title>
+    <title>CaptainFleet - Contact</title>
 </head>
 
 <body>

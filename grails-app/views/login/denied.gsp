@@ -1,6 +1,6 @@
 <head>
     <meta name='layout' content='main'/>
-    <title><g:message code="springSecurity.denied.title"/></title>
+    <title>CaptainFleet - Accès refusé</title>
 </head>
 
 <body>

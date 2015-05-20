@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta name="layout" content="main"/>
-    <title>Mon compte</title>
+    <title>CaptainFleet - Preferences</title>
 </head>
 
 <body>

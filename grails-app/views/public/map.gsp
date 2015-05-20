@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta name="layout" content="map"/>
-    <title>Carte</title>
+    <title>CaptainFleet - Carte</title>
     <script type="application/javascript">
         $(function () {
             var map = initMap('map');

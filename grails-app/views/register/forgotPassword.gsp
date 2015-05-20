@@ -3,7 +3,7 @@
 <head>
     <g:set var="hideLoginBlock" value="${true}" scope="request"/>
     <meta name='layout' content='main'/>
-    <title>Mot de passe perdu</title>
+    <title>CaptainFleet - Mot de passe perdu</title>
 </head>
 
 <body>

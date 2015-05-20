@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta name="layout" content="admin">
-    <title>Frame</title>
+    <title>CaptainFleet - Trame</title>
 </head>
 
 <body>

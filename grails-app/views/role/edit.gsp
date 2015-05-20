@@ -2,7 +2,7 @@
 
 <head>
     <meta name='layout' content='admin'/>
-    <title>Role</title>
+    <title>CaptainFleet - Rôle</title>
 </head>
 
 <body>

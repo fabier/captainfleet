@@ -1,7 +1,7 @@
 <html>
 
 <head>
-    <title><g:message code='spring.security.ui.resetPassword.title'/></title>
+    <title>CaptainFleet - Récupérer son mot de passe</title>
     <meta name='layout' content='main'/>
 </head>
 

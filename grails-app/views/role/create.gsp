@@ -3,7 +3,7 @@
 <head>
 	<meta name='layout' content='admin'/>
 	<g:set var="entityName" value="${message(code: 'role.label', default: 'Role')}"/>
-	<title><g:message code="default.create.label" args="[entityName]"/></title>
+	<title>CaptainFleet - Créer un rôle</title>
 </head>
 
 <body>

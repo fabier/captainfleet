@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta name="layout" content="admin">
-    <title>Station</title>
+    <title>CaptainFleet - Station</title>
 </head>
 
 <body>

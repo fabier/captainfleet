@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta name="layout" content="admin">
-    <title>Device</title>
+    <title>CaptainFleet - Boitier</title>
 </head>
 
 <body>

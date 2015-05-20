@@ -11,7 +11,7 @@
     }
     </style>
     %{--<script src="ol3/ol.js" type="text/javascript"></script>--}%
-    <title>OpenLayers 3 example</title>
+    <title>CaptainFleet - OpenLayers 3 example</title>
 </head>
 
 <body>
