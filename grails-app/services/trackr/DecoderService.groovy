@@ -127,41 +127,43 @@ class DecoderService {
     FrameData_V2 tryDecode_V2(String data) {
         FrameData_V2 frameData = null
         try {
-            if (data.length() == 24) {
-                // Déterminer si c'est une trame de service ou une trame d'infomation
-                // Les trames de services sont définies par une latitude > 90° ou < -90°
-                // Ce qui correspond en binaire à des valeurs pour les 4 premiers bits de
-                // 0110, 0111, 1110 ou 1111 (0x6, 0x7, 0xE ou 0xF)
-                int firstCharAsInt = Integer.parseInt(data.substring(0, 1), 16)
-                if (firstCharAsInt in [0b0110, 0b0111, 0b1110, 0b1111]) {
-                    // Trame de service, on décode
-                    if (firstCharAsInt == 0b0110) {
-                        // Informations de température
-                        Integer frameCount = Integer.parseInt(data.substring(1, 2), 16) & 0b111
+            int firstCharAsInt = Integer.parseInt(data.substring(0, 1), 16)
+            if (firstCharAsInt in [0b0110, 0b0111, 0b1110, 0b1111]) {
+                // Trame de service, on décode
+                if (firstCharAsInt == 0b0110) {
+                    // Informations de température
+                    Integer frameCount = Integer.parseInt(data.substring(1, 2), 16) & 0b111
 
-                        // Valeurs en °C entre -127°C et +127°C
-                        Integer currentTemperature = integerToSmallInt(Integer.parseInt(data.substring(2, 4), 16))
-                        Integer averageTemperature = integerToSmallInt(Integer.parseInt(data.substring(4, 6), 16))
-                        Integer minTemperature = integerToSmallInt(Integer.parseInt(data.substring(6, 8), 16))
-                        Integer maxTemperature = integerToSmallInt(Integer.parseInt(data.substring(8, 10), 16))
+                    // Valeurs en °C entre -127°C et +127°C
+                    Integer currentTemperature = integerToSmallInt(Integer.parseInt(data.substring(2, 4), 16))
+                    Integer averageTemperature = integerToSmallInt(Integer.parseInt(data.substring(4, 6), 16))
+                    Integer minTemperature = integerToSmallInt(Integer.parseInt(data.substring(6, 8), 16))
+                    Integer maxTemperature = integerToSmallInt(Integer.parseInt(data.substring(8, 10), 16))
 
-                        int superCapacitorProtectCountAndModemKOCount = Integer.parseInt(data.substring(10, 12), 16)
-                        Integer superCapacitorProtectCount = (superCapacitorProtectCountAndModemKOCount >> 2) & 0b111111
-                        Integer modemKOCount = superCapacitorProtectCountAndModemKOCount & 0b11
+                    int superCapacitorProtectCountAndModemKOCount = Integer.parseInt(data.substring(10, 12), 16)
+                    Integer superCapacitorProtectCount = (superCapacitorProtectCountAndModemKOCount >> 2) & 0b111111
+                    Integer modemKOCount = superCapacitorProtectCountAndModemKOCount & 0b11
 
-                        frameData = new FrameData_V2(
-                                frameCount: frameCount,
-                                currentTemperature: currentTemperature,
-                                averageTemperature: averageTemperature,
-                                minTemperature: minTemperature,
-                                maxTemperature: maxTemperature,
-                                superCapacitorProtectCount: superCapacitorProtectCount,
-                                modemKOCount: modemKOCount
-                        )
-                    } else {
-                        // On ne sait pas décoder
-                    }
+                    frameData = new FrameData_V2(
+                            data: data,
+                            frameCount: frameCount,
+                            currentTemperature: currentTemperature,
+                            averageTemperature: averageTemperature,
+                            minTemperature: minTemperature,
+                            maxTemperature: maxTemperature,
+                            superCapacitorProtectCount: superCapacitorProtectCount,
+                            modemKOCount: modemKOCount
+                    )
                 } else {
+                    // On ne sait pas décoder
+                }
+            } else {
+                if (data.length() == 24) {
+                    // Déterminer si c'est une trame de service ou une trame d'infomation
+                    // Les trames de services sont définies par une latitude > 90° ou < -90°
+                    // Ce qui correspond en binaire à des valeurs pour les 4 premiers bits de
+                    // 0110, 0111, 1110 ou 1111 (0x6, 0x7, 0xE ou 0xF)
+
                     // Trame normale, on décode
                     // Latitude
                     Double latitude = decodeLatitudeOrLongitude(data.substring(0, 8))
@@ -217,6 +219,8 @@ class DecoderService {
                             speed: speed,
                             azimuth: azimuth
                     )
+                } else {
+                    // On ne sait pas décoder
                 }
             }
         } catch (Exception e) {

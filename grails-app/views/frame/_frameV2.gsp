@@ -106,9 +106,74 @@
     </tr>
 </g:if>
 
+<g:if test="${frameData.currentTemperature != null}">
+    <tr>
+        <td align="right" class="col-md-3">T° actuelle</td>
+        <td class="col-md-6"><g:formatNumber number="${frameData.currentTemperature}" maxFractionDigits="1"/> °C</td>
+        <td class="col-md-3">
+            <span class="display-block">
+                <code>${frameData.hexaCurrentTemperature()}</code>
+            </span>
+        </td>
+    </tr>
+</g:if>
 
+<g:if test="${frameData.averageTemperature != null}">
+    <tr>
+        <td align="right" class="col-md-3">T° moyenne</td>
+        <td class="col-md-6"><g:formatNumber number="${frameData.averageTemperature}" maxFractionDigits="1"/> °C</td>
+        <td class="col-md-3">
+            <span class="display-block">
+                <code>${frameData.hexaAverageTemperature()}</code>
+            </span>
+        </td>
+    </tr>
+</g:if>
 
+<g:if test="${frameData.minTemperature != null}">
+    <tr>
+        <td align="right" class="col-md-3">T° min</td>
+        <td class="col-md-6"><g:formatNumber number="${frameData.minTemperature}" maxFractionDigits="1"/> °C</td>
+        <td class="col-md-3">
+            <span class="display-block">
+                <code>${frameData.hexaMinTemperature()}</code>
+            </span>
+        </td>
+    </tr>
+</g:if>
 
+<g:if test="${frameData.maxTemperature != null}">
+    <tr>
+        <td align="right" class="col-md-3">T° max</td>
+        <td class="col-md-6"><g:formatNumber number="${frameData.maxTemperature}" maxFractionDigits="1"/> °C</td>
+        <td class="col-md-3">
+            <span class="display-block">
+                <code>${frameData.hexaMaxTemperature()}</code>
+            </span>
+        </td>
+    </tr>
+</g:if>
 
+<g:if test="${frameData.superCapacitorProtectCount != null}">
+    <tr>
+        <td align="right" class="col-md-3">Nb de protections capacité</td>
+        <td class="col-md-6">${frameData.superCapacitorProtectCount}</td>
+        <td class="col-md-3">
+            <span class="display-block">
+                <code>${frameData.hexaSuperCapacitorProtectCount()}</code>
+            </span>
+        </td>
+    </tr>
+</g:if>
 
-
+<g:if test="${frameData.modemKOCount != null}">
+    <tr>
+        <td align="right" class="col-md-3">Nombre de KO Modem</td>
+        <td class="col-md-6">${frameData.modemKOCount}</td>
+        <td class="col-md-3">
+            <span class="display-block">
+                <code>${frameData.hexaModemKOCount()}</code>
+            </span>
+        </td>
+    </tr>
+</g:if>
