@@ -8,7 +8,7 @@
             var map = initMap('map');
             <g:if test="${mapOptions}">
             <g:each in="${mapOptions.mapMarkerLayers}" var="mapMarkerLayer">
-            <g:if test="${frameData.hasGeolocationData()}" >
+            <g:if test="${frameData?.hasGeolocationData()}" >
             addPoint(map, ${frameData.longitude}, ${frameData.latitude},
                     "${assetPath(src:mapMarkerLayer.mapMarkerStyle.path)}");
             </g:if>

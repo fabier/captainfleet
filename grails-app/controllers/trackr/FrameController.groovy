@@ -26,7 +26,7 @@ class FrameController {
         MapOptions mapOptions
         Set<com.vividsolutions.jts.geom.Point> points
         if (frameData) {
-            if (frameData.hasGeolocationData()) {
+            if (frameData?.hasGeolocationData()) {
                 GeometryFactory geometryBuilder = new GeometryFactory();
                 points = [geometryBuilder.createPoint(new Coordinate(frameData.longitude, frameData.latitude))]
             }

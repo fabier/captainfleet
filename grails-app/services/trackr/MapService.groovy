@@ -19,7 +19,7 @@ class MapService {
             Frame lastFrame = deviceService.lastFrame(it)
             FrameData frameData = decoderService.tryDecode(lastFrame)
             if (frameData) {
-                if (frameData.hasGeolocationData()) {
+                if (frameData?.hasGeolocationData()) {
                     points.add(getGeometryFactory().createPoint(new Coordinate(frameData.longitude, frameData.latitude)))
                 }
             }

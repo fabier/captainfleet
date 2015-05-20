@@ -43,7 +43,7 @@ class DeviceController {
         frames?.each {
             FrameData frameData = decoderService.tryDecode(it)
             if (frameData) {
-                if (frameData.hasGeolocationData()) {
+                if (frameData?.hasGeolocationData()) {
                     frameDataList.add(frameData)
                     points.add(geometryFactory.createPoint(new Coordinate(frameData.longitude, frameData.latitude)))
                 }
