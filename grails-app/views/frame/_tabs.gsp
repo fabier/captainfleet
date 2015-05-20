@@ -47,24 +47,29 @@
     <g:if test="${frameData}">
         <table class="table table-hover table-nolineseparator small nomargin">
             <tbody>
-            <tr>
-                <td align="right" class="col-md-3">Latitude</td>
-                <td class="col-md-6"><g:formatNumber number="${frameData.latitude}" maxFractionDigits="6"/></td>
-                <td class="col-md-3">
-                    <span class="display-block">
-                        <code>${frameData.hexaLatitude()}</code>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td align="right">Longitude</td>
-                <td><g:formatNumber number="${frameData.longitude}" maxFractionDigits="6"/></td>
-                <td colspan="4">
-                    <span class="display-block">
-                        <code>${frameData.hexaLongitude()}</code>
-                    </span>
-                </td>
-            </tr>
+            <g:if test="${frameData.latitude}">
+                <tr>
+                    <td align="right" class="col-md-3">Latitude</td>
+                    <td class="col-md-6"><g:formatNumber number="${frameData.latitude}" maxFractionDigits="6"/></td>
+                    <td class="col-md-3">
+                        <span class="display-block">
+                            <code>${frameData.hexaLatitude()}</code>
+                        </span>
+                    </td>
+                </tr>
+            </g:if>
+
+            <g:if test="${frameData.longitude}">
+                <tr>
+                    <td align="right" class="col-md-3">Longitude</td>
+                    <td class="col-md-6"><g:formatNumber number="${frameData.longitude}" maxFractionDigits="6"/></td>
+                    <td class="col-md-3">
+                        <span class="display-block">
+                            <code>${frameData.hexaLongitude()}</code>
+                        </span>
+                    </td>
+                </tr>
+            </g:if>
 
             <g:if test="${frame.frameProtocol == FrameProtocol.V1}">
                 <g:render template="frameV1" model="[frameData: frameData]"/>

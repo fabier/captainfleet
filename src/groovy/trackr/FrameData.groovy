@@ -1,5 +1,4 @@
 package trackr
-
 /**
  * Created by fabier on 30/04/15.
  */
@@ -13,37 +12,42 @@ abstract class FrameData {
     /**
      * Latitude en ° [-90.0:90.0]
      */
-    double latitude
+    Double latitude
 
     /**
      * Longitude en ° [-180.0:180.0]
      */
-    double longitude
+    Double longitude
 
     /**
      * Durée d'acquisition GPS en secondes
      */
-    double gpsTimeToFix
+    Double gpsTimeToFix
 
     /**
      * Tension panneau solaire en V
      */
-    double solarArrayVoltage
+    Double solarArrayVoltage
 
     /**
      * Tension supercapacité en V
      */
-    double superCapacitorVoltage
+    Double superCapacitorVoltage
 
     /**
      * Flag indiquant si la trame a été envoyée de jour ou de nuit
      */
-    boolean isDay
+    Boolean isDay
 
     /**
      * Compteur de trames
      */
-    int frameCount
+    Integer frameCount
+
+    /**
+     * Nombre de fois où la super capacité a été déchargée pour la protéger
+     */
+    Integer superCapacitorProtectCount
 
     String hexaLatitude() {
         "0x${data.substring(0, 8).toUpperCase()}"
@@ -85,6 +89,26 @@ abstract class FrameData {
         null
     }
 
+    String hexaCurrentTemperature() {
+        null
+    }
+
+    String hexaAverageTemperature() {
+        null
+    }
+
+    String hexaMinTemperature() {
+        null
+    }
+
+    String hexaMaxTemperature() {
+        null
+    }
+
+    String hexaModemKOCount() {
+        null
+    }
+
     final String hexaIsDay() {
         String.format("0b%1s", Integer.toBinaryString(isDay ? 1 : 0)).replaceAll(' ', '0')
     }
@@ -94,6 +118,6 @@ abstract class FrameData {
     }
 
     boolean hasGeolocationData() {
-        Math.abs(longitude) >= Float.MIN_VALUE && Math.abs(latitude) >= Float.MIN_VALUE
+        latitude != null && longitude != null
     }
 }

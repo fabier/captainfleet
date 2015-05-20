@@ -14,11 +14,6 @@ package trackr
  */
 class FrameData_V1 extends FrameData {
 
-    /**
-     * Nombre de fois où la super capacité a été déchargée pour la protéger
-     */
-    int superCapacitorProtectCount
-
     @Override
     String hexaGpsTimeToFix() {
         "0x${data.substring(16, 18).toUpperCase()}"

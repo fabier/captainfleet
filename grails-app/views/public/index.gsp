@@ -5,7 +5,7 @@
     <title>Accueil</title>
     <script type="application/javascript">
         $(function () {
-            var map = initMap('map');
+            map = initMap('map');
             selectLayer(map, "Stamen Watercolor");
             <g:each in="${mapOptions?.mapMarkerLayers}" var="mapMarkerLayer">
             <g:each in="${mapMarkerLayer?.points}" var="point">
@@ -15,7 +15,8 @@
             </g:each>
             zoomToExtent(map, ${mapOptions.boundingBox.getMinX()}, ${mapOptions.boundingBox.getMinY()},
                     ${mapOptions.boundingBox.getMaxX()}, ${mapOptions.boundingBox.getMaxY()});
-            map.getView().setZoom(4);
+            var zoomLevel = map.getView().getZoom() / 3;
+            map.getView().setZoom(zoomLevel);
         });
     </script>
 </head>

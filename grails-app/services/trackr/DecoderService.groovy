@@ -4,6 +4,9 @@ import grails.transaction.Transactional
 
 @Transactional
 class DecoderService {
+
+    ParserService parserService
+
     /**
      *
      * @param frame
@@ -45,27 +48,32 @@ class DecoderService {
         try {
             if (data.length() == 24) {
                 // Latitude
-                double latitude = decodeLatitudeOrLongitude(data.substring(0, 8))
+                Double latitude = decodeLatitudeOrLongitude(data.substring(0, 8))
 
                 // Longitude
-                double longitude = decodeLatitudeOrLongitude(data.substring(8, 16))
+                Double longitude = decodeLatitudeOrLongitude(data.substring(8, 16))
 
                 // Temps d'accroche GPS (sec)
-                double gpsTimeToFix = Integer.parseInt(data.substring(16, 18), 16) * 0.6d
+                Double gpsTimeToFix = Integer.parseInt(data.substring(16, 18), 16) * 0.6d
 
                 // Tension Panneau Solaire (v)
-                double solarArrayVoltage = Integer.parseInt(data.substring(18, 20), 16) * 0.013d
+                Double solarArrayVoltage = Integer.parseInt(data.substring(18, 20), 16) * 0.013d
 
                 // Tension Supercap (v)
-                double superCapacitorVoltage = Integer.parseInt(data.substring(20, 22), 16) * 0.013d
+                Double superCapacitorVoltage = Integer.parseInt(data.substring(20, 22), 16) * 0.013d
 
                 // Nb protect supercap (Nb de fois 16s)
-                int superCapacitorProtectCount = Integer.parseInt(data.substring(22, 23), 16)
+                Integer superCapacitorProtectCount = Integer.parseInt(data.substring(22, 23), 16)
 
                 // Bit de jour et compteur de trames
-                int isDayAndFrameCount = Integer.parseInt(data.substring(23, 24), 16)
-                boolean isDay = (isDayAndFrameCount >> 3) == 1
-                int frameCount = isDayAndFrameCount & 0b111
+                Integer isDayAndFrameCount = Integer.parseInt(data.substring(23, 24), 16)
+                Boolean isDay = (isDayAndFrameCount >> 3) == 1
+                Integer frameCount = isDayAndFrameCount & 0b111
+
+                if (latitude == 0d && longitude == 0d) {
+                    latitude = null
+                    longitude = null
+                }
 
                 frameData = new FrameData_V1(
                         data: data,
@@ -120,61 +128,110 @@ class DecoderService {
         FrameData_V2 frameData = null
         try {
             if (data.length() == 24) {
-                // Latitude
-                def latitude = decodeLatitudeOrLongitude(data.substring(0, 8))
+                // Déterminer si c'est une trame de service ou une trame d'infomation
+                // Les trames de services sont définies par une latitude > 90° ou < -90°
+                // Ce qui correspond en binaire à des valeurs pour les 4 premiers bits de
+                // 0110, 0111, 1110 ou 1111 (0x6, 0x7, 0xE ou 0xF)
+                int firstCharAsInt = Integer.parseInt(data.substring(0, 1), 16)
+                if (firstCharAsInt in [0b0110, 0b0111, 0b1110, 0b1111]) {
+                    // Trame de service, on décode
+                    if (firstCharAsInt == 0b0110) {
+                        // Informations de température
+                        Integer frameCount = Integer.parseInt(data.substring(1, 2), 16) & 0b111
 
-                // Longitude
-                def longitude = decodeLatitudeOrLongitude(data.substring(8, 16))
+                        // Valeurs en °C entre -127°C et +127°C
+                        Integer currentTemperature = integerToSmallInt(Integer.parseInt(data.substring(2, 4), 16))
+                        Integer averageTemperature = integerToSmallInt(Integer.parseInt(data.substring(4, 6), 16))
+                        Integer minTemperature = integerToSmallInt(Integer.parseInt(data.substring(6, 8), 16))
+                        Integer maxTemperature = integerToSmallInt(Integer.parseInt(data.substring(8, 10), 16))
 
-                long last4Bytes = Long.parseLong(data.substring(16, 24), 16)
+                        int superCapacitorProtectCountAndModemKOCount = Integer.parseInt(data.substring(10, 12), 16)
+                        Integer superCapacitorProtectCount = (superCapacitorProtectCountAndModemKOCount >> 2) & 0b111111
+                        Integer modemKOCount = superCapacitorProtectCountAndModemKOCount & 0b11
 
-                // AA : HDOP encodé (0 : < 1.0, 1 : < 2.0, 2 : < 5.0 ou 3 : > 5.0)
-                def hdop = (int) ((last4Bytes >> 30) & 0b11)
+                        frameData = new FrameData_V2(
+                                frameCount: frameCount,
+                                currentTemperature: currentTemperature,
+                                averageTemperature: averageTemperature,
+                                minTemperature: minTemperature,
+                                maxTemperature: maxTemperature,
+                                superCapacitorProtectCount: superCapacitorProtectCount,
+                                modemKOCount: modemKOCount
+                        )
+                    } else {
+                        // On ne sait pas décoder
+                    }
+                } else {
+                    // Trame normale, on décode
+                    // Latitude
+                    Double latitude = decodeLatitudeOrLongitude(data.substring(0, 8))
 
-                // BB : Nombre de Satellites (0 : 0-3, 1 : 4-5, 2 : 6-7, 3 : 8+)
-                def satelliteCount = (int) ((last4Bytes >> 28) & 0b11)
+                    // Longitude
+                    Double longitude = decodeLatitudeOrLongitude(data.substring(8, 16))
 
-                // C : Flag Jour(1)/Nuit(0)
-                def isDay = ((last4Bytes >> 27) & 0b1) == 1l
+                    long last4Bytes = Long.parseLong(data.substring(16, 24), 16)
 
-                // DDD : Compteur de trames
-                def frameCount = (int) ((last4Bytes >> 24) & 0b111)
+                    // AA : HDOP encodé (0 : < 1.0, 1 : < 2.0, 2 : < 5.0 ou 3 : > 5.0)
+                    Integer hdop = (int) ((last4Bytes >> 30) & 0b11)
 
-                // EEEE : Durée d'acquisition GPS entre 0 et 75s ou +, pas de 5s
-                def gpsTimeToFix = ((last4Bytes >> 20) & 0b1111) * 5.0d
+                    // BB : Nombre de Satellites (0 : 0-3, 1 : 4-5, 2 : 6-7, 3 : 8+)
+                    Integer satelliteCount = (int) ((last4Bytes >> 28) & 0b11)
 
-                // FFFFF : Vitesse en km/h entre 0 et 155, pas de 5km/h
-                def speed = ((last4Bytes >> 15) & 0b11111) * 5d
+                    // C : Flag Jour(1)/Nuit(0)
+                    Boolean isDay = ((last4Bytes >> 27) & 0b1) == 1l
 
-                // GGGGG : Cap / Azimuth entre 0° et 360°, pas de 11,25°
-                def azimuth = ((last4Bytes >> 10) & 0b11111) * 11.25d
+                    // DDD : Compteur de trames
+                    Integer frameCount = (int) ((last4Bytes >> 24) & 0b111)
 
-                // HHHHH : Tension panneau solaire entre 0 et 3.1V, pas de 100mV
-                def solarArrayVoltage = ((last4Bytes >> 5) & 0b11111) * 0.1d
+                    // EEEE : Durée d'acquisition GPS entre 0 et 75s ou +, pas de 5s
+                    Double gpsTimeToFix = ((last4Bytes >> 20) & 0b1111) * 5.0d
 
-                // IIIII : Tension supercapacité entre 0 et 2.91V, pas de 90mV
-                def superCapacitorVoltage = (last4Bytes & 0b11111) * 0.09d
+                    // FFFFF : Vitesse en km/h entre 0 et 155, pas de 5km/h
+                    Double speed = ((last4Bytes >> 15) & 0b11111) * 5.0d
 
-                frameData = new FrameData_V2(
-                        data: data,
-                        latitude: latitude,
-                        longitude: longitude,
-                        gpsTimeToFix: gpsTimeToFix,
-                        solarArrayVoltage: solarArrayVoltage,
-                        superCapacitorVoltage: superCapacitorVoltage,
-                        isDay: isDay,
-                        frameCount: frameCount,
-                        hdop: hdop,
-                        satelliteCount: satelliteCount,
-                        speed: speed,
-                        azimuth: azimuth
-                )
+                    // GGGGG : Cap / Azimuth entre 0° et 360°, pas de 11,25°
+                    Double azimuth = ((last4Bytes >> 10) & 0b11111) * 11.25d
+
+                    // HHHHH : Tension panneau solaire entre 0 et 3.1V, pas de 100mV
+                    Double solarArrayVoltage = ((last4Bytes >> 5) & 0b11111) * 0.1d
+
+                    // IIIII : Tension supercapacité entre 0 et 2.91V, pas de 90mV
+                    Double superCapacitorVoltage = (last4Bytes & 0b11111) * 0.09d
+
+                    if (latitude == 0d && longitude == 0d) {
+                        latitude = null
+                        longitude = null
+                    }
+
+                    frameData = new FrameData_V2(
+                            data: data,
+                            latitude: latitude,
+                            longitude: longitude,
+                            gpsTimeToFix: gpsTimeToFix,
+                            solarArrayVoltage: solarArrayVoltage,
+                            superCapacitorVoltage: superCapacitorVoltage,
+                            isDay: isDay,
+                            frameCount: frameCount,
+                            hdop: hdop,
+                            satelliteCount: satelliteCount,
+                            speed: speed,
+                            azimuth: azimuth
+                    )
+                }
             }
         } catch (Exception e) {
             // On n'a pas réussi à décoder...
             log.warn "Impossible to decode ${data}", e
         }
         return frameData
+    }
+
+    int integerToSmallInt(int i) {
+        if (i >= 128) {
+            128 - i
+        } else {
+            i
+        }
     }
 
     static double decodeLatitudeOrLongitude(String latitudeEncoded) {

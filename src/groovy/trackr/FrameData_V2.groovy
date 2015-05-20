@@ -29,22 +29,47 @@ class FrameData_V2 extends FrameData {
     /**
      * Dilution horizontale
      */
-    int hdop
+    Integer hdop
 
     /**
      * Nombre de satellites
      */
-    int satelliteCount
+    Integer satelliteCount
 
     /**
      * Vitesse en km/h
      */
-    float speed
+    Double speed
 
     /**
      * Cap / Azimuth, en °, 0°=Nord, 90°=Est, 180°=Sud, 270°=Ouest
      */
-    float azimuth
+    Double azimuth
+
+    /**
+     * Température actuelle (°C)
+     */
+    Integer currentTemperature
+
+    /**
+     * Température moyenne (°C)
+     */
+    Integer averageTemperature
+
+    /**
+     * Température minimale (°C)
+     */
+    Integer minTemperature
+
+    /**
+     * Température maximale (°C)
+     */
+    Integer maxTemperature
+
+    /**
+     * Nombre de fois où le modem est tombé en erreur (entre 0 et 3, 3 indique "3 fois ou plus")
+     */
+    Integer modemKOCount
 
     @Override
     String hexaGpsTimeToFix() {
@@ -86,5 +111,30 @@ class FrameData_V2 extends FrameData {
     String hexaSpeed() {
         // FFFFF : Vitesse en km/h entre 0 et 155, pas de 5km/h
         String.format("0b%5s", Integer.toBinaryString((int) (speed / 5d))).replaceAll(' ', '0')
+    }
+
+    String hexaCurrentTemperature() {
+        "0x${data.substring(2, 4).toUpperCase()}"
+    }
+
+    String hexaAverageTemperature() {
+        "0x${data.substring(4, 6).toUpperCase()}"
+    }
+
+    String hexaMinTemperature() {
+        "0x${data.substring(6, 8).toUpperCase()}"
+    }
+
+    String hexaMaxTemperature() {
+        "0x${data.substring(8, 10).toUpperCase()}"
+    }
+
+    @Override
+    String hexaSuperCapacitorProtectCount() {
+        String.format("0b%6s", Integer.toBinaryString(superCapacitorProtectCount)).replaceAll(' ', '0')
+    }
+
+    String hexaModemKOCount() {
+        String.format("0b%2s", Integer.toBinaryString(modemKOCount)).replaceAll(' ', '0')
     }
 }
