@@ -71,7 +71,7 @@
                 <div class="col-md-12">
                     <g:render template="/templates/breadcrumb">
                         <g:render template="/templates/breadcrumb/home"/>
-                        <li class="active">Device ${device.sigfoxId}</li>
+                        <li class="active">${device.name ?: device.sigfoxId}</li>
                     </g:render>
 
 
