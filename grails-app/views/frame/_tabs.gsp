@@ -47,7 +47,7 @@
     <g:if test="${frameData}">
         <table class="table table-hover table-nolineseparator small nomargin">
             <tbody>
-            <g:if test="${frameData.latitude}">
+            <g:if test="${frameData.latitude != null}">
                 <tr>
                     <td align="right" class="col-md-3">Latitude</td>
                     <td class="col-md-6"><g:formatNumber number="${frameData.latitude}" maxFractionDigits="6"/></td>
@@ -59,7 +59,7 @@
                 </tr>
             </g:if>
 
-            <g:if test="${frameData.longitude}">
+            <g:if test="${frameData.longitude != null}">
                 <tr>
                     <td align="right" class="col-md-3">Longitude</td>
                     <td class="col-md-6"><g:formatNumber number="${frameData.longitude}" maxFractionDigits="6"/></td>
