@@ -25,7 +25,7 @@ class DeviceService {
             eq("frameType", FrameType.MESSAGE)
             maxResults(1)
             uniqueResult()
-            sqlRestriction "length(data) = 24 AND data not like '0000000000000000%' order by random()"
+            sqlRestriction "length(data) = 24 AND data not like '0000000000000000%'"
             order("dateCreated", "desc")
         }
     }

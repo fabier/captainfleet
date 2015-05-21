@@ -117,7 +117,7 @@ class FrameService {
             eq("frameType", FrameType.MESSAGE)
             maxResults(1)
             uniqueResult()
-            sqlRestriction "length(data) = 24 AND data not like '0000000000000000%' order by random()"
+            sqlRestriction "length(data) = 24 AND data not like '0000000000000000%'"
             order("dateCreated", "desc")
         }
     }
@@ -130,7 +130,7 @@ class FrameService {
             eq("frameType", FrameType.MESSAGE)
             maxResults(1)
             uniqueResult()
-            sqlRestriction "length(data) = 24 AND data not like '0000000000000000%' order by random()"
+            sqlRestriction "length(data) = 24 AND data not like '0000000000000000%'"
             order("dateCreated", "asc")
         }
     }
@@ -140,7 +140,7 @@ class FrameService {
             eq("device", device)
             eq("duplicate", false)
             eq("frameType", FrameType.MESSAGE)
-            sqlRestriction "length(data) = 24 AND data not like '0000000000000000%' order by random()"
+            sqlRestriction "length(data) = 24 AND data not like '0000000000000000%'"
             order("dateCreated", "asc")
         }
     }
@@ -151,7 +151,7 @@ class FrameService {
             eq("duplicate", false)
             eq("frameType", FrameType.MESSAGE)
             between("dateCreated", dateLowerBound, dateUpperBound)
-            sqlRestriction "length(data) = 24 AND data not like '0000000000000000%' order by random()"
+            sqlRestriction "length(data) = 24 AND data not like '0000000000000000%'"
             order("dateCreated", "asc")
         }
     }
