@@ -3,6 +3,7 @@ package trackr.admin
 import org.springframework.security.access.annotation.Secured
 import trackr.CodeGeneratorService
 import trackr.Device
+import trackr.DeviceService
 import trackr.Frame
 
 @Secured("hasRole('ROLE_ADMIN')")
@@ -11,6 +12,7 @@ class AdminDeviceController {
     static defaultAction = "search"
 
     CodeGeneratorService codeGeneratorService
+    DeviceService deviceService
 
     def search() {
         def devices = Device.createCriteria().list {
@@ -55,9 +57,13 @@ class AdminDeviceController {
 
     def randomCode(long id) {
         Device device = Device.get(id)
-        device.code = codeGeneratorService.newCodeForDevice()
-        device.save()
-        flash.message = "Enregistrement effectué"
-        redirect action: "show", id: id
+        if (deviceService.generateNewUniqueCodeForDevice(device)) {
+            device.save()
+            flash.message = "Enregistrement effectué"
+            redirect action: "show", id: id
+        } else {
+            flash.error = "Impossible de générer un nouveau code pour ce boitier. Veuillez réessayer"
+            redirect action: "show", id: id
+        }
     }
 }

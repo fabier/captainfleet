@@ -9,6 +9,8 @@ import java.text.SimpleDateFormat
 @Transactional
 class ParserService {
 
+    DeviceService deviceService
+
     Double tryParseDouble(String s) {
         Double val = null
         if (s) {
@@ -73,8 +75,17 @@ class ParserService {
             log.warn("No device transmitted to WebService ! (id == null)")
         } else {
             device = Device.findOrSaveBySigfoxId(params.id)
+            if (device.code == null) {
+                if (deviceService.generateNewUniqueCodeForDevice(device)) {
+                    device.save()
+                } else {
+                    log.warn("Impossible to generate a new unique code for device [${device.id}] : ${device.sigfoxId}")
+                }
+            }
             device.deviceState = DeviceState.NORMAL
-            device.save()
+            if (device.isDirty()) {
+                device.save()
+            }
         }
 
         Station station = null

@@ -22,7 +22,7 @@ class Device extends BaseEntity {
     static constraints = {
         sigfoxId nullable: false, unique: true
         deviceState nullable: true
-        code nullable: true
+        code nullable: true, unique: true
         deviceFamily nullable: true
         deviceType nullable: true
     }

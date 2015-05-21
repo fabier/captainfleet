@@ -6,6 +6,7 @@ import grails.transaction.Transactional
 class DeviceService {
 
     DecoderService decoderService
+    CodeGeneratorService codeGeneratorService
 
     Frame lastFrame(Device device) {
         return Frame.createCriteria().get {
@@ -34,7 +35,8 @@ class DeviceService {
             eq("duplicate", false)
             maxResults(1)
             uniqueResult()
-            sqlRestriction "length(data) = 24 AND data not like '0000000000000000%' order by random()" // lat !=0  et long != 0
+            sqlRestriction "length(data) = 24 AND data not like '0000000000000000%' order by random()"
+            // lat !=0  et long != 0
             // http://stackoverflow.com/questions/2810693/hibernate-criteria-api-get-n-random-rows
         }
     }
@@ -56,6 +58,21 @@ class DeviceService {
             uniqueResult()
             sqlRestriction "1=1 order by random()"
             // http://stackoverflow.com/questions/2810693/hibernate-criteria-api-get-n-random-rows
+        }
+    }
+
+    boolean generateNewUniqueCodeForDevice(Device device) {
+        generateNewUniqueCodeForDevice(device, 100)
+    }
+
+    boolean generateNewUniqueCodeForDevice(Device device, int maxTryCount) {
+        device.code = codeGeneratorService.newCodeForDevice()
+        // On limite à maxTryCount le nombre d'essais
+        int tryCount = 0
+        while (!device.validate() && tryCount < maxTryCount) {
+            // Le code doit certainement être doublonné
+            device.code = codeGeneratorService.newCodeForDevice()
+            tryCount++
         }
     }
 }
