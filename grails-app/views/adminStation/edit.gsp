@@ -3,6 +3,21 @@
 <head>
     <meta name='layout' content='admin'/>
     <title>CaptainFleet - Station</title>
+    <script type="application/javascript">
+        $(function () {
+            var map = initMap('map');
+            <g:if test="${mapOptions}">
+            <g:each in="${mapOptions.mapMarkerLayers}" var="mapMarkerLayer">
+            <g:each in="${mapMarkerLayer?.points}" var="point">
+            addPoint(map, ${point.getX()}, ${point.getY()},
+                    "${assetPath(src:mapMarkerLayer.mapMarkerStyle.path)}");
+            </g:each>
+            </g:each>
+            zoomToExtent(map, ${mapOptions.boundingBox.getMinX()}, ${mapOptions.boundingBox.getMinY()},
+                    ${mapOptions.boundingBox.getMaxX()}, ${mapOptions.boundingBox.getMaxY()});
+            </g:if>
+        });
+    </script>
 </head>
 
 <body>
@@ -22,22 +37,26 @@
                 </div>
 
                 <div class="col-md-6">
+                    <div id="map" class="map-station"></div>
+                </div>
+
+                <div class="col-md-6">
                     <g:form action='update' class="form-horizontal" id="${station.id}">
                         <g:hiddenField name="id" value="${station?.id}"/>
                         <g:hiddenField name="version" value="${station?.version}"/>
 
                         <div class="form-group">
-                            <label for="name" class="col-md-2 control-label">Name</label>
+                            <label for="name" class="col-md-4 control-label">Nom</label>
 
-                            <div class="col-md-10">
+                            <div class="col-md-8">
                                 <g:field type="text" name="name" value="${station.name}" class="form-control"/>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label for="sigfoxId" class="col-md-2 control-label">SigFoxId</label>
+                            <label for="sigfoxId" class="col-md-4 control-label">SigFoxId</label>
 
-                            <div class="col-md-10">
+                            <div class="col-md-8">
                                 <g:field type="text" name="sigfoxId" value="${station.sigfoxId}"
                                          class="form-control" disabled="disabled"/>
                             </div>
@@ -51,6 +70,46 @@
                             </div>
                         </div>
                     </g:form>
+                </div>
+            </div>
+
+            <div class="row">
+                <table class="table table-hover small nomargin">
+                    <thead>
+                    <th>#</th>
+                    <th>Data</th>
+                    <th>Date</th>
+                    <th>Signal</th>
+                    <th>RSSI</th>
+                    </thead>
+                    <tbody>
+                    <g:each in="${results}" var="frame">
+                        <tr>
+                            <td>${frame.id}</td>
+                            <td>
+                                ${frame.data}
+                            </td>
+                            <td>
+                                <g:formatDate format="yyyy-MM-dd HH:mm" date="${frame.dateCreated}"/>
+                            </td>
+                            <td>
+                                ${frame.signal} dB
+                            </td>
+                            <td>
+                                ${frame.rssi} dBm
+                            </td>
+                        </tr>
+                    </g:each>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 center-block">
+                    <nav class="text-center">
+                        <g:paginate next="&gt;" prev="&lt;" maxsteps="5" controller="adminStation" id="${station.id}"
+                                    action="edit" total="${totalCount}"/>
+                    </nav>
                 </div>
             </div>
         </div>

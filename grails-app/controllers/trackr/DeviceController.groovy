@@ -71,8 +71,9 @@ class DeviceController {
 
     def update(long id) {
         Device device = Device.get(id)
-        bindData(device, params)
+        bindData(device, params, [include: ["name"]])
         device.save()
+        flash.message = "Enregistrement effectué"
         redirect action: "edit", id: id
     }
 }

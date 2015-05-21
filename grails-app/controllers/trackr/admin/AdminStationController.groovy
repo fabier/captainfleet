@@ -1,12 +1,15 @@
 package trackr.admin
 
 import org.springframework.security.access.annotation.Secured
-import trackr.Station
+import trackr.*
 
 @Secured("hasRole('ROLE_ADMIN')")
 class AdminStationController {
 
     static defaultAction = "search"
+
+    StationService stationService
+    MapService mapService
 
     def search() {
         def stations = Station.createCriteria().list {
@@ -19,17 +22,16 @@ class AdminStationController {
         ]
     }
 
-    def show(long id) {
-        Station station = Station.get(id)
-        render view: "show", model: [
-                station: station
-        ]
-    }
-
     def edit(long id) {
         Station station = Station.get(id)
+        MapOptions mapOptions = mapService.buildFromStation(station)
+        List<Frame> frames = stationService.getFrames(station, [max: params.max ?: 10, offset: params.offset ?: 0, sort: "dateCreated", order: "desc"])
+        int totalCount = stationService.countFrames(station)
         render view: "edit", model: [
-                station: station
+                station   : station,
+                results   : frames,
+                totalCount: totalCount,
+                mapOptions: mapOptions
         ]
     }
 
@@ -45,6 +47,9 @@ class AdminStationController {
 
     def update(long id) {
         Station station = Station.get(id)
-
+        bindData(station, params, [include: ["name"]])
+        station.save()
+        flash.message = "Enregistrement effectué"
+        redirect action: "edit", id: id
     }
 }

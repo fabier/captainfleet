@@ -9,7 +9,9 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <g:link uri="/" class="navbar-brand">CaptainFleet</g:link>
+            <g:link uri="/" class="navbar-brand">
+                CaptainFleet
+            </g:link>
         </div>
 
         <div id="navbar" class="collapse navbar-collapse">
@@ -35,7 +37,7 @@
                                 </g:link>
                             </li>
                             <sec:ifAllGranted roles="ROLE_ADMIN">
-                                %{--<li class="divider"></li>--}%
+                            %{--<li class="divider"></li>--}%
                                 <li>
                                     <g:link controller="admin">
                                         Admin
@@ -57,6 +59,13 @@
                         </g:link>
                     </li>
                 </sec:ifNotLoggedIn>
+                <g:if test="${isAdmin ? "label-danger" : ""}">
+                    <li class="label-danger">
+                        <a>
+                            Administration
+                        </a>
+                    </li>
+                </g:if>
             </ul>
         </div><!--/.nav-collapse -->
     </div>

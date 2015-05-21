@@ -72,10 +72,10 @@
             </g:if>
 
             <g:if test="${frame.frameProtocol == FrameProtocol.V1}">
-                <g:render template="frameV1" model="[frameData: frameData]"/>
+                <g:render template="/frame/frameV1" model="[frameData: frameData]"/>
             </g:if>
             <g:elseif test="${frame.frameProtocol == FrameProtocol.V2}">
-                <g:render template="frameV2" model="[frameData: frameData]"/>
+                <g:render template="/frame/frameV2" model="[frameData: frameData]"/>
             </g:elseif>
         </table>
     </g:if>

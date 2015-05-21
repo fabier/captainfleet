@@ -16,4 +16,8 @@ class Station extends BaseEntity {
         sigfoxId nullable: false, unique: true
         position nullable: true
     }
+
+    int frameCount() {
+        Frame.countByStation(this)
+    }
 }

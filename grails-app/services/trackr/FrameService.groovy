@@ -7,6 +7,8 @@ import grails.util.Pair
 
 @Transactional
 class FrameService {
+    DecoderService decoderService
+    ParserService parserService
 
     /**
      * Retourne tous les doublons d'une frame, sauf lui même.
@@ -158,15 +160,21 @@ class FrameService {
         }
     }
 
-    def checkIfLocationIsAvailable(Frame frame, FrameData frameData) {
+    def updateIfLocationIsAvailableAndCorrect(Frame frame, FrameData frameData) {
         if (frameData?.hasGeolocationData()) {
-            // On met à jour la donnée géolocalisée
-            frame.location = new GeometryFactory().createPoint(new Coordinate(frameData.longitude, frameData.latitude))
+            LatitudeLongitude latitudeLongitude = new LatitudeLongitude(latitude: frameData.latitude,
+                    longitude: frameData.longitude)
+            if (latitudeLongitude.validate()) {
+                // On met à jour la donnée géolocalisée
+                frame.location = new GeometryFactory().createPoint(new Coordinate(frameData.longitude, frameData.latitude))
+            } else {
+                // La position géographique est incohérente, on ne l'enregistre pas
+                frame.location = null
+            }
         }
     }
 
-    def checkDeviceFamilyForFrame(Frame frame, FrameData frameData) {
-        Device device = frame.device
+    def updateDeviceFamilyFromFrameData(Device device, FrameData frameData) {
         if (device != null && device.deviceFamily == null) {
             // La famille de ce device n'est pas renseignée
             if (frameData) {
@@ -175,5 +183,30 @@ class FrameService {
                 device.deviceFamily = DeviceFamily.UNKNOWN
             }
         }
+    }
+
+    def doCreateFrame(Map params, FrameProtocol frameProtocol) {
+        Frame frame = createAndSaveFrameFromParams(frameProtocol, params)
+        FrameData frameData = decoderService.tryDecode(frame)
+        updateDeviceFamilyFromFrameData(frame.device, frameData)
+        updateIfLocationIsAvailableAndCorrect(frame, frameData)
+    }
+
+    Frame createAndSaveFrameFromParams(FrameProtocol frameProtocol, params) {
+        SigFoxWSData sigFoxWSData = parserService.tryParseSigFoxWSData(params)
+
+        new Frame(
+                device: sigFoxWSData.device,
+                time: sigFoxWSData.time,
+                epochTime: sigFoxWSData.epochTime,
+                duplicate: sigFoxWSData.duplicate,
+                signal: sigFoxWSData.signal,
+                station: sigFoxWSData.station,
+                data: sigFoxWSData.data,
+                avgSignal: sigFoxWSData.avgSignal,
+                position: sigFoxWSData.position,
+                rssi: sigFoxWSData.rssi,
+                frameProtocol: frameProtocol
+        ).save()
     }
 }

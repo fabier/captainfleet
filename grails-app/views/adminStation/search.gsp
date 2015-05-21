@@ -40,9 +40,9 @@
                 <table class="table table-hover small nomargin">
                     <thead>
                     <tr>
-                        <th>#</th>
-                        <th>Nom</th>
-                        <th>SigFoxId</th>
+                        <th class="col-md-2">#</th>
+                        <th class="col-md-6">SigFoxId</th>
+                        <th class="col-md-4">Nombre de messages recus</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -50,8 +50,8 @@
                         <tr class="clickable-row"
                             data-href="${createLink(controller: "adminStation", action: "edit", id: station.id)}">
                             <td>${station.id}</td>
-                            <td>${station.name}</td>
                             <td>${station.sigfoxId}</td>
+                            <td>${station.frameCount()}</td>
                         </tr>
                     </g:each>
                     </tbody>

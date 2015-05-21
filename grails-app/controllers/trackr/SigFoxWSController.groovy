@@ -1,7 +1,5 @@
 package trackr
 
-import com.vividsolutions.jts.geom.Coordinate
-import com.vividsolutions.jts.geom.GeometryFactory
 import org.springframework.security.access.annotation.Secured
 
 @Secured("permitAll")
@@ -18,7 +16,7 @@ class SigFoxWSController {
      * @return
      */
     def v1() {
-        doCreateFrame(FrameProtocol.V1)
+        frameService.doCreateFrame(params, FrameProtocol.V1)
         render text: "OK"
     }
 
@@ -27,32 +25,7 @@ class SigFoxWSController {
      * @return
      */
     def v2() {
-        doCreateFrame(FrameProtocol.V2)
+        frameService.doCreateFrame(params, FrameProtocol.V2)
         render text: "OK"
-    }
-
-    def doCreateFrame(FrameProtocol frameProtocol) {
-        Frame frame = createAndSaveFrameFromParams(frameProtocol)
-        FrameData frameData = decoderService.tryDecode(frame)
-        frameService.checkDeviceFamilyForFrame(frame, frameData)
-        frameService.checkIfLocationIsAvailable(frame, frameData)
-    }
-
-    Frame createAndSaveFrameFromParams(FrameProtocol frameProtocol) {
-        SigFoxWSData sigFoxWSData = parserService.tryParseSigFoxWSData(params)
-
-        new Frame(
-                device: sigFoxWSData.device,
-                time: sigFoxWSData.time,
-                epochTime: sigFoxWSData.epochTime,
-                duplicate: sigFoxWSData.duplicate,
-                signal: sigFoxWSData.signal,
-                station: sigFoxWSData.station,
-                data: sigFoxWSData.data,
-                avgSignal: sigFoxWSData.avgSignal,
-                position: sigFoxWSData.position,
-                rssi: sigFoxWSData.rssi,
-                frameProtocol: frameProtocol
-        ).save()
     }
 }

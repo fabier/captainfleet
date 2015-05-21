@@ -12,12 +12,14 @@ class MapService {
     DecoderService decoderService
     DeviceService deviceService
     GeometryFactory geometryFactory
+    StationService stationService
+    ParserService parserService
 
     MapOptions buildFromDevicesUsingLastFrame(def devices) {
         Set<com.vividsolutions.jts.geom.Point> points = new HashSet<>()
         devices.each {
             Frame lastFrame = deviceService.lastFrameWithGeolocation(it)
-            if (lastFrame.location instanceof com.vividsolutions.jts.geom.Point) {
+            if (lastFrame?.location instanceof com.vividsolutions.jts.geom.Point) {
                 points.add(lastFrame.location as com.vividsolutions.jts.geom.Point)
             }
         }
@@ -73,5 +75,16 @@ class MapService {
             geometryFactory = new GeometryFactory()
         }
         geometryFactory
+    }
+
+    MapOptions buildFromStation(Station station) {
+        Set<com.vividsolutions.jts.geom.Point> points = new HashSet<>()
+        List<Frame> frames = stationService.getFramesWithGeolocation(station)
+        frames?.each {
+            if (it?.location instanceof com.vividsolutions.jts.geom.Point) {
+                points.add(it.location as com.vividsolutions.jts.geom.Point)
+            }
+        }
+        return buildUsingPoints(points)
     }
 }
