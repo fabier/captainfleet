@@ -94,10 +94,10 @@ class FrameService {
     }
 
     Pair<Frame, Frame> getPreviousAndNextFrame(Frame frame) {
-//        List<Frame> frames = getFramesForDevice(frame.device)
+//        List<Frame> frames = getFramesForDeviceWithGeolocation(frame.device)
 //        int index = frames.indexOf(frame)
-        Frame previousFrame = getPreviousFrame(frame)
-        Frame nextFrame = getNextFrame(frame)
+        Frame previousFrame = getPreviousFrameWithGeolocation(frame)
+        Frame nextFrame = getNextFrameWithGeolocation(frame)
 //        if (index >= 0) {
 //            if (index - 1 >= 0) {
 //                previousFrame = frames.get(index - 1)
@@ -109,39 +109,49 @@ class FrameService {
         return new Pair(previousFrame, nextFrame)
     }
 
-    Frame getPreviousFrame(Frame frame) {
-        Frame.createCriteria().get {
+    Frame getPreviousFrameWithGeolocation(Frame frame) {
+        return Frame.createCriteria().get {
             lt("id", frame.id)
             eq("device", frame.device)
             eq("duplicate", false)
-            order("dateCreated", "desc")
+            eq("frameType", FrameType.MESSAGE)
             maxResults(1)
+            uniqueResult()
+            sqlRestriction "length(data) = 24 AND data not like '0000000000000000%' order by random()"
+            order("dateCreated", "desc")
         }
     }
 
-    Frame getNextFrame(Frame frame) {
-        Frame.createCriteria().get {
+    Frame getNextFrameWithGeolocation(Frame frame) {
+        return Frame.createCriteria().get {
             gt("id", frame.id)
             eq("device", frame.device)
             eq("duplicate", false)
-            order("dateCreated", "asc")
+            eq("frameType", FrameType.MESSAGE)
             maxResults(1)
-        }
-    }
-
-    List<Frame> getFramesForDevice(Device device) {
-        Frame.withCriteria {
-            eq("device", device)
-            eq("duplicate", false)
+            uniqueResult()
+            sqlRestriction "length(data) = 24 AND data not like '0000000000000000%' order by random()"
             order("dateCreated", "asc")
         }
     }
 
-    List<Frame> getFramesForDevice(Device device, Date dateLowerBound, Date dateUpperBound) {
+    List<Frame> getFramesForDeviceWithGeolocation(Device device) {
         Frame.withCriteria {
             eq("device", device)
             eq("duplicate", false)
+            eq("frameType", FrameType.MESSAGE)
+            sqlRestriction "length(data) = 24 AND data not like '0000000000000000%' order by random()"
+            order("dateCreated", "asc")
+        }
+    }
+
+    List<Frame> getFramesForDeviceWithGeolocation(Device device, Date dateLowerBound, Date dateUpperBound) {
+        Frame.withCriteria {
+            eq("device", device)
+            eq("duplicate", false)
+            eq("frameType", FrameType.MESSAGE)
             between("dateCreated", dateLowerBound, dateUpperBound)
+            sqlRestriction "length(data) = 24 AND data not like '0000000000000000%' order by random()"
             order("dateCreated", "asc")
         }
     }

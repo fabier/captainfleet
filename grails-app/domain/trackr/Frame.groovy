@@ -1,39 +1,76 @@
 package trackr
 
+import com.vividsolutions.jts.geom.Geometry
+
 class Frame extends BaseDomain {
 
-    // Device emetteur du message
+    /**
+     * Device emetteur du message
+     */
     Device device
 
     // Station qui a recu le message
+    /**
+     *
+     */
     Station station
 
-    // Protocole utilisé par cette trame
+    /**
+     * Version de protocole utilisé par cette trame
+     */
     FrameProtocol frameProtocol
 
-    // Donnée utile
+    /**
+     * Type de trame (trame de donnée ou trame de service)
+     */
+    FrameType frameType
+
+    /**
+     * Donnée utile contenue dans le message
+     */
     String data
 
-    // Date et heure de reception du message
+    /**
+     * Date et heure de reception du message
+     */
     Date time
 
-    // Date et heure de reception du message (format epoch tel que recu du webservice)
+    /**
+     * Date et heure de reception du message (format epoch tel que recu du webservice)
+     */
     Long epochTime
 
-    // true si ce message est un doublon
+    /**
+     * Indicateur de doublon
+     * True si ce message est un doublon (message déjà recu par une autre station de base)
+     */
     Boolean duplicate
 
-    // Signal envoyé
+    /**
+     * Signal envoyé
+     */
     Float signal
 
-    // Signal moyen
+    /**
+     * Signal moyen
+     */
     Float avgSignal
 
-    // Localisation approximative du signal envoyé
+    /**
+     * Localisation approximative du signal envoyé
+     * Localisation effectuée par triangularisation des stations de base SigFox
+     */
     Point position
 
-    // Received Signal Strength Indication, en dB
+    /**
+     * Received Signal Strength Indication, en dB
+     */
     Float rssi
+
+    /**
+     * Position exacte (donnée envoyée par le GPS)
+     */
+    Geometry location
 
     static hasOne = [device: Device]
 
@@ -41,6 +78,7 @@ class Frame extends BaseDomain {
         device nullable: true
         time nullable: true
         frameProtocol nullable: true
+        frameType nullable: true
         epochTime nullable: true
         duplicate nullable: true
         signal nullable: true
@@ -49,6 +87,7 @@ class Frame extends BaseDomain {
         avgSignal nullable: true
         position nullable: true
         rssi nullable: true
+        location nullable: true
         dateCreated nullable: true
         lastUpdated nullable: true
     }

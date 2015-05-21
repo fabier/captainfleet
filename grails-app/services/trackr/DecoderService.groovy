@@ -84,7 +84,8 @@ class DecoderService {
                         superCapacitorVoltage: superCapacitorVoltage,
                         superCapacitorProtectCount: superCapacitorProtectCount,
                         isDay: isDay,
-                        frameCount: frameCount
+                        frameCount: frameCount,
+                        frameType: FrameType.MESSAGE
                 )
             }
         } catch (Exception e) {
@@ -152,7 +153,8 @@ class DecoderService {
                             minTemperature: minTemperature,
                             maxTemperature: maxTemperature,
                             superCapacitorProtectCount: superCapacitorProtectCount,
-                            modemKOCount: modemKOCount
+                            modemKOCount: modemKOCount,
+                            frameType: FrameType.SERVICE
                     )
                 } else {
                     // On ne sait pas décoder
@@ -217,7 +219,8 @@ class DecoderService {
                             hdop: hdop,
                             satelliteCount: satelliteCount,
                             speed: speed,
-                            azimuth: azimuth
+                            azimuth: azimuth,
+                            frameType: FrameType.MESSAGE
                     )
                 } else {
                     // On ne sait pas décoder

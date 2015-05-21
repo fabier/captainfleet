@@ -1,8 +1,11 @@
+import com.vividsolutions.jts.geom.Coordinate
+import com.vividsolutions.jts.geom.GeometryFactory
 import trackr.*
 
 class BootStrap {
 
     CodeGeneratorService codeGeneratorService
+    DecoderService decoderService
 
     def init = { servletContext ->
         def adminRole = Role.findByAuthority('ROLE_ADMIN') ?: new Role(authority: "ROLE_ADMIN").save(failOnError: true, flush: true)
@@ -35,6 +38,19 @@ class BootStrap {
         }
 
         Frame.executeUpdate("Update Frame set frameProtocol = :frameProtocol where frameProtocol is null", [frameProtocol: FrameProtocol.V1])
+
+        GeometryFactory geometryFactory = new GeometryFactory()
+        Frame.findAllByLocation(null).each {
+            FrameData frameData = decoderService.tryDecode(it)
+            if (frameData?.hasGeolocationData()) {
+                // On met à jour la donnée géolocalisée
+                it.location = geometryFactory.createPoint(new Coordinate(frameData.longitude, frameData.latitude))
+            } else {
+                // Pas de donnée géolocalisée
+            }
+            it.frameType = frameData?.frameType
+            it.save()
+        }
     }
 
     def destroy = {

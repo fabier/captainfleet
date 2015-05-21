@@ -18,6 +18,18 @@ class DeviceService {
         }
     }
 
+    Frame lastFrameWithGeolocation(Device device) {
+        return Frame.createCriteria().get {
+            eq("device", device)
+            eq("duplicate", false)
+            eq("frameType", FrameType.MESSAGE)
+            maxResults(1)
+            uniqueResult()
+            sqlRestriction "length(data) = 24 AND data not like '0000000000000000%' order by random()"
+            order("dateCreated", "desc")
+        }
+    }
+
     Frame randomFrame(Device device) {
         return Frame.createCriteria().get {
             eq("device", device)
@@ -33,6 +45,7 @@ class DeviceService {
         return Frame.createCriteria().get {
             eq("device", device)
             eq("duplicate", false)
+            eq("frameType", FrameType.MESSAGE)
             maxResults(1)
             uniqueResult()
             sqlRestriction "length(data) = 24 AND data not like '0000000000000000%' order by random()"

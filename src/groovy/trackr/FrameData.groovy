@@ -49,6 +49,11 @@ abstract class FrameData {
      */
     Integer superCapacitorProtectCount
 
+    /**
+     * Type de trame
+     */
+    FrameType frameType
+
     String hexaLatitude() {
         "0x${data.substring(0, 8).toUpperCase()}"
     }

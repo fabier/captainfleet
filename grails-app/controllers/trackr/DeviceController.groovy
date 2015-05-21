@@ -36,7 +36,7 @@ class DeviceController {
         }
         Date dateLowerBound = DateUtils.truncate(date, Calendar.DAY_OF_MONTH)
         Date dateUpperBound = DateUtils.addDays(dateLowerBound, 1)
-        def frames = frameService.getFramesForDevice(device, dateLowerBound, dateUpperBound)
+        def frames = frameService.getFramesForDeviceWithGeolocation(device, dateLowerBound, dateUpperBound)
         List<FrameData> frameDataList = new ArrayList()
         GeometryFactory geometryFactory = new GeometryFactory()
         Set<com.vividsolutions.jts.geom.Point> points = new HashSet<>()
