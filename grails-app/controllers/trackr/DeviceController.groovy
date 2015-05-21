@@ -1,7 +1,5 @@
 package trackr
 
-import com.vividsolutions.jts.geom.Coordinate
-import com.vividsolutions.jts.geom.GeometryFactory
 import org.apache.commons.lang3.time.DateUtils
 import org.springframework.security.access.annotation.Secured
 
@@ -10,6 +8,7 @@ class DeviceController {
 
     DecoderService decoderService
     FrameService frameService
+    DeviceService deviceService
     ParserService parserService
     MapService mapService
 
@@ -25,28 +24,19 @@ class DeviceController {
         Device device = Device.get(id)
         Date date = parserService.tryParseDate(params.date)
         if (date == null) {
-            Frame lastFrame = Frame.createCriteria().get {
-                eq("device", device)
-                eq("duplicate", false)
-                maxResults(1)
-                uniqueResult()
-                order("dateCreated", "desc")
-            }
+            Frame lastFrame = deviceService.lastFrame(device)
             date = lastFrame?.dateCreated ?: new Date()
         }
         Date dateLowerBound = DateUtils.truncate(date, Calendar.DAY_OF_MONTH)
         Date dateUpperBound = DateUtils.addDays(dateLowerBound, 1)
         def frames = frameService.getFramesForDeviceWithGeolocation(device, dateLowerBound, dateUpperBound)
-        List<FrameData> frameDataList = new ArrayList()
-        GeometryFactory geometryFactory = new GeometryFactory()
+        List<Frame> framesWithGeolocation = new ArrayList()
         Set<com.vividsolutions.jts.geom.Point> points = new HashSet<>()
         frames?.each {
-            FrameData frameData = decoderService.tryDecode(it)
-            if (frameData) {
-                if (frameData?.hasGeolocationData()) {
-                    frameDataList.add(frameData)
-                    points.add(geometryFactory.createPoint(new Coordinate(frameData.longitude, frameData.latitude)))
-                }
+            if (it.location instanceof com.vividsolutions.jts.geom.Point) {
+                points.add(it.location as com.vividsolutions.jts.geom.Point)
+                framesWithGeolocation.add(it)
+                ((com.vividsolutions.jts.geom.Point)it.location).getX()
             }
         }
         MapOptions mapOptions = mapService.buildUsingPoints(points)
@@ -61,14 +51,14 @@ class DeviceController {
         def nextDay = calendar.getTime()
 
         render view: "map", model: [
-                device       : device,
-                date         : date,
-                previousDay  : previousDay,
-                nextDay      : nextDay,
-                now          : new Date(),
-                frames       : frames,
-                frameDataList: frameDataList,
-                mapOptions   : mapOptions
+                device               : device,
+                date                 : date,
+                previousDay          : previousDay,
+                nextDay              : nextDay,
+                now                  : new Date(),
+                frames               : frames,
+                framesWithGeolocation: framesWithGeolocation,
+                mapOptions           : mapOptions
         ]
     }
 

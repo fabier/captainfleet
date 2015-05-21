@@ -28,8 +28,9 @@
             var map = initMap('map');
             <g:if test="${mapOptions}">
             var markers = [];
-            <g:each in="${frameDataList}" var="frameData" status="i">
-            markers[${i}] = ol.proj.transform([${frameData.longitude}, ${frameData.latitude}], 'EPSG:4326', 'EPSG:3857');
+            <g:each in="${framesWithGeolocation}" var="frameWithGeolocation" status="i">
+            markers[${i}] = ol.proj.transform([${frameWithGeolocation.location?.getX()}, ${frameWithGeolocation.location?.getY()}],
+                    'EPSG:4326', 'EPSG:3857');
             </g:each>
             var lineFeature = new ol.Feature({
                 geometry: new ol.geom.LineString(markers, 'XY'),
@@ -52,11 +53,13 @@
             map.addLayer(layerLines);
 
             <g:each in="${mapOptions.mapMarkerLayers}" var="mapMarkerLayer">
-            <g:if test="${!frameDataList.isEmpty()}">
-            addPoint(map, ${frameDataList.first().longitude}, ${frameDataList.first().latitude},
+            <g:if test="${!framesWithGeolocation.isEmpty()}">
+            addPoint(map, ${framesWithGeolocation.first().location?.getX()}, ${framesWithGeolocation.first().location?.getY()},
                     "${assetPath(src:mapMarkerLayer.mapMarkerStyle.path)}");
-            addPoint(map, ${frameDataList.last().longitude}, ${frameDataList.last().latitude},
+            <g:if test="${framesWithGeolocation.size()>1}" >
+            addPoint(map, ${framesWithGeolocation.last().location?.getX()}, ${framesWithGeolocation.last().location?.getY()},
                     "${assetPath(src:mapMarkerLayer.mapMarkerStyle.path)}");
+            </g:if>
             </g:if>
             </g:each>
             zoomToExtent(map, ${mapOptions.boundingBox.getMinX()}, ${mapOptions.boundingBox.getMinY()},

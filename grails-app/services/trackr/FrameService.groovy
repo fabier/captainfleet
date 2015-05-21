@@ -1,5 +1,7 @@
 package trackr
 
+import com.vividsolutions.jts.geom.Coordinate
+import com.vividsolutions.jts.geom.GeometryFactory
 import grails.transaction.Transactional
 import grails.util.Pair
 
@@ -115,9 +117,9 @@ class FrameService {
             eq("device", frame.device)
             eq("duplicate", false)
             eq("frameType", FrameType.MESSAGE)
+            isNotNull("location")
             maxResults(1)
             uniqueResult()
-            sqlRestriction "length(data) = 24 AND data not like '0000000000000000%'"
             order("dateCreated", "desc")
         }
     }
@@ -128,9 +130,9 @@ class FrameService {
             eq("device", frame.device)
             eq("duplicate", false)
             eq("frameType", FrameType.MESSAGE)
+            isNotNull("location")
             maxResults(1)
             uniqueResult()
-            sqlRestriction "length(data) = 24 AND data not like '0000000000000000%'"
             order("dateCreated", "asc")
         }
     }
@@ -140,7 +142,7 @@ class FrameService {
             eq("device", device)
             eq("duplicate", false)
             eq("frameType", FrameType.MESSAGE)
-            sqlRestriction "length(data) = 24 AND data not like '0000000000000000%'"
+            isNotNull("location")
             order("dateCreated", "asc")
         }
     }
@@ -150,9 +152,28 @@ class FrameService {
             eq("device", device)
             eq("duplicate", false)
             eq("frameType", FrameType.MESSAGE)
+            isNotNull("location")
             between("dateCreated", dateLowerBound, dateUpperBound)
-            sqlRestriction "length(data) = 24 AND data not like '0000000000000000%'"
             order("dateCreated", "asc")
+        }
+    }
+
+    def checkIfLocationIsAvailable(Frame frame, FrameData frameData) {
+        if (frameData?.hasGeolocationData()) {
+            // On met à jour la donnée géolocalisée
+            frame.location = new GeometryFactory().createPoint(new Coordinate(frameData.longitude, frameData.latitude))
+        }
+    }
+
+    def checkDeviceFamilyForFrame(Frame frame, FrameData frameData) {
+        Device device = frame.device
+        if (device != null && device.deviceFamily == null) {
+            // La famille de ce device n'est pas renseignée
+            if (frameData) {
+                device.deviceFamily = DeviceFamily.TRACKER
+            } else {
+                device.deviceFamily = DeviceFamily.UNKNOWN
+            }
         }
     }
 }

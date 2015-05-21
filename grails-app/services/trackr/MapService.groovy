@@ -17,11 +17,8 @@ class MapService {
         Set<com.vividsolutions.jts.geom.Point> points = new HashSet<>()
         devices.each {
             Frame lastFrame = deviceService.lastFrameWithGeolocation(it)
-            FrameData frameData = decoderService.tryDecode(lastFrame)
-            if (frameData) {
-                if (frameData?.hasGeolocationData()) {
-                    points.add(getGeometryFactory().createPoint(new Coordinate(frameData.longitude, frameData.latitude)))
-                }
+            if (lastFrame.location instanceof com.vividsolutions.jts.geom.Point) {
+                points.add(lastFrame.location as com.vividsolutions.jts.geom.Point)
             }
         }
         return buildUsingPoints(points)
@@ -60,9 +57,8 @@ class MapService {
         Set<com.vividsolutions.jts.geom.Point> points = new HashSet<>()
         devices.each {
             Frame randomFrameWithGeolocation = deviceService.randomFrameWithGeolocation(it)
-            if (randomFrameWithGeolocation != null) {
-                FrameData frameData = decoderService.tryDecode(randomFrameWithGeolocation)
-                points.add(getGeometryFactory().createPoint(new Coordinate(frameData.longitude, frameData.latitude)))
+            if (randomFrameWithGeolocation?.location instanceof com.vividsolutions.jts.geom.Point) {
+                points.add(randomFrameWithGeolocation.location as com.vividsolutions.jts.geom.Point)
             }
         }
         if (points.isEmpty()) {

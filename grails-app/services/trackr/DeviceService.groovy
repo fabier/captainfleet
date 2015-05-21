@@ -23,9 +23,9 @@ class DeviceService {
             eq("device", device)
             eq("duplicate", false)
             eq("frameType", FrameType.MESSAGE)
+            isNotNull("location")
             maxResults(1)
             uniqueResult()
-            sqlRestriction "length(data) = 24 AND data not like '0000000000000000%'"
             order("dateCreated", "desc")
         }
     }
@@ -46,9 +46,10 @@ class DeviceService {
             eq("device", device)
             eq("duplicate", false)
             eq("frameType", FrameType.MESSAGE)
+            isNotNull("location")
             maxResults(1)
             uniqueResult()
-            sqlRestriction "length(data) = 24 AND data not like '0000000000000000%' order by random()"
+            sqlRestriction "1 = 1 order by random()"
             // lat !=0  et long != 0
             // http://stackoverflow.com/questions/2810693/hibernate-criteria-api-get-n-random-rows
         }

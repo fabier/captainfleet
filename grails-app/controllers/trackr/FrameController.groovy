@@ -1,7 +1,5 @@
 package trackr
 
-import com.vividsolutions.jts.geom.Coordinate
-import com.vividsolutions.jts.geom.GeometryFactory
 import org.springframework.security.access.annotation.Secured
 
 @Secured("hasRole('ROLE_USER')")
@@ -24,12 +22,9 @@ class FrameController {
         Frame frame = Frame.get(id)
         FrameData frameData = decoderService.tryDecode(frame)
         MapOptions mapOptions
-        Set<com.vividsolutions.jts.geom.Point> points
-        if (frameData) {
-            if (frameData?.hasGeolocationData()) {
-                GeometryFactory geometryBuilder = new GeometryFactory();
-                points = [geometryBuilder.createPoint(new Coordinate(frameData.longitude, frameData.latitude))]
-            }
+        Set<com.vividsolutions.jts.geom.Point> points = new HashSet<>()
+        if (frame.location instanceof com.vividsolutions.jts.geom.Point) {
+            points.add(frame.location as com.vividsolutions.jts.geom.Point)
         }
         mapOptions = mapService.buildUsingPoints(points)
 

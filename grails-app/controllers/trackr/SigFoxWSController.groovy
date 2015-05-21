@@ -1,5 +1,7 @@
 package trackr
 
+import com.vividsolutions.jts.geom.Coordinate
+import com.vividsolutions.jts.geom.GeometryFactory
 import org.springframework.security.access.annotation.Secured
 
 @Secured("permitAll")
@@ -9,6 +11,7 @@ class SigFoxWSController {
 
     ParserService parserService
     DecoderService decoderService
+    FrameService frameService
 
     /**
      * // http://pfabier.no-ip.org/trackr/sigfoxws/v1?id=89C3&device=89C3&time=1427469936&duplicate=false&signal=22.13&station=0402&data=02951a600013efca29f8c23a&avgSignal=24.83&lat=44&lng=2&rssi=-114.50
@@ -29,23 +32,13 @@ class SigFoxWSController {
     }
 
     def doCreateFrame(FrameProtocol frameProtocol) {
-        Frame frame = createFrameFromParams(frameProtocol)
-        checkDeviceFamilyForFrame(frame)
+        Frame frame = createAndSaveFrameFromParams(frameProtocol)
+        FrameData frameData = decoderService.tryDecode(frame)
+        frameService.checkDeviceFamilyForFrame(frame, frameData)
+        frameService.checkIfLocationIsAvailable(frame, frameData)
     }
 
-    def checkDeviceFamilyForFrame(Frame frame) {
-        Device device = frame.device
-        if (device != null && device.deviceFamily == null) {
-            FrameData frameData = decoderService.tryDecode(frame)
-            if (frameData) {
-                device.deviceFamily = DeviceFamily.TRACKER
-            } else {
-                device.deviceFamily = DeviceFamily.UNKNOWN
-            }
-        }
-    }
-
-    Frame createFrameFromParams(FrameProtocol frameProtocol) {
+    Frame createAndSaveFrameFromParams(FrameProtocol frameProtocol) {
         SigFoxWSData sigFoxWSData = parserService.tryParseSigFoxWSData(params)
 
         new Frame(
