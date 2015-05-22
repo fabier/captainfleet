@@ -11,18 +11,13 @@ class CommonController {
     DecoderService decoderService
     MapService mapService
     DeviceService deviceService
+    UtilService utilService
 
     def index() {
         User user = springSecurityService.currentUser
-        def devices = UserDevice.findAllByUser(user)*.device?.sort { a, b ->
-            if (a.name == null) {
-                1
-            } else if (b.name == null) {
-                -1
-            } else {
-                a.name.compareTo(b.name)
-            }
-        }
+        List<Device> devices = deviceService.getByUser(user)
+        utilService.sortBaseEntities(devices)
+
         if (devices == null || devices.isEmpty()) {
             // Pas de device pour cet utilisateur, on lui affiche des valeurs "aléatoires"
             def devicesToFillMap = Device.findAllByDeviceState(DeviceState.NORMAL)

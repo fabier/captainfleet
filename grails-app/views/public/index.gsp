@@ -4,19 +4,24 @@
     <meta name="layout" content="map"/>
     <title>CaptainFleet - Accueil</title>
     <script type="application/javascript">
+        var map; // global so we can access it later
         $(function () {
             map = initMap('map');
             selectLayer(map, "Stamen Watercolor");
-            <g:each in="${mapOptions?.mapMarkerLayers}" var="mapMarkerLayer">
+            <g:if test="${mapOptions}">
+            <g:each in="${mapOptions.mapMarkerLayers}" var="mapMarkerLayer">
             <g:each in="${mapMarkerLayer?.points}" var="point">
             addPoint(map, ${point.getCoordinate().getOrdinate(0)}, ${point.getCoordinate().getOrdinate(1)},
                     "${assetPath(src:mapMarkerLayer.mapMarkerStyle.path)}");
             </g:each>
             </g:each>
+            <g:if test="${mapOptions.boundingBox}">
             zoomToExtent(map, ${mapOptions.boundingBox.getMinX()}, ${mapOptions.boundingBox.getMinY()},
                     ${mapOptions.boundingBox.getMaxX()}, ${mapOptions.boundingBox.getMaxY()});
             var zoomLevel = map.getView().getZoom() / 3;
             map.getView().setZoom(zoomLevel);
+            </g:if>
+            </g:if>
         });
     </script>
 </head>

@@ -4,8 +4,9 @@
     <meta name="layout" content="map"/>
     <title>CaptainFleet - Trame</title>
     <script type="application/javascript">
+        var map; // global so we can access it later
         $(function () {
-            var map = initMap('map');
+            map = initMap('map');
             <g:if test="${mapOptions}">
             <g:each in="${mapOptions.mapMarkerLayers}" var="mapMarkerLayer">
             <g:if test="${frame?.location}" >

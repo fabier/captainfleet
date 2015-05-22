@@ -17,6 +17,6 @@ class UserDevice extends BaseDomain {
 
     static UserDevice create(User user, Device device, boolean flush = false) {
         def instance = new UserDevice(user: user, device: device)
-        instance.save(flush: flush, insert: true)
+        instance.save(flush: flush)
     }
 }

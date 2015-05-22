@@ -9,6 +9,7 @@
     <link rel="apple-touch-icon" href="${assetPath(src: 'apple-touch-icon.png')}">
     <link rel="apple-touch-icon" sizes="114x114" href="${assetPath(src: 'apple-touch-icon-retina.png')}">
     <asset:stylesheet src="application.css"/>
+    <asset:javascript src="application.js"/>
     <g:layoutHead/>
 </head>
 
@@ -22,7 +23,6 @@
 
 <g:render template="/templates/footer"/>
 
-<asset:javascript src="application.js"/>
 <asset:deferredScripts/>
 </body>
 </html>

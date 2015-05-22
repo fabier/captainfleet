@@ -20,11 +20,6 @@ class AccountController {
         render view: "devices", model: [devices: devices]
     }
 
-    def alerts() {
-        User user = springSecurityService.currentUser
-        render view: "alerts", model: [user: user]
-    }
-
     def preferences() {
         User user = springSecurityService.currentUser
         render view: "preferences", model: [user: user]

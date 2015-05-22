@@ -1,5 +1,5 @@
 <ul class="nav nav-pills nav-stacked lateral-menu">
-    <li role="presentation" class="${actionName == 'index' ? "active" : ""}">
+    <li role="presentation" class="${controllerName == "account" && actionName == 'index' ? "active" : ""}">
         <g:link controller="account" action="index" class="lateral-menu">
             <i class="glyphicon glyphicon-user"></i>
             Mon compte
@@ -11,8 +11,8 @@
             Terminaux
         </g:link>
     </li>
-    <li role="presentation" class="${controllerName == "alert" || actionName == 'alerts' ? "active" : ""}">
-        <g:link controller="account" action="alerts" class="lateral-menu">
+    <li role="presentation" class="${controllerName == "alert" && actionName == 'index' ? "active" : ""}">
+        <g:link controller="alert" action="index" class="lateral-menu">
             <i class="glyphicon glyphicon-bell"></i>
             Alertes
         </g:link>
