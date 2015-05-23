@@ -36,14 +36,6 @@
                                     Mon Compte
                                 </g:link>
                             </li>
-                            <sec:ifAllGranted roles="ROLE_ADMIN">
-                            %{--<li class="divider"></li>--}%
-                                <li>
-                                    <g:link controller="admin">
-                                        Admin
-                                    </g:link>
-                                </li>
-                            </sec:ifAllGranted>
                             <li>
                                 <g:link controller="logout" action="index">
                                     Logout
@@ -51,6 +43,13 @@
                             </li>
                         </ul>
                     </li>
+                    <sec:ifAllGranted roles="ROLE_ADMIN">
+                        <li class="${backofficeAdminPage ? "label-danger" : ""}">
+                            <g:link controller="admin">
+                                Administration
+                            </g:link>
+                        </li>
+                    </sec:ifAllGranted>
                 </sec:ifLoggedIn>
                 <sec:ifNotLoggedIn>
                     <li class="${controllerName in ['login', 'register'] ? "active" : ""}">
@@ -59,13 +58,6 @@
                         </g:link>
                     </li>
                 </sec:ifNotLoggedIn>
-                <g:if test="${isAdmin ? "label-danger" : ""}">
-                    <li class="label-danger">
-                        <a>
-                            Administration
-                        </a>
-                    </li>
-                </g:if>
             </ul>
         </div><!--/.nav-collapse -->
     </div>

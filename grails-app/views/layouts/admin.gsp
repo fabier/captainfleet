@@ -15,15 +15,12 @@
 
 <body>
 
-<g:render template="/templates/header" model="[isAdmin: true]"/>
-
-%{--<g:render template="/templates/admin/header"/>--}%
+<g:render template="/templates/header" model="[backofficeAdminPage: true]"/>
 
 <g:layoutBody/>
 
 <g:render template="/templates/footer"/>
 
-<asset:javascript src="application.js"/>
 <asset:deferredScripts/>
 </body>
 </html>

@@ -48,16 +48,18 @@
                     <table class="table table-hover small nomargin">
                         <thead>
                         <tr>
-                            <th>#</th>
-                            <th>Nom</th>
+                            <th class="col-md-2">#</th>
+                            <th class="col-md-4">Type</th>
+                            <th class="col-md-6">Nombre de points</th>
                         </tr>
                         </thead>
                         <tbody>
                         <g:each in="${results}" var="alert">
                             <tr class="clickable-row"
-                                data-href="${createLink(action: "edit", id: alert.id)}">
+                                data-href="${createLink(action: "show", id: alert.id)}">
                                 <td>${alert.id}</td>
-                                <td>${alert.name}</td>
+                                <td>${alert.geometry?.getGeometryType()}</td>
+                                <td>${alert.geometry?.getNumPoints()}</td>
                             </tr>
                         </g:each>
                         </tbody>

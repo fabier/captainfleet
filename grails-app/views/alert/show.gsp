@@ -27,32 +27,15 @@
         var draw; // global so we can remove it later
         var source = new ol.source.Vector(); // source contient les source des features dessinées
 
-        function addInteraction() {
-            var value = 'Polygon';
-            if (value !== 'None') {
-                draw = new ol.interaction.Draw({
-                    source: source,
-                    type: 'Polygon'
-                });
-                map.addInteraction(draw);
-                draw.on('drawend', function (evt) {
-                    var format = new ol.format.WKT();
-                    var features = source.getFeatures();
-                    for (var i in features) {
-                        var feature = features[i];
-                        var geometry = feature.getGeometry().clone();
-                        geometry = geometry.transform('EPSG:3857', 'EPSG:4326');
-                        var geometryAsWKT = format.writeGeometry(geometry);
-                        $('#wkt').val(geometryAsWKT);
-                        $('#createAlertUsingGeometryForm').submit();
-                    }
-                });
-            }
-        }
-
         $(function () {
+            var format = new ol.format.WKT();
+            var feature = format.readFeature('${wktGeometry}');
+            feature.getGeometry().transform('EPSG:4326', 'EPSG:3857');
+
             var vector = new ol.layer.Vector({
-                source: source,
+                source: new ol.source.Vector({
+                    features: [feature]
+                }),
                 style: new ol.style.Style({
                     fill: new ol.style.Fill({
                         color: 'rgba(255, 255, 255, 0.4)'
@@ -71,8 +54,6 @@
             });
 
             map.addLayer(vector);
-
-            addInteraction();
         });
     </script>
 </head>

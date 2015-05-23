@@ -15,8 +15,8 @@ class UserAlert extends BaseDomain {
         user nullable: false, unique: ['alert']
     }
 
-    static UserAlert create(User user, Alert device, boolean flush = false) {
-        def instance = new UserAlert(user: user, device: device)
+    static UserAlert create(User user, Alert alert, boolean flush = false) {
+        def instance = new UserAlert(user: user, alert: alert)
         instance.save(flush: flush)
     }
 }
