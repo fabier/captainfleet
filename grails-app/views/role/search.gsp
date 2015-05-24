@@ -39,7 +39,7 @@
 
             <g:if test="${searched}">
                 <div class="row">
-                    <table class="table table-hover small nomargin">
+                    <table class="table table-hover small nomargin-left-right">
                         <thead>
                         <tr>
                             <th>

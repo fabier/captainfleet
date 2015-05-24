@@ -117,7 +117,7 @@
                         </p>
                     </g:if>
                     <g:else>
-                        <table class="table table-hover small nomargin">
+                        <table class="table table-hover small nomargin-left-right">
                             <thead>
                             <th>#</th>
                             <th>Date</th>

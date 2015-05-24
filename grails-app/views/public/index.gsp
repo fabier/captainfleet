@@ -39,7 +39,7 @@
     <div class="homepage-header-right">
         <div class="container">
             <div class="row">
-                <div class="jumbotron header-background nomargin">
+                <div class="jumbotron header-background nomargin-left-right">
                     <div class="container">
                         <div class="row">
                             <div class="col-md-8">

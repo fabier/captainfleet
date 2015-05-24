@@ -1,5 +1,5 @@
 <!-- Fixed navbar -->
-<nav class="navbar navbar-default navbar-fixed-top">
+<nav class="navbar navbar-default navbar-fixed-top ${backofficeAdminPage ? "bg-danger" : ""}">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
@@ -9,8 +9,8 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <g:link uri="/" class="navbar-brand">
-                CaptainFleet
+            <g:link uri="/" class="navbar-brand danger">
+                CaptainFleet${backofficeAdminPage ? " Administration" : ""}
             </g:link>
         </div>
 
@@ -27,29 +27,16 @@
                     </g:link>
                 </li>
                 <sec:ifLoggedIn>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                           aria-expanded="false">Mon compte <span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li>
-                                <g:link controller="account">
-                                    Mon Compte
-                                </g:link>
-                            </li>
-                            <li>
-                                <g:link controller="logout" action="index">
-                                    Logout
-                                </g:link>
-                            </li>
-                        </ul>
+                    <li class="${controllerName in ["account", "alert"] ? "active" : ""}">
+                        <g:link controller="account">
+                            Mon Compte
+                        </g:link>
                     </li>
-                    <sec:ifAllGranted roles="ROLE_ADMIN">
-                        <li class="${backofficeAdminPage ? "label-danger" : ""}">
-                            <g:link controller="admin">
-                                Administration
-                            </g:link>
-                        </li>
-                    </sec:ifAllGranted>
+                    <li>
+                        <g:link controller="logout" action="index" title="Logout">
+                            <i class="glyphicon glyphicon-log-out"></i>
+                        </g:link>
+                    </li>
                 </sec:ifLoggedIn>
                 <sec:ifNotLoggedIn>
                     <li class="${controllerName in ['login', 'register'] ? "active" : ""}">

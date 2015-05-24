@@ -10,7 +10,7 @@
 <div class="tab-content">
     <g:each in="${frames}" var="f" status="i">
         <div class="tab-pane ${i == 0 ? "active" : ""}" id="station-${f.stationId}">
-            <table class="table table-hover table-nolineseparator small nomargin">
+            <table class="table table-hover table-nolineseparator small nomargin-left-right">
                 <tbody>
                 <tr>
                     <td align="right" class="col-md-3">Signal</td>
@@ -45,7 +45,7 @@
     </g:each>
 
     <g:if test="${frameData}">
-        <table class="table table-hover table-nolineseparator small nomargin">
+        <table class="table table-hover table-nolineseparator small nomargin-left-right">
             <tbody>
             <g:if test="${frameData.latitude != null}">
                 <tr>

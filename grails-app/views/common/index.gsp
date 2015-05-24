@@ -30,7 +30,7 @@
             <g:if test="${devices}">
                 <div class="row">
                     <div class="col-md-12">
-                        <table class="table table-hover small nomargin">
+                        <table class="table table-hover small nomargin-left-right">
                             <thead>
                             <th>#</th>
                             <th>Nom du boitier</th>
@@ -49,15 +49,6 @@
                         </table>
                     </div>
                 </div>
-
-                <div class="row">
-                    <div class="col-md-12">
-                        <g:link controller="account" action="devices" class="btn btn-primary"
-                                title="Ajouter un nouveau boitier">
-                            <i class="glyphicon glyphicon-plus-sign"></i>
-                        </g:link>
-                    </div>
-                </div>
             </g:if>
             <g:else>
                 <div class="row">
@@ -67,16 +58,9 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="row">
-                    <div class="col-md-12">
-                        <g:link controller="account" action="devices" class="btn btn-primary">
-                            <i class="glyphicon glyphicon-plus-sign"></i>
-                            Ajouter un nouveau boitier
-                        </g:link>
-                    </div>
-                </div>
             </g:else>
+            <
+            <g:render template="addDevice"/>
         </div>
 
         <g:render template="/templates/map8col"/>

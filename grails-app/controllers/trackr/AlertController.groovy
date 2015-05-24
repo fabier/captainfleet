@@ -6,6 +6,8 @@ import com.vividsolutions.jts.io.WKTWriter
 import grails.plugin.springsecurity.SpringSecurityService
 import org.springframework.security.access.annotation.Secured
 
+import java.util.regex.Pattern
+
 @Secured("hasRole('ROLE_USER')")
 class AlertController {
 
@@ -22,6 +24,12 @@ class AlertController {
     def index() {
         User user = springSecurityService.currentUser
         List<Alert> alerts = alertService.getAlertsForUser(user)
+        if (params.name) {
+            Pattern pattern = Pattern.compile(".*${params.name}.*", Pattern.CASE_INSENSITIVE)
+            alerts = alerts.findAll {
+                pattern.matcher(it.name ?: "").matches()
+            }
+        }
         utilService.sortBaseEntities(alerts)
 
         int offset = params.offset ?: 0
@@ -42,10 +50,6 @@ class AlertController {
         render view: "create", model: [
                 mapOptions: mapOptions
         ]
-    }
-
-    def search() {
-
     }
 
     def createAlertUsingGeometry() {

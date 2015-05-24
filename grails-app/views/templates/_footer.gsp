@@ -1,4 +1,4 @@
-<footer class="footer">
+<footer class="footer ${backofficeAdminPage ? "bg-danger" : ""}">
     <p>
     &copy;&nbsp;
     CaptainFleet
@@ -22,5 +22,11 @@
     <g:link url="http://grails.org" class="white nohover">
         Built with Grails <g:meta name="app.grails.version"/>
     </g:link>
+    <sec:ifAllGranted roles="ROLE_ADMIN">
+        &nbsp;-&nbsp;
+        <g:link controller="admin" class="white nohover">
+            Administration
+        </g:link>
+    </sec:ifAllGranted>
     </p>
 </footer>

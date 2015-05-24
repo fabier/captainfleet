@@ -19,7 +19,7 @@
 
 <g:layoutBody/>
 
-<g:render template="/templates/footer"/>
+<g:render template="/templates/footer" model="[backofficeAdminPage: true]"/>
 
 <asset:deferredScripts/>
 </body>
