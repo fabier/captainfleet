@@ -10,7 +10,7 @@
 <div class="container">
     <g:render template="/templates/flashMessage"/>
     <div class="row">
-        <div class="col-md-8 center-block">
+        <div class="col-md-12 center-block">
             <div class="row">
                 <div class="alert alert-info">
                     <span class="text-large">Découvrez nos offres, et choisissez celle qui vous convient le mieux, directement en ligne !</span>
@@ -58,11 +58,12 @@
                     </div>
 
                     <span class="btn btn-success display-block margin-bottom-20">
-                        <strong class="text-xxlarge">
-                            499€ HT
+                        <strong class="text-xlarge">
+                            30€
                         </strong>
+                        /mois
                         <br/>
-                        <small class="pull-right">+60€/mois après un an</small>
+                        <small class="pull-right">+ 500€ à l'achat</small>
                         <br/>
                     </span>
                 </div>
@@ -70,10 +71,9 @@
                 <div class="col-md-4">
                     <div class="panel panel-info">
                         <div class="panel-heading">
-                            <strong class="text-large">Classique</strong>
+                            <strong class="text-large">Basic</strong>
                             <br/>
                             Le choix préféré des PME/TPE
-                            <br/>
                             <br/>
                         </div>
 
@@ -103,16 +103,18 @@
                                 <br/>
                                 <br/>
                                 <br/>
+                                <br/>
                             </ul>
                         </div>
                     </div>
 
                     <span class="btn btn-info display-block margin-bottom-20">
-                        <strong class="text-xxlarge">
-                            1499€ HT
+                        <strong class="text-xlarge">
+                            100€
                         </strong>
+                        /mois
                         <br/>
-                        <small class="pull-right">+100€/mois après un an</small>
+                        <small class="pull-right">+ 1000€ à l'achat</small>
                         <br/>
                     </span>
                 </div>
@@ -120,7 +122,7 @@
                 <div class="col-md-4">
                     <div class="panel panel-warning">
                         <div class="panel-heading">
-                            <strong class="text-large">Mega Pack</strong>
+                            <strong class="text-large">Premium</strong>
                             <br/>
                             Notre offre pour les grandes entreprises
                         </div>
@@ -148,16 +150,20 @@
                                 <li>
                                     Support par mail et téléphone
                                 </li>
+                                <br/>
+                                <br/>
+                                <br/>
                             </ul>
                         </div>
                     </div>
 
                     <span class="btn btn-warning display-block margin-bottom-20">
-                        <strong class="text-xxlarge">
-                            4999€ HT
+                        <strong class="text-xlarge">
+                            250€
                         </strong>
+                        /mois
                         <br/>
-                        <small class="pull-right">+500€/mois après un an</small>
+                        <small class="pull-right">+ 4000€ à l'achat</small>
                         <br/>
                     </span>
                 </div>
