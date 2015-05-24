@@ -50,9 +50,6 @@
                                     Support par mail
                                 </li>
                                 <br/>
-                                <br/>
-                                <br/>
-                                <br/>
                             </ul>
                         </div>
                     </div>
@@ -101,9 +98,6 @@
                                     Support par mail
                                 </li>
                                 <br/>
-                                <br/>
-                                <br/>
-                                <br/>
                             </ul>
                         </div>
                     </div>
@@ -150,9 +144,6 @@
                                 <li>
                                     Support par mail et téléphone
                                 </li>
-                                <br/>
-                                <br/>
-                                <br/>
                             </ul>
                         </div>
                     </div>
