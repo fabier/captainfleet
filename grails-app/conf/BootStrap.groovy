@@ -37,15 +37,6 @@ class BootStrap {
                 it.save()
             }
         }
-
-        Frame.executeUpdate("Update Frame set frameProtocol = :frameProtocol where frameProtocol is null", [frameProtocol: FrameProtocol.V1])
-
-        Frame.findAllByLocation(null).each {
-            FrameData frameData = decoderService.tryDecode(it)
-            frameService.updateIfLocationIsAvailableAndCorrect(it, frameData)
-            it.frameType = frameData?.frameType
-            it.save()
-        }
     }
 
     def destroy = {

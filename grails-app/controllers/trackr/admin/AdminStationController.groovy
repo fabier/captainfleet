@@ -9,6 +9,7 @@ class AdminStationController {
     static defaultAction = "search"
 
     StationService stationService
+    FrameService frameService
     MapService mapService
 
     def search() {
@@ -24,9 +25,10 @@ class AdminStationController {
 
     def edit(long id) {
         Station station = Station.get(id)
-        MapOptions mapOptions = mapService.buildFromStation(station)
-        List<Frame> frames = stationService.getFrames(station, [max: params.max ?: 10, offset: params.offset ?: 0, sort: "dateCreated", order: "desc"])
-        int totalCount = stationService.countFrames(station)
+        List<Frame> frames = frameService.getFramesForStationWithGeolocation(station, [max: params.max ?: 10, offset: params.offset ?: 0, sort: "dateCreated", order: "desc"])
+        int totalCount = frameService.countFramesForStationWithGeolocation(station)
+
+        MapOptions mapOptions = mapService.buildFromFrames(frames)
         render view: "edit", model: [
                 station   : station,
                 results   : frames,

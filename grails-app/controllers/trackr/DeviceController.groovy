@@ -39,7 +39,7 @@ class DeviceController {
                 ((com.vividsolutions.jts.geom.Point)it.location).getX()
             }
         }
-        MapOptions mapOptions = mapService.buildUsingPoints(points)
+        MapOptions mapOptions = mapService.buildFromPoints(points)
 
         date = date ?: new Date()
 

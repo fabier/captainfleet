@@ -1,9 +1,11 @@
 package trackr
 
 import com.vividsolutions.jts.geom.Coordinate
+import com.vividsolutions.jts.geom.Geometry
 import com.vividsolutions.jts.geom.GeometryFactory
 import grails.transaction.Transactional
 import grails.util.Pair
+import org.hibernatespatial.criterion.SpatialRestrictions
 
 @Transactional
 class FrameService {
@@ -167,6 +169,35 @@ class FrameService {
         }
     }
 
+    List<Frame> getFramesForStationWithGeolocation(Station station) {
+        getFramesForStationWithGeolocation(station, null)
+    }
+
+    List<Frame> getFramesForStationWithGeolocation(Station station, Map params) {
+        Frame.withCriteria {
+            eq("station", station)
+            eq("frameType", FrameType.MESSAGE)
+            isNotNull("location")
+            if (params.max) {
+                maxResults(params.max as int)
+            }
+            if (params.offset) {
+                firstResult(params.offset as int)
+            }
+            if (params.sort) {
+                order(params.sort, params.order ?: "desc")
+            }
+        }
+    }
+
+    int countFramesForStationWithGeolocation(Station station) {
+        Frame.createCriteria().count {
+            eq("station", station)
+            eq("frameType", FrameType.MESSAGE)
+            isNotNull("location")
+        }
+    }
+
     def updateIfLocationIsAvailableAndCorrect(Frame frame, FrameData frameData) {
         if (frameData?.hasGeolocationData()) {
             LatitudeLongitude latitudeLongitude = new LatitudeLongitude(latitude: frameData.latitude,
@@ -216,7 +247,6 @@ class FrameService {
                 frameProtocol: frameProtocol
         ).save()
     }
-
 
 
     Frame lastFrame(Device device) {
@@ -273,6 +303,49 @@ class FrameService {
             maxResults(count)
             sqlRestriction "1=1 order by random()"
             // http://stackoverflow.com/questions/2810693/hibernate-criteria-api-get-n-random-rows
+        }
+    }
+
+    List<Frame> getBestFramesWithGeolocation(Station station) {
+        getBestFramesWithGeolocation(station, 10)
+    }
+
+    List<Frame> getBestFramesWithGeolocation(Station station, int max) {
+        getFramesWithGeolocation(station, [max: max, sort: "rssi", order: "desc"])
+    }
+
+    List<Frame> getFramesWithGeolocation(Station station, Map params) {
+        int max = params.max ?: -1
+        int offset = params.offset ?: 0
+        Frame.withCriteria {
+            eq("station", station)
+            eq("frameType", FrameType.MESSAGE)
+            isNotNull("location")
+            if (max >= 0) {
+                maxResults(max)
+            }
+            if (offset > 0) {
+                firstResult(offset)
+            }
+            if (params.sort) {
+                order(params.sort, params.order ?: "desc")
+            }
+        }
+    }
+
+    List<Frame> getFramesNotInArea(Geometry geometry) {
+        Frame.createCriteria().add(SpatialRestrictions.disjoint("location", geometry)).list()
+    }
+
+    List<Frame> getFramesInArea(Geometry geometry) {
+        Frame.createCriteria().add(SpatialRestrictions.within("location", geometry)).list()
+    }
+
+    List<Frame> getFramesForAlert(Alert alert) {
+        if (alert.isGeometryInverted) {
+            getFramesNotInArea(alert.geometry)
+        } else {
+            getFramesInArea(alert.geometry)
         }
     }
 }

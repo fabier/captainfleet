@@ -33,15 +33,13 @@
             <div class="row">
                 <g:render template="/templates/flashMessage"/>
 
-                <div class="alert alert-danger">
-                    Attention, éditer une station est dangereux. Il est déconseillé de modifier une station.
-                </div>
-
                 <div class="col-md-6">
-                    <div id="map" class="map-station"></div>
-                </div>
 
-                <div class="col-md-6">
+                    <div class="alert alert-danger">
+                        Attention, éditer une station est dangereux.<br/>
+                        Il est déconseillé de modifier une station.
+                    </div>
+
                     <g:form action='update' class="form-horizontal" id="${station.id}">
                         <g:hiddenField name="id" value="${station?.id}"/>
                         <g:hiddenField name="version" value="${station?.version}"/>
@@ -72,6 +70,10 @@
                         </div>
                     </g:form>
                 </div>
+
+                <div class="col-md-6">
+                    <div id="map" class="map-station"></div>
+                </div>
             </div>
 
             <div class="row">
@@ -81,6 +83,7 @@
                     <th>Data</th>
                     <th>Date</th>
                     <th>Signal</th>
+                    <th>Avg Signal</th>
                     <th>RSSI</th>
                     </thead>
                     <tbody>
@@ -94,13 +97,20 @@
                                 <g:formatDate format="yyyy-MM-dd HH:mm" date="${frame.dateCreated}"/>
                             </td>
                             <td>
-                                ${frame.signal} dB
+                                <g:formatNumber number="${frame.signal}" type="number" locale="EN" minFractionDigits="2"
+                                                maxFractionDigits="2"/> dB
                             </td>
                             <td>
-                                ${frame.rssi} dBm
+                                <g:formatNumber number="${frame.avgSignal}" type="number" locale="EN"
+                                                minFractionDigits="2" maxFractionDigits="2"/> dB
+                            </td>
+                            <td>
+                                <g:formatNumber number="${frame.rssi}" type="number" locale="EN" minFractionDigits="2"
+                                                maxFractionDigits="2"/> dBm
                             </td>
                         </tr>
                     </g:each>
+
                     </tbody>
                 </table>
             </div>

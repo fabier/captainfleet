@@ -9,8 +9,6 @@ import grails.transaction.Transactional
 @Transactional
 class MapService {
 
-    DeviceService deviceService
-    GeometryFactory geometryFactory
     StationService stationService
     FrameService frameService
 
@@ -22,12 +20,12 @@ class MapService {
                 points.add(lastFrame.location as com.vividsolutions.jts.geom.Point)
             }
         }
-        return buildUsingPoints(points)
+        return buildFromPoints(points)
     }
 
-    MapOptions buildUsingPoints(Set<com.vividsolutions.jts.geom.Point> points) {
+    MapOptions buildFromPoints(Set<com.vividsolutions.jts.geom.Point> points) {
         if (points != null && !points.isEmpty()) {
-            MultiPoint multiPoint = getGeometryFactory().createMultiPoint(GeometryFactory.toPointArray(points))
+            MultiPoint multiPoint = new GeometryFactory().createMultiPoint(GeometryFactory.toPointArray(points))
             Envelope envelope = multiPoint.getEnvelopeInternal()
             MapMarkerStyle markerStyle = new MapMarkerStyle(
                     path: "markers/car.png"
@@ -46,9 +44,10 @@ class MapService {
 
     MapOptions defaultMapOptions() {
         Set<com.vividsolutions.jts.geom.Point> staticPoints = new HashSet()
-        staticPoints.add(getGeometryFactory().createPoint(new Coordinate(0.0, -80.0)))
-        staticPoints.add(getGeometryFactory().createPoint(new Coordinate(0.0, 80.0)))
-        return buildUsingPoints(staticPoints)
+        GeometryFactory geometryFactory = new GeometryFactory()
+        staticPoints.add(geometryFactory.createPoint(new Coordinate(0.0, -80.0)))
+        staticPoints.add(geometryFactory.createPoint(new Coordinate(0.0, 80.0)))
+        return buildFromPoints(staticPoints)
     }
 
     MapOptions buildFromDevicesUsingRandomFrame(List<Device> devices) {
@@ -59,25 +58,11 @@ class MapService {
                 points.add(randomFrameWithGeolocation.location as com.vividsolutions.jts.geom.Point)
             }
         }
-        return buildUsingPoints(points)
-    }
-
-    GeometryFactory getGeometryFactory() {
-        if (geometryFactory == null) {
-            geometryFactory = new GeometryFactory()
-        }
-        geometryFactory
+        return buildFromPoints(points)
     }
 
     MapOptions buildFromStation(Station station) {
-        Set<com.vividsolutions.jts.geom.Point> points = new HashSet<>()
-        List<Frame> frames = stationService.getFramesWithGeolocation(station)
-        frames?.each {
-            if (it?.location instanceof com.vividsolutions.jts.geom.Point) {
-                points.add(it.location as com.vividsolutions.jts.geom.Point)
-            }
-        }
-        return buildUsingPoints(points)
+        return buildFromFrames(stationService.getFramesWithGeolocation(station))
     }
 
     MapOptions buildFromDevicesUsingAllFrames(List<Device> devices) {
@@ -85,15 +70,21 @@ class MapService {
     }
 
     MapOptions buildFromDevicesUsingAllFrames(List<Device> devices, int max) {
-        Set<com.vividsolutions.jts.geom.Point> points = new HashSet<>()
+        Set<Frame> frameSet = new HashSet<>()
         devices.each {
             List<Frame> frames = frameService.getFramesForDeviceWithGeolocation(it, max)
-            frames?.each {
-                if (it?.location instanceof com.vividsolutions.jts.geom.Point) {
-                    points.add(it.location as com.vividsolutions.jts.geom.Point)
-                }
+            frameSet.addAll(frames)
+        }
+        return buildFromFrames(frameSet)
+    }
+
+    MapOptions buildFromFrames(Collection<Frame> frames) {
+        Set<com.vividsolutions.jts.geom.Point> points = new HashSet<>()
+        frames?.each {
+            if (it?.location instanceof com.vividsolutions.jts.geom.Point) {
+                points.add(it.location as com.vividsolutions.jts.geom.Point)
             }
         }
-        return buildUsingPoints(points)
+        return buildFromPoints(points)
     }
 }

@@ -38,7 +38,7 @@
                 }),
                 style: new ol.style.Style({
                     fill: new ol.style.Fill({
-                        color: 'rgba(255, 255, 255, 0.4)'
+                        color: 'rgba(255, 255, 255, 0.5)'
                     }),
                     stroke: new ol.style.Stroke({
                         color: '#0099ff',
@@ -65,7 +65,54 @@
             <g:render template="/templates/lateralMenuAccount"/>
         </div>
 
-        <div class="col-md-10">
+        <div class="col-md-4">
+            <g:form action="update" id="${alert.id}" class="form-horizontal">
+
+                <div class="form-group">
+                    <label for="name" class="col-md-2 control-label">Name</label>
+
+                    <div class="col-md-10">
+                        <g:field type="text" name="name" value="${alert.name}" class="form-control"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-10 col-md-offset-2">
+                        <label>
+                            <g:checkBox name="isGeometryInverted" value="${alert.isGeometryInverted}"/>
+                            Zone inversée
+                        </label>
+                    </div>
+                </div>
+
+            %{--<div class="form-group">--}%
+            %{--<div class="col-md-10 col-md-offset-2">--}%
+            %{--<label class="form-control">--}%
+            %{--<g:checkBox name="isRaised" value="${alert.isRaised}" disabled="disabled"/>--}%
+            %{--Alerte levée--}%
+            %{--</label>--}%
+            %{--</div>--}%
+            %{--</div>--}%
+
+            %{--<div class="form-group">--}%
+            %{--<label class="col-md-2 control-label">Nombre d'alertes</label>--}%
+
+            %{--<div class="col-md-10">--}%
+            %{--${alert.raisedCount}--}%
+            %{--</div>--}%
+            %{--</div>--}%
+
+                <div class="form-group">
+                    <div class="col-md-10 col-md-offset-2">
+                        <button type="submit" class="btn btn-primary">
+                            Enregistrer
+                        </button>
+                    </div>
+                </div>
+            </g:form>
+        </div>
+
+        <div class="col-md-6">
             <g:render template="/templates/mapFixedHeight"/>
 
             <g:form name="createAlertUsingGeometryForm" action="createAlertUsingGeometry">

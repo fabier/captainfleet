@@ -1,6 +1,6 @@
 package trackr
 
-import com.vividsolutions.jts.geom.Geometry
+import com.vividsolutions.jts.geom.*
 import com.vividsolutions.jts.io.WKTReader
 import com.vividsolutions.jts.io.WKTWriter
 import grails.plugin.springsecurity.SpringSecurityService
@@ -16,6 +16,8 @@ class AlertController {
     DeviceService deviceService
     AlertService alertService
     UtilService utilService
+    FrameService frameService
+    GisUtilService gisUtilService
 
     def index() {
         User user = springSecurityService.currentUser
@@ -63,13 +65,33 @@ class AlertController {
     def show(long id) {
         Alert alert = Alert.get(id)
         User user = springSecurityService.currentUser
-        def devices = deviceService.getByUser(user)
-        MapOptions mapOptions = mapService.buildFromDevicesUsingLastFrame(devices)
-        String wktGeometry = new WKTWriter().write(alert.geometry)
+        String wktGeometry
+
+        List<Frame> frames = frameService.getFramesForAlert(alert)
+        MapOptions mapOptions = mapService.buildFromFrames(frames)
+        mapOptions.boundingBox = alert.geometry.getEnvelopeInternal()
+
+        if (alert.isGeometryInverted) {
+            LineString exteriorRing = ((Polygon) alert.geometry).getExteriorRing()
+            LinearRing worldForOpenLayers = gisUtilService.getWorldAsLinearRingForOpenLayers()
+            Polygon outerPolygon = new GeometryFactory().createPolygon(worldForOpenLayers, (LinearRing[]) [exteriorRing].toArray())
+            wktGeometry = new WKTWriter().write(outerPolygon)
+        } else {
+            wktGeometry = new WKTWriter().write(alert.geometry)
+        }
+
         render view: "show", model: [
                 alert      : alert,
                 mapOptions : mapOptions,
                 wktGeometry: wktGeometry
         ]
+    }
+
+    def update(long id) {
+        Alert alert = Alert.get(id)
+        bindData(alert, params, [include: ["name", "isGeometryInverted"]])
+        alert.save()
+        flash.message = "Enregistrement effectué"
+        redirect action: "show", id: id
     }
 }

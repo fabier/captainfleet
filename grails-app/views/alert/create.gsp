@@ -55,7 +55,7 @@
                 source: source,
                 style: new ol.style.Style({
                     fill: new ol.style.Fill({
-                        color: 'rgba(255, 255, 255, 0.4)'
+                        color: 'rgba(255, 255, 255, 0.5)'
                     }),
                     stroke: new ol.style.Stroke({
                         color: '#0099ff',

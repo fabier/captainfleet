@@ -26,7 +26,7 @@ class FrameController {
         if (frame.location instanceof com.vividsolutions.jts.geom.Point) {
             points.add(frame.location as com.vividsolutions.jts.geom.Point)
         }
-        mapOptions = mapService.buildUsingPoints(points)
+        mapOptions = mapService.buildFromPoints(points)
 
         def frames = new ArrayList<Frame>()
         frames.add(frame)
