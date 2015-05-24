@@ -52,7 +52,9 @@
                 <li>&nbsp;</li>
                 <li>
                     <strong>Fond de carte :</strong>
-                    © OpenStreetMap contributors
+                    <g:link url="http://www.openstreetmap.org" target="_blank">
+                        © OpenStreetMap contributors
+                    </g:link>
                     <br/>
                     <g:link url="http://www.openstreetmap.org/copyright" target="_blank">
                         Données disponible sous la licence Open Database Licence
@@ -68,7 +70,9 @@
                     <p>
                         <strong>Grails 2.4.5</strong>
                         <br/>
-                        <a href="http://www.grails.org">http://www.grails.org</a>
+                        <a href="http://www.grails.org" target="_blank">
+                            http://www.grails.org
+                        </a>
                     </p>
                 </li>
                 <li>&nbsp;</li>
@@ -76,9 +80,13 @@
                     <p>
                         <strong>PostgreSQL 9.4 avec PostGis</strong>
                         <br/>
-                        <a href="http://www.postgresql.com">http://www.postgresql.com</a>
+                        <a href="http://www.postgresql.com" target="_blank">
+                            http://www.postgresql.com
+                        </a>
                         <br/>
-                        <a href="http://www.postgis.org">http://www.postgis.org</a>
+                        <a href="http://www.postgis.org" target="_blank">
+                            http://www.postgis.org
+                        </a>
                     </p>
                 </li>
                 <li>&nbsp;</li>
@@ -86,7 +94,9 @@
                     <p>
                         <strong>Glassfish 4.1</strong>
                         <br/>
-                        <a href="http://www.glassfish.org">http://www.glassfish.org</a>
+                        <a href="http://www.glassfish.org" target="_blank">
+                            http://www.glassfish.org
+                        </a>
                     </p>
                 </li>
             </ul>
