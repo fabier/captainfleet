@@ -18,8 +18,8 @@
             <g:if test="${mapOptions.boundingBox}">
             zoomToExtent(map, ${mapOptions.boundingBox.getMinX()}, ${mapOptions.boundingBox.getMinY()},
                     ${mapOptions.boundingBox.getMaxX()}, ${mapOptions.boundingBox.getMaxY()});
-            var zoomLevel = map.getView().getZoom() / 3;
-            map.getView().setZoom(zoomLevel);
+            var zoomLevel = Math.max(4, map.getView().getZoom() / 2);
+            map.getView().setZoom(4);
             </g:if>
             </g:if>
         });

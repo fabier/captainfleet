@@ -17,6 +17,8 @@
             <g:if test="${mapOptions.boundingBox}">
             zoomToExtent(map, ${mapOptions.boundingBox.getMinX()}, ${mapOptions.boundingBox.getMinY()},
                     ${mapOptions.boundingBox.getMaxX()}, ${mapOptions.boundingBox.getMaxY()});
+            var zoomLevel = Math.max(0, map.getView().getZoom() - 2);
+            map.getView().setZoom(zoomLevel);
             </g:if>
             </g:if>
         });
@@ -59,7 +61,7 @@
                     </div>
                 </div>
             </g:else>
-            <
+
             <g:render template="addDevice"/>
         </div>
 

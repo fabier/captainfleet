@@ -1,4 +1,4 @@
-<footer class="footer ${backofficeAdminPage ? "bg-danger" : ""}">
+<footer class="footer">
     <p>
     &copy;&nbsp;
     CaptainFleet

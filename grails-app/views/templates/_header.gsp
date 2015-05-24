@@ -1,5 +1,5 @@
 <!-- Fixed navbar -->
-<nav class="navbar navbar-default navbar-fixed-top ${backofficeAdminPage ? "bg-danger" : ""}">
+<nav class="navbar navbar-default navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
@@ -10,7 +10,10 @@
                 <span class="icon-bar"></span>
             </button>
             <g:link uri="/" class="navbar-brand danger">
-                CaptainFleet${backofficeAdminPage ? " Administration" : ""}
+                CaptainFleet
+                <g:if test="${backofficeAdminPage}">
+                    <span class="badge bg-danger">Administration</span>
+                </g:if>
             </g:link>
         </div>
 
