@@ -18,11 +18,11 @@
                 </p>
             </div>
 
-            <p>
+            <p class="text-justify">
                 <span class="captain-fleet">CaptainFleet</span> est basé sur 3 idées principales :
             </p>
 
-            <p>
+            <p class="text-justify">
             <ul>
                 <li>suivre des objets doit être <strong>simple.</strong></li>
                 <li>suivre des objets doit être <strong>sans maintenance.</strong></li>
@@ -30,9 +30,9 @@
             </ul>
         </p>
 
-            <p>
-                Pour celà, <span
-                    class="captain-fleet">CaptainFleet</span> a concu et réalisé un système électronique innovant, utilisant des <b>technologies de pointe</b> de l'<b>internet des objets</b> et ne nécessitant <b>pas de batterie</b>.
+            <p class="text-justify">
+                Pour celà,
+                <span class="captain-fleet">CaptainFleet</span> a concu et réalisé un système électronique innovant, utilisant des <b>technologies de pointe</b> de l'<b>internet des objets</b> et ne nécessitant <b>pas de batterie</b>.
             </p>
 
             <br/>
@@ -43,7 +43,7 @@
                 </p>
             </div>
 
-            <p>
+            <p class="text-justify">
             <ul>
                 <li>
                     Un boitier qu'on peut installer <b>partout</b>.

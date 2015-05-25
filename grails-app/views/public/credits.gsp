@@ -11,11 +11,10 @@
     <g:render template="/templates/flashMessage"/>
     <div class="row">
         <div class="col-md-8 center-block">
-            <div class="jumbotron">
+
+            <div class="alert alert-info">
                 <p>
-                    <strong>Crédits</strong>
-                    <br/>
-                    <small>et mentions légales</small>
+                    <span class="text-large">Crédits</span>
                 </p>
             </div>
 
@@ -68,7 +67,7 @@
                 <li>&nbsp;</li>
                 <li>
                     <p>
-                        <strong>Grails 2.4.5</strong>
+                        <strong>Built with Grails <g:meta name="app.grails.version"/></strong>
                         <br/>
                         <a href="http://www.grails.org" target="_blank">
                             http://www.grails.org

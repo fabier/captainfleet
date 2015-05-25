@@ -84,6 +84,18 @@ class PublicController {
             redirect action: "contact"
         }
     }
+
+    def legal() {
+        render view: "legal"
+    }
+
+    def cgu() {
+        render view: "cgu"
+    }
+
+    def cgv() {
+        render view: "cgv"
+    }
 }
 
 class ContactCommand {
