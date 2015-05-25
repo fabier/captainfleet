@@ -33,7 +33,8 @@
             <ul>
                 <li>
                     la mise à disposition auprès des internautes inscrits, ci-après dénommés “utilisateurs”,
-                    d'une plateforme de suivi des boitiers de géolocalisation commercialisés par CaptainFleet,</li>
+                    d'une plateforme de suivi des boitiers de géolocalisation commercialisés par
+                    <span class="captain-fleet">CaptainFleet</span>,</li>
                 <li>
                     la création d'un profil permettant à l’utilisateur d’entrer des données relatives à son activité,
                     ses équipes, et ses équipements, la création et l’enregistrement de paramètres de comptes par l’utilisateur,
