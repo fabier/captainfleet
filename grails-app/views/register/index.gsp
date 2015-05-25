@@ -22,15 +22,13 @@
                 </g:link>
             </g:if>
             <g:else>
+                <div class="alert alert-info">
+                    Remplissez le formulaire, puis cliquez sur "Créer un compte".
+                </div>
+
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <g:form action='register' name='registerForm' role="form" class="form-horizontal">
-
-                            Remplissez le formulaire, puis cliquez sur "Créer un compte".
-
-                            <br/>
-                            <br/>
-
                             <div class="form-group ${hasErrors(bean: command, field: "username") {
                                 "has-error has-feedback"
                             }}">
@@ -122,6 +120,34 @@
                                     <div class="row">
                                         <span class="col-md-offset-4 text-danger">
                                             Les mots de passe ne correspondent pas
+                                        </span>
+                                    </div>
+                                </g:hasErrors>
+                            </div>
+
+                            <div class="form-group ${hasErrors(bean: command, field: "acceptsConditions") {
+                                "has-error has-feedback"
+                            }}">
+
+                                <div class="col-md-8 col-md-offset-4 text-small">
+                                    <label class="${hasErrors(bean: command, field: "acceptsConditions") {
+                                        "form-control"
+                                    }}">
+                                        <g:checkBox name="acceptsConditions" value="${command.acceptsConditions}"/>
+                                        J'ai lu et j'accepte les
+                                        <g:link controller="public" action="cgu" target="_blank">
+                                            conditions générales d'utilisation
+                                        </g:link>
+                                        <g:hasErrors bean="${command}" field="acceptsConditions">
+                                            <span class="glyphicon glyphicon-remove form-control-feedback"></span>
+                                        </g:hasErrors>
+                                    </label>
+                                </div>
+
+                                <g:hasErrors bean="${command}" field="acceptsConditions">
+                                    <div class="row">
+                                        <span class="col-md-offset-4 text-danger">
+                                            Merci de lire et d'accepter les conditions générales d'utilisation.
                                         </span>
                                     </div>
                                 </g:hasErrors>

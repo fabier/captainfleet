@@ -128,6 +128,7 @@ class RegisterCommand {
     String email
     String password
     String password2
+    boolean acceptsConditions
 
     def grailsApplication
 
@@ -136,5 +137,6 @@ class RegisterCommand {
         email blank: false, email: true
         password blank: false, validator: RegisterController.passwordValidator
         password2 validator: RegisterController.password2Validator
+        acceptsConditions notEqual: false
     }
 }
