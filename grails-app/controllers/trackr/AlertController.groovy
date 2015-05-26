@@ -54,7 +54,6 @@ class AlertController {
 
     def createAlertUsingGeometry() {
         User user = springSecurityService.currentUser
-        log.info(params.wkt)
         WKTReader wktReader = new WKTReader()
         Geometry geometry = wktReader.read(params.wkt)
         Alert alert = new Alert(
@@ -63,6 +62,15 @@ class AlertController {
         )
         alert.save(flush: true)
         UserAlert.create(user, alert)
+        redirect action: "show", id: alert.id
+    }
+
+    def updateAlertGeometry(long id) {
+        Alert alert = Alert.get(id)
+        WKTReader wktReader = new WKTReader()
+        Geometry geometry = wktReader.read(params.wkt)
+        alert.geometry = geometry
+        alert.save()
         redirect action: "show", id: alert.id
     }
 
@@ -97,5 +105,14 @@ class AlertController {
         alert.save()
         flash.message = "Enregistrement effectué"
         redirect action: "show", id: id
+    }
+
+    def delete(long id) {
+        Alert alert = Alert.get(id)
+        if (alert) {
+            UserAlert.removeAll(alert)
+            alert.delete()
+        }
+        redirect action: "index"
     }
 }

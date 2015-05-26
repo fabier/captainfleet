@@ -19,4 +19,12 @@ class UserAlert extends BaseDomain {
         def instance = new UserAlert(user: user, alert: alert)
         instance.save(flush: flush)
     }
+
+    static void removeAll(Alert a) {
+        UserAlert.where { alert == a }.deleteAll()
+    }
+
+    static void removeAll(User u) {
+        UserAlert.where { user == u }.deleteAll()
+    }
 }

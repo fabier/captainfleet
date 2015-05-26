@@ -40,10 +40,11 @@
                     <table class="table table-hover small nomargin-left-right">
                         <thead>
                         <tr>
-                            <th class="col-md-2">#</th>
+                            <th class="col-md-1">#</th>
                             <th class="col-md-2">Nom de l'alerte</th>
-                            <th class="col-md-4">Type</th>
-                            <th class="col-md-4">Nombre de points</th>
+                            <th class="col-md-2">Type</th>
+                            <th class="col-md-2">Nombre de points</th>
+                            <th class="col-md-1">Actions</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -54,6 +55,11 @@
                                 <td>${alert.name}</td>
                                 <td>${alert.geometry?.getGeometryType()}</td>
                                 <td>${alert.geometry?.getNumPoints()}</td>
+                                <td>
+                                    <g:link controller="alert" action="delete" id="${alert.id}">
+                                        <i class="glyphicon glyphicon-trash"></i>
+                                    </g:link>
+                                </td>
                             </tr>
                         </g:each>
                         </tbody>
