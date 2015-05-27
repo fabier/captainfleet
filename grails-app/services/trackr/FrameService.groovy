@@ -3,6 +3,7 @@ package trackr
 import com.vividsolutions.jts.geom.Coordinate
 import com.vividsolutions.jts.geom.Geometry
 import com.vividsolutions.jts.geom.GeometryFactory
+import grails.plugin.mail.MailService
 import grails.transaction.Transactional
 import grails.util.Pair
 import org.hibernatespatial.criterion.SpatialRestrictions
@@ -14,6 +15,9 @@ class FrameService {
     AlertService alertService
     DecoderService decoderService
     ParserService parserService
+    MailService mailService
+
+    def grailsApplication
 
     /**
      * Retourne tous les doublons d'une frame, sauf lui même.
@@ -240,14 +244,83 @@ class FrameService {
         if (frame?.location) {
             // Cette frame a une géolocalisation
             List<User> users = userService.getUsersByDevice(frame.device)
+            Device device = frame.device
+
             // Pour chaque utilisateur du boitier
             users?.each {
                 // Parcourir les alertes et voir si une alerte a changé d'état
                 List<Alert> alerts = alertService.getAlertsForUser(it)
                 alerts.each {
-                    boolean isCurrentlyRaised = it.geometry.contains(frame.location)
-                    if(it.isRaised && !isCurrentlyRaised){
-                        it.isRaised
+                    boolean isRaisedNow
+                    if (!it.isGeometryInverted) {
+                        // On teste si le boitier est dans la zone de l'alerte
+                        isRaisedNow = it.geometry.contains(frame.location)
+                    } else {
+                        // Si la géométrie est inversée, on considère que l'alerte est levée lorsque
+                        // le boitier est "en dehors" de la zone de l'alerte
+                        isRaisedNow = !it.geometry.contains(frame.location)
+                    }
+
+                    DeviceAlert deviceAlert = DeviceAlert.findOrSaveByDeviceAndAlert(device, it)
+
+                    // On ajoute l'information au log des alertes
+                    DeviceAlertLog deviceAlertLog = new DeviceAlertLog(
+                            deviceAlert: deviceAlert,
+                            isRaised: isRaisedNow
+                    ).save()
+
+                    if (deviceAlert.isRaised != isRaisedNow) {
+                        // Changement d'état de l'alerte
+                        if (isRaisedNow) {
+                            // Début d'alerte, alors qu'on a un ancien état
+                            // indiquant que l'alerte n'était pas précédemment levée
+                            try {
+                                mailService.sendMail {
+                                    async true
+                                    to "CaptainFleet <${grailsApplication.config.grails.mail.username}>"
+                                    subject "[CaptainFleet] Début d'alerte"
+                                    html "Début d'alerte [${it.id}] pour le device [${device.sigfoxId}]"
+                                    from grailsApplication.config.grails.mail.username
+                                }
+                            } catch (Exception e) {
+                                log.error "Impossible d'envoyer le message de début d'alerte par mail"
+                            }
+                        } else if (deviceAlert.isRaised) {
+                            // Fin d'alerte : l'état précédent indique que l'alerte
+                            try {
+                                mailService.sendMail {
+                                    async true
+                                    to "CaptainFleet <${grailsApplication.config.grails.mail.username}>"
+                                    subject "[CaptainFleet] Fin d'alerte"
+                                    html "Fin d'alerte [${it.id}] pour le device [${device.sigfoxId}]"
+                                    from grailsApplication.config.grails.mail.username
+                                }
+                            } catch (Exception e) {
+                                log.error "Impossible d'envoyer le message de fin d'alerte par mail"
+                            }
+                        }
+                        deviceAlert.isRaised = isRaisedNow
+                        deviceAlert.save()
+                    }
+
+                    if (isRaisedNow) {
+                        it.isRaised = true
+                    } else {
+                        // On doit regarder les autres devices s'ils sont en état "alerte levée"
+                        DeviceAlert anotherAlertIsRaised = DeviceAlert.findAllByAlert(it)?.find {
+                            it.isRaised
+                        }
+
+                        // Si un seul autre device est en "état haut", alors l'alerte est en "état haut".
+                        if (anotherAlertIsRaised != null) {
+                            it.isRaised = true
+                        } else {
+                            it.isRaised = false
+                        }
+                    }
+
+                    if (it.isDirty("isRaised")) {
+                        it.save()
                     }
                 }
             }

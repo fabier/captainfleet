@@ -8,6 +8,8 @@ import org.springframework.security.access.annotation.Secured
 @Secured("permitAll")
 class RegisterController extends grails.plugin.springsecurity.ui.RegisterController {
 
+    def grailsApplication
+
     def index() {
         def copy = [:] + (flash.chainedParams ?: [:])
         copy.remove 'controller'
@@ -22,7 +24,7 @@ class RegisterController extends grails.plugin.springsecurity.ui.RegisterControl
             return
         }
 
-        def User = command.grailsApplication.getDomainClass(SpringSecurityUtils.securityConfig.userLookup.userDomainClassName).clazz
+        def User = grailsApplication.getDomainClass(SpringSecurityUtils.securityConfig.userLookup.userDomainClassName).clazz
         def user = User.findByEmail(command.email)
         if (user) {
             if (user.accountLocked) {
@@ -129,8 +131,6 @@ class RegisterCommand {
     String password
     String password2
     boolean acceptsConditions
-
-    def grailsApplication
 
     static constraints = {
         username blank: false

@@ -10,6 +10,8 @@ class PublicController {
     static defaultAction = "index"
 
     def springSecurityService
+    def grailsApplication
+
     MapService mapService
     MailService mailService
     DeviceService deviceService

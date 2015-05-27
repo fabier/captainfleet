@@ -12,6 +12,15 @@ class DeviceAlert extends BaseDomain {
      */
     Alert alert
 
+    /**
+     * Indique si l'alerte est actuellement levée pour ce boitier et cette alerte
+     */
+    Boolean isRaised
+
+    static hasMany = [deviceAlertLogs: DeviceAlertLog]
+
     static constraints = {
+        device nullable: false, unique: ['alert']
+        isRaised nullable: true
     }
 }
