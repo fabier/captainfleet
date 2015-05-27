@@ -19,35 +19,37 @@
 
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li class="${controllerName == 'public' && actionName == "about" ? "active" : ""}">
-                    <g:link controller="public" action="about">
-                        Présentation
-                    </g:link>
-                </li>
-                <li class="${controllerName == 'public' && actionName == "plans" ? "active" : ""}">
-                    <g:link controller="public" action="plans">
-                        Tarifs
-                    </g:link>
-                </li>
+                <sec:ifNotLoggedIn>
+                    <li class="${controllerName == 'public' && actionName == "index" ? "active" : ""}">
+                        <g:link controller="public" action="index">
+                            Accueil
+                        </g:link>
+                    </li>
+                    <li class="${controllerName == 'public' && actionName == "about" ? "active" : ""}">
+                        <g:link controller="public" action="about">
+                            Présentation
+                        </g:link>
+                    </li>
+                    <li class="${controllerName == 'public' && actionName == "plans" ? "active" : ""}">
+                        <g:link controller="public" action="plans">
+                            Tarifs
+                        </g:link>
+                    </li>
+                </sec:ifNotLoggedIn>
                 <sec:ifLoggedIn>
                     <li class="${controllerName in ["account", "alert"] ? "active" : ""}">
                         <g:link controller="account">
+                            <i class="glyphicon glyphicon-user"></i>
                             Mon Compte
                         </g:link>
                     </li>
                     <li>
-                        <g:link controller="logout" action="index" title="Logout">
+                        <g:link controller="logout" action="index" title="Se déconnecter">
                             <i class="glyphicon glyphicon-log-out"></i>
+                            Déconnexion
                         </g:link>
                     </li>
                 </sec:ifLoggedIn>
-                <sec:ifNotLoggedIn>
-                    <li class="${controllerName in ['login', 'register'] ? "active" : ""}">
-                        <g:link controller="common">
-                            Connexion
-                        </g:link>
-                    </li>
-                </sec:ifNotLoggedIn>
             </ul>
         </div><!--/.nav-collapse -->
     </div>

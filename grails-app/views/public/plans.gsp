@@ -9,160 +9,111 @@
 
 <div class="container">
     <g:render template="/templates/flashMessage"/>
-    <div class="row">
-        <div class="col-md-12 center-block">
-            <div class="row">
-                <div class="alert alert-info">
-                    <span class="text-large">Découvrez nos offres, et choisissez celle qui vous convient le mieux, directement en ligne !</span>
+    %{--<div class="row">--}%
+    %{--<div class="alert alert-info">--}%
+    %{--<span class="text-large">Découvrez nos offres, et choisissez celle qui vous convient le mieux, directement en ligne !</span>--}%
+    %{--</div>--}%
+    %{--</div>--}%
+
+    <div class="pricing-tables attached">
+        <div class="row">
+            <div class="col-sm-4 col-md-4">
+
+                <div class="plan first">
+
+                    <div class="head">
+                        <h2>Starter</h2>
+                        Idéal pour découvrir CaptainFleet !
+                    </div>
+
+                    <ul class="item-list">
+                        <li><span class="label label-primary text-large"><strong>3</strong> Boitiers</span></li>
+                        <li><strong>1</strong> Utilisateur</li>
+                        <li><strong>1</strong> Zone d'alerte</li>
+                        <li>Statistiques mensuelles et annuelles</li>
+                        <li>Alerte par mail</li>
+                        <li>Support par mail</li>
+                        <li>Engagement minimum 1 an</li>
+                    </ul>
+
+                    <div class="price">
+                        <h3>29<span class="symbol">€</span></h3>
+                        <h4>
+                            par mois
+                            <br/>
+                            + 100€ à l'achat
+                        </h4>
+                    </div>
+
+                    <button type="button" class="btn btn-success">Commander !</button>
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="panel panel-success">
-                        <div class="panel-heading">
-                            <strong class="text-large">Starter</strong>
-                            <br/>
-                            Idéal pour découvrir CaptainFleet !
-                        </div>
+            <div class="col-sm-4 col-md-4 ">
 
-                        <div class="panel-body">
-                            <ul>
-                                <li>
-                                    <b>3 boitiers</b>
-                                </li>
-                                <li>
-                                    1 an d'abonnement au service
-                                </li>
-                                <li>
-                                    Accès à l'interface web pour 1 utilisateur
-                                </li>
-                                <li>
-                                    Statistiques mensuelles et annuelles
-                                </li>
-                                <li>
-                                    Jusqu'à 4 zones d'alertes
-                                </li>
-                                <li>
-                                    Alertes par mail
-                                </li>
-                                <li>
-                                    Support par mail
-                                </li>
-                                <br/>
-                            </ul>
-                        </div>
+                <div class="plan recommended">
+
+                    <div class="head">
+                        <h2>Basic</h2>
+                        Le choix préféré des PME/TPE
                     </div>
 
-                    <span class="btn btn-success display-block margin-bottom-20">
-                        <strong class="text-xlarge">
-                            30€
-                        </strong>
-                        /mois
-                        <br/>
-                        <small class="pull-right">+ 500€ à l'achat</small>
-                        <br/>
-                    </span>
+                    <ul class="item-list">
+                        <li><span class="label label-primary text-large"><strong>10</strong> Boitiers</span></li>
+                        <li><strong>3</strong> Utilisateurs</li>
+                        <li><strong>5</strong> Zones d'alerte</li>
+                        <li>Statistiques mensuelles et annuelles</li>
+                        <li>Alerte par mail</li>
+                        <li>Support par mail</li>
+                        <li>Engagement minimum 1 an</li>
+                    </ul>
+
+                    <div class="price">
+                        <h3>99<span class="symbol">€</span></h3>
+                        <h4>
+                            par mois
+                            <br/>
+                            + 200€ à l'achat
+                        </h4>
+                    </div>
+
+                    <button type="button" class="btn btn-success">Commander !</button>
                 </div>
+            </div>
 
-                <div class="col-md-4">
-                    <div class="panel panel-info">
-                        <div class="panel-heading">
-                            <strong class="text-large">Basic</strong>
-                            <br/>
-                            Le choix préféré des PME/TPE
-                            <br/>
-                        </div>
 
-                        <div class="panel-body">
-                            <ul>
-                                <li>
-                                    <b>10 boitiers</b>
-                                </li>
-                                <li>
-                                    1 an d'abonnement au service
-                                </li>
-                                <li>
-                                    Accès à l'interface web pour 3 utilisateurs
-                                </li>
-                                <li>
-                                    Statistiques mensuelles et annuelles
-                                </li>
-                                <li>
-                                    Jusqu'à 20 zones d'alertes
-                                </li>
-                                <li>
-                                    Alertes par mail
-                                </li>
-                                <li>
-                                    Support par mail
-                                </li>
-                                <br/>
-                            </ul>
-                        </div>
+            <div class="col-sm-4 col-md-4">
+                <div class="plan last">
+
+                    <div class="head">
+                        <h2>Pro</h2>
+                        Notre offre grandes entreprises
                     </div>
 
-                    <span class="btn btn-info display-block margin-bottom-20">
-                        <strong class="text-xlarge">
-                            100€
-                        </strong>
-                        /mois
-                        <br/>
-                        <small class="pull-right">+ 1000€ à l'achat</small>
-                        <br/>
-                    </span>
-                </div>
+                    <ul class="item-list">
+                        <li><span class="label label-primary text-large"><strong>50</strong> Boitiers</span></li>
+                        <li>Utilisateurs <strong>illimités</strong></li>
+                        <li>Zones d'alerte <strong>illimités</strong></li>
+                        <li>Statistiques hebdomadaires, mensuelles et annuelles</li>
+                        <li>Alerte par mail et SMS</li>
+                        <li>Support par mail et téléphone</li>
+                        <li>Engagement minimum 1 an</li>
+                    </ul>
 
-                <div class="col-md-4">
-                    <div class="panel panel-warning">
-                        <div class="panel-heading">
-                            <strong class="text-large">Premium</strong>
+                    <div class="price">
+                        <h3>399<span class="symbol">€</span></h3>
+                        <h4>
+                            par mois
                             <br/>
-                            Notre offre pour les grandes entreprises
-                        </div>
-
-                        <div class="panel-body">
-                            <ul>
-                                <li>
-                                    <b>50 boitiers</b>
-                                </li>
-                                <li>
-                                    1 an d'abonnement au service
-                                </li>
-                                <li>
-                                    Accès à l'interface web illimitée
-                                </li>
-                                <li>
-                                    Statistiques hebdomadaires, mensuelles et annuelles
-                                </li>
-                                <li>
-                                    Nombre de zones d'alerte illimitées
-                                </li>
-                                <li>
-                                    Alertes par mail et par SMS
-                                </li>
-                                <li>
-                                    Support par mail et téléphone
-                                </li>
-                            </ul>
-                        </div>
+                            + 1000€ à l'achat
+                        </h4>
                     </div>
 
-                    <span class="btn btn-warning display-block margin-bottom-20">
-                        <strong class="text-xlarge">
-                            250€
-                        </strong>
-                        /mois
-                        <br/>
-                        <small class="pull-right">+ 4000€ à l'achat</small>
-                        <br/>
-                    </span>
+                    <button type="button" class="btn btn-success">Commander !</button>
                 </div>
             </div>
         </div>
     </div>
-</div>
-</div>
 </div>
 </body>
 </html>
