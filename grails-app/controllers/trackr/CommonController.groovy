@@ -15,7 +15,7 @@ class CommonController {
 
     def index() {
         User user = springSecurityService.currentUser
-        List<Device> devices = deviceService.getByUser(user)
+        List<Device> devices = deviceService.getDevicesByUser(user)
         utilService.sortBaseEntities(devices)
 
         if (devices == null || devices.isEmpty()) {

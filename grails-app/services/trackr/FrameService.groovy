@@ -9,6 +9,9 @@ import org.hibernatespatial.criterion.SpatialRestrictions
 
 @Transactional
 class FrameService {
+
+    UserService userService
+    AlertService alertService
     DecoderService decoderService
     ParserService parserService
 
@@ -198,7 +201,7 @@ class FrameService {
         }
     }
 
-    def updateIfLocationIsAvailableAndCorrect(Frame frame, FrameData frameData) {
+    def updateFrameLocationIfLocationIsAvailableAndCorrect(Frame frame, FrameData frameData) {
         if (frameData?.hasGeolocationData()) {
             LatitudeLongitude latitudeLongitude = new LatitudeLongitude(latitude: frameData.latitude,
                     longitude: frameData.longitude)
@@ -209,6 +212,7 @@ class FrameService {
                 // La position géographique est incohérente, on ne l'enregistre pas
                 frame.location = null
             }
+            frame.save()
         }
     }
 
@@ -220,6 +224,7 @@ class FrameService {
             } else {
                 device.deviceFamily = DeviceFamily.UNKNOWN
             }
+            device.save()
         }
     }
 
@@ -227,7 +232,26 @@ class FrameService {
         Frame frame = createAndSaveFrameFromParams(frameProtocol, params)
         FrameData frameData = decoderService.tryDecode(frame)
         updateDeviceFamilyFromFrameData(frame.device, frameData)
-        updateIfLocationIsAvailableAndCorrect(frame, frameData)
+        updateFrameLocationIfLocationIsAvailableAndCorrect(frame, frameData)
+        checkIfAnyAlertIsToRaiseForFrame(frame)
+    }
+
+    def checkIfAnyAlertIsToRaiseForFrame(Frame frame) {
+        if (frame?.location) {
+            // Cette frame a une géolocalisation
+            List<User> users = userService.getUsersByDevice(frame.device)
+            // Pour chaque utilisateur du boitier
+            users?.each {
+                // Parcourir les alertes et voir si une alerte a changé d'état
+                List<Alert> alerts = alertService.getAlertsForUser(it)
+                alerts.each {
+                    boolean isCurrentlyRaised = it.geometry.contains(frame.location)
+                    if(it.isRaised && !isCurrentlyRaised){
+                        it.isRaised
+                    }
+                }
+            }
+        }
     }
 
     Frame createAndSaveFrameFromParams(FrameProtocol frameProtocol, params) {

@@ -45,7 +45,7 @@ class AlertController {
 
     def create() {
         User user = springSecurityService.currentUser
-        def devices = deviceService.getByUser(user)
+        def devices = deviceService.getDevicesByUser(user)
         MapOptions mapOptions = mapService.buildFromDevicesUsingLastFrame(devices)
         render view: "create", model: [
                 mapOptions: mapOptions

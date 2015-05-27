@@ -32,7 +32,7 @@ class DeviceService {
         }
     }
 
-    List<Device> getByUser(User user) {
+    List<Device> getDevicesByUser(User user) {
         UserDevice.findAllByUser(user)*.device?.asList()
     }
 }
