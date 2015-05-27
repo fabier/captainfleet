@@ -13,6 +13,11 @@
         </div>
 
         <div class="col-md-10">
+            <legend>
+                <i class="glyphicon glyphicon-user"></i>
+                &nbsp;Mon compte
+            </legend>
+
             <div class="row">
                 <div class="alert alert-info">
                     <p>

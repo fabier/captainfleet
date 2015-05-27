@@ -16,7 +16,8 @@
             <g:render template="/templates/flashMessage"/>
 
             <legend>
-                Mes alertes
+                <i class="glyphicon glyphicon-bell"></i>
+                &nbsp;Mes alertes
             </legend>
 
             <g:if test="${alerts.isEmpty() && params.name == null}">

@@ -241,11 +241,16 @@
         </div>
 
         <div class="col-md-10">
+            <legend>
+                <i class="glyphicon glyphicon-bell"></i>
+                &nbsp;Fiche alerte
+            </legend>
+
             <div class="row">
                 <g:form action="update" id="${alert.id}" class="form-horizontal">
 
                     <div class="form-group">
-                        <label for="name" class="col-md-2 control-label">Name</label>
+                        <label for="name" class="col-md-2 control-label">Nom</label>
 
                         <div class="col-md-4">
                             <g:field type="text" name="name" value="${alert.name}" class="form-control"/>

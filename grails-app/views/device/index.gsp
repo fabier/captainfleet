@@ -15,7 +15,10 @@
         <div class="col-md-10">
             <g:render template="/templates/flashMessage"/>
 
-            <legend>Mes boitiers</legend>
+            <legend>
+                <i class="glyphicon glyphicon-th-large"></i>
+                &nbsp;Mes boitiers
+            </legend>
 
             <g:if test="${devices.isEmpty() && params.name == null}">
                 <div class="alert alert-info">

@@ -10,7 +10,7 @@
             <ul class="nav nav-pills nav-stacked">
                 <li class="active">
                     <a>
-                        <i class="glyphicon glyphicon-arrow-right"></i>
+                        <i class="glyphicon glyphicon-th-large"></i>
                         &nbsp;${device.name ?: "Boitier ${device.id}"}
                     </a>
                 </li>
@@ -28,7 +28,7 @@
             <ul class="nav nav-pills nav-stacked">
                 <li class="active">
                     <a>
-                        <i class="glyphicon glyphicon-arrow-right"></i>
+                        <i class="glyphicon glyphicon-bell"></i>
                         &nbsp;${alert.name ?: "Alerte ${alert.id}"}
                     </a>
                 </li>

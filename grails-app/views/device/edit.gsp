@@ -15,7 +15,10 @@
         <div class="col-md-10">
             <g:render template="/templates/flashMessage"/>
 
-            <legend>Fiche boitier</legend>
+            <legend>
+                <i class="glyphicon glyphicon-th-large"></i>
+                &nbsp;Fiche boitier
+            </legend>
 
             <g:form action="update" id="${device.id}" class="form-horizontal">
 
