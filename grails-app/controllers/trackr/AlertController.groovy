@@ -1,6 +1,6 @@
 package trackr
 
-import com.vividsolutions.jts.geom.*
+import com.vividsolutions.jts.geom.Geometry
 import com.vividsolutions.jts.io.WKTReader
 import com.vividsolutions.jts.io.WKTWriter
 import grails.plugin.springsecurity.SpringSecurityService
@@ -65,15 +65,6 @@ class AlertController {
         redirect action: "show", id: alert.id
     }
 
-    def updateAlertGeometry(long id) {
-        Alert alert = Alert.get(id)
-        WKTReader wktReader = new WKTReader()
-        Geometry geometry = wktReader.read(params.wkt)
-        alert.geometry = geometry
-        alert.save()
-        redirect action: "show", id: alert.id
-    }
-
     def show(long id) {
         Alert alert = Alert.get(id)
         User user = springSecurityService.currentUser
@@ -83,14 +74,14 @@ class AlertController {
         MapOptions mapOptions = mapService.buildFromFrames(frames)
         mapOptions.boundingBox = alert.geometry.getEnvelopeInternal()
 
-        if (alert.isGeometryInverted) {
-            LineString exteriorRing = ((Polygon) alert.geometry).getExteriorRing()
-            LinearRing worldForOpenLayers = gisUtilService.getWorldAsLinearRingForOpenLayers()
-            Polygon outerPolygon = new GeometryFactory().createPolygon(worldForOpenLayers, (LinearRing[]) [exteriorRing].toArray())
-            wktGeometry = new WKTWriter().write(outerPolygon)
-        } else {
-            wktGeometry = new WKTWriter().write(alert.geometry)
-        }
+//        if (alert.isGeometryInverted) {
+//            LineString exteriorRing = ((Polygon) alert.geometry).getExteriorRing()
+//            LinearRing worldForOpenLayers = gisUtilService.getWorldAsLinearRing()
+//            Polygon outerPolygon = new GeometryFactory().createPolygon(worldForOpenLayers, (LinearRing[]) [exteriorRing].toArray())
+//            wktGeometry = new WKTWriter().write(outerPolygon)
+//        } else {
+        wktGeometry = new WKTWriter().write(alert.geometry)
+//        }
 
         render view: "show", model: [
                 alert      : alert,
@@ -102,6 +93,9 @@ class AlertController {
     def update(long id) {
         Alert alert = Alert.get(id)
         bindData(alert, params, [include: ["name", "isGeometryInverted"]])
+        WKTReader wktReader = new WKTReader()
+        Geometry geometry = wktReader.read(params.wkt)
+        alert.geometry = geometry
         alert.save()
         flash.message = "Enregistrement effectué"
         redirect action: "show", id: id

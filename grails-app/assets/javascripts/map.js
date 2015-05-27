@@ -18,10 +18,12 @@ function initMap(mapId) {
                         new ol.layer.Tile({
                             title: 'MapQuest',
                             type: 'base',
-                            source: new ol.source.MapQuest({layer: 'sat'})
+                            source: new ol.source.MapQuest({layer: 'sat'}),
+                            visible: false
                         }),
                         new ol.layer.Tile({
-                            source: new ol.source.MapQuest({layer: 'hyb'})
+                            source: new ol.source.MapQuest({layer: 'hyb'}),
+                            visible: false
                         })
                     ]
                 }),
@@ -34,12 +36,14 @@ function initMap(mapId) {
                             source: new ol.source.Stamen({
                                 layer: 'watercolor',
                                 maxZoom: 6
-                            })
+                            }),
+                            visible: false
                         }),
                         new ol.layer.Tile({
                             title: 'MapQuest',
                             type: 'base',
-                            source: new ol.source.MapQuest({layer: 'osm'})
+                            source: new ol.source.MapQuest({layer: 'osm'}),
+                            visible: false
                         }),
                         new ol.layer.Tile({
                                 title: 'HikeBikeMap',
@@ -48,7 +52,8 @@ function initMap(mapId) {
                                     url: "http://{a-c}.tiles.wmflabs.org/hikebike/{z}/{x}/{y}.png",
                                     crossOrigin: null,
                                     attribution: "Map Data © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> contributors"
-                                })
+                                }),
+                                visible: false
                             }
                         ),
                         new ol.layer.Tile({
@@ -58,16 +63,18 @@ function initMap(mapId) {
                                     url: "http://{a-c}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png",
                                     crossOrigin: null,
                                     attribution: "&copy; <a href='http://www.openstreetmap.org/'>OpenStreetMap</a> and contributors, under an <a href='http://www.openstreetmap.org/copyright' title='ODbL'>open license</a>. Humanitarian style by <a href='http://hot.openstreetmap.org'>H.O.T.</a>"
-                                })
+                                }),
+                                visible: false
                             }
                         ),
                         new ol.layer.Tile({
                             title: 'OpenStreetMap',
                             type: 'base',
-                            source: new ol.source.OSM()
+                            source: new ol.source.OSM(),
+                            visible: false
                         })
                     ]
-                }),
+                })
             ]
         }
     );

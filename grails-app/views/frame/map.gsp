@@ -7,6 +7,7 @@
         var map; // global so we can access it later
         $(function () {
             map = initMap('map');
+            selectLayer(map, "OpenStreetMap");
             <g:if test="${mapOptions}">
             <g:each in="${mapOptions.mapMarkerLayers}" var="mapMarkerLayer">
             <g:if test="${frame?.location}" >

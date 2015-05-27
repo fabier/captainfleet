@@ -7,7 +7,7 @@
     </li>
     <li role="presentation" class="${controllerName == "account" && actionName == 'devices' ? "active" : ""}">
         <g:link controller="account" action="devices" class="lateral-menu">
-            <i class="glyphicon glyphicon-open"></i>
+            <i class="glyphicon glyphicon-th-large"></i>
             Boitiers
         </g:link>
     </li>

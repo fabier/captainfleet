@@ -22,31 +22,48 @@
                 <sec:ifNotLoggedIn>
                     <li class="${controllerName == 'public' && actionName == "index" ? "active" : ""}">
                         <g:link controller="public" action="index">
-                            Accueil
+                            <i class="glyphicon glyphicon-home"></i>
+                            &nbsp;Accueil
                         </g:link>
                     </li>
                     <li class="${controllerName == 'public' && actionName == "about" ? "active" : ""}">
                         <g:link controller="public" action="about">
-                            Présentation
+                        %{--<i class="glyphicon glyphicon-blackboard"></i>--}%
+                            <i class="glyphicon glyphicon-th-list"></i>
+                            &nbsp;Présentation
                         </g:link>
                     </li>
                     <li class="${controllerName == 'public' && actionName == "plans" ? "active" : ""}">
                         <g:link controller="public" action="plans">
-                            Tarifs
+                        %{--<i class="glyphicon glyphicon-euro"></i>--}%
+                            <i class="glyphicon glyphicon-credit-card"></i>
+                            &nbsp;Tarifs
                         </g:link>
                     </li>
                 </sec:ifNotLoggedIn>
                 <sec:ifLoggedIn>
-                    <li class="${controllerName in ["account", "alert"] ? "active" : ""}">
+                    <li class="${controllerName in ["account"]&& actionName == "index"  ? "active" : ""}">
                         <g:link controller="account">
                             <i class="glyphicon glyphicon-user"></i>
-                            Mon Compte
+                            &nbsp;Mon Compte
+                        </g:link>
+                    </li>
+                    <li class="${controllerName in ["account"] && actionName == "devices" ? "active" : ""}">
+                        <g:link controller="account" action="devices" class="lateral-menu">
+                            <i class="glyphicon glyphicon-th-large"></i>
+                            Boitiers
+                        </g:link>
+                    </li>
+                    <li class="${controllerName in ["alert"] ? "active" : ""}">
+                        <g:link controller="alert" action="index">
+                            <i class="glyphicon glyphicon-bell"></i>
+                            Alertes
                         </g:link>
                     </li>
                     <li>
                         <g:link controller="logout" action="index" title="Se déconnecter">
                             <i class="glyphicon glyphicon-log-out"></i>
-                            Déconnexion
+                            &nbsp;Déconnexion
                         </g:link>
                     </li>
                 </sec:ifLoggedIn>

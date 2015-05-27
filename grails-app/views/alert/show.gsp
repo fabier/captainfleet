@@ -7,10 +7,47 @@
         var map; // global so we can access it later
         var draw; // global so we can remove it later
         var source = new ol.source.Vector(); // source contient les source des features dessinées
-        var alertFeature; // Polygone correspondant à l'alerte
+        var format = new ol.format.WKT();
+        var modify; // Interaction de modification
+
+        // Polygone correspondant à l'alerte
+        var alertFeature = format.readFeature('${wktGeometry}');
+        <g:if test="${alert.isGeometryInverted}">
+        var geometry = alertFeature.getGeometry();
+        var world = [[-170, -80], [-170, 80], [170, 80], [170, -80], [-170, -80]];
+        //        geometry = new ol.geom.Polygon([world, geometry]);
+        //        alertFeature.setGeometry(geometry);
+        </g:if>
+
+        var format = new ol.format.WKT();
+        $('#wktDiv').text(format.writeGeometry(alertFeature.getGeometry()));
+
+        alertFeature.getGeometry().transform('EPSG:4326', 'EPSG:3857');
+
+        alertFeature.on('change', function (event) {
+            var format = new ol.format.WKT();
+            var geometry = this.getGeometry().clone();
+            geometry = geometry.transform('EPSG:3857', 'EPSG:4326');
+            var geometryAsWKT = format.writeGeometry(geometry);
+            $('#wkt').val(geometryAsWKT);
+//            $('#wktDiv').text(geometryAsWKT);
+        });
+
+        function addModifyInteraction() {
+            modify = new ol.interaction.Modify({
+                features: new ol.Collection([alertFeature])
+            });
+            map.addInteraction(modify);
+        }
+
+        function removeModifyInteraction() {
+            map.removeInteraction(modify);
+            modify = null;
+        }
 
         $(function () {
             map = initMap('map');
+            selectLayer(map, "OpenStreetMap");
             <g:if test="${mapOptions}">
             <g:each in="${mapOptions.mapMarkerLayers}" var="mapMarkerLayer">
             <g:each in="${mapMarkerLayer.points}" var="point">
@@ -21,14 +58,10 @@
             <g:if test="${mapOptions.boundingBox}">
             zoomToExtent(map, ${mapOptions.boundingBox.getMinX()}, ${mapOptions.boundingBox.getMinY()},
                     ${mapOptions.boundingBox.getMaxX()}, ${mapOptions.boundingBox.getMaxY()});
-            var zoomLevel = Math.max(0, map.getView().getZoom() - 2);
-            map.getView().setZoom(zoomLevel);
+//            var zoomLevel = Math.max(0, map.getView().getZoom());
+//            map.getView().setZoom(zoomLevel);
             </g:if>
             </g:if>
-
-            var format = new ol.format.WKT();
-            alertFeature = format.readFeature('${wktGeometry}');
-            alertFeature.getGeometry().transform('EPSG:4326', 'EPSG:3857');
 
             var vector = new ol.layer.Vector({
                 source: new ol.source.Vector({
@@ -53,6 +86,7 @@
 
             map.addLayer(vector);
             map.addInteraction(new app.Drag());
+            addModifyInteraction();
         });
     </script>
 
@@ -123,6 +157,7 @@
             if (feature) {
                 this.coordinate_ = evt.coordinate;
                 this.feature_ = feature;
+                removeModifyInteraction();
             }
 
             return !!feature;
@@ -189,16 +224,9 @@
          * @return {boolean} `false` to stop the drag sequence.
          */
         app.Drag.prototype.handleUpEvent = function (evt) {
-            var format = new ol.format.WKT();
-            var geometry = this.feature_.getGeometry().clone();
-            geometry = geometry.transform('EPSG:3857', 'EPSG:4326');
-            var geometryAsWKT = format.writeGeometry(geometry);
-            console.log(geometryAsWKT);
-            $('#wkt').val(geometryAsWKT);
-            $('#updateAlertGeometry').submit();
-
             this.coordinate_ = null;
             this.feature_ = null;
+            addModifyInteraction();
             return false;
         };
     </script>
@@ -212,42 +240,55 @@
             <g:render template="/templates/lateralMenuAccount"/>
         </div>
 
-        <div class="col-md-4">
-            <g:form action="update" id="${alert.id}" class="form-horizontal">
+        <div class="col-md-10">
+            <div class="row">
+                <g:form action="update" id="${alert.id}" class="form-horizontal">
 
-                <div class="form-group">
-                    <label for="name" class="col-md-2 control-label">Name</label>
+                    <div class="form-group">
+                        <label for="name" class="col-md-2 control-label">Name</label>
 
-                    <div class="col-md-10">
-                        <g:field type="text" name="name" value="${alert.name}" class="form-control"/>
+                        <div class="col-md-4">
+                            <g:field type="text" name="name" value="${alert.name}" class="form-control"/>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label>
+                                <g:checkBox name="isGeometryInverted" value="${alert.isGeometryInverted}"/>
+                                Zone inversée
+                            </label>
+                        </div>
+
+                        <div class="col-md-4">
+                            <button type="submit" class="btn btn-primary">
+                                Enregistrer
+                            </button>
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <div class="col-md-10 col-md-offset-2">
-                        <label>
-                            <g:checkBox name="isGeometryInverted" value="${alert.isGeometryInverted}"/>
-                            Zone inversée
-                        </label>
-                    </div>
-                </div>
+                    <g:hiddenField name="wkt" value="${wktGeometry}"/>
 
-                <div class="form-group">
-                    <div class="col-md-10 col-md-offset-2">
-                        <button type="submit" class="btn btn-primary">
-                            Enregistrer
-                        </button>
-                    </div>
-                </div>
-            </g:form>
-        </div>
+                %{--<div id="wktDiv">--}%
+                %{--${wktGeometry}--}%
+                %{--</div>--}%
+                </g:form>
+            </div>
 
-        <div class="col-md-6">
-            <g:render template="/templates/mapFixedHeight"/>
+            <div class="row">
+                <g:render template="/templates/mapFixedHeight"/>
+            </div>
 
-            <g:form name="updateAlertGeometry" action="updateAlertGeometry" id="${alert.id}">
-                <g:hiddenField name="wkt"/>
-            </g:form>
+            %{--<g:form name="updateAlertGeometry" action="updateAlertGeometry" id="${alert.id}" class="form-horizontal">--}%
+            %{--<div class="form-group">--}%
+            %{--<label for="name" class="col-md-2 control-label">WKT</label>--}%
+            %{----}%
+            %{--<div class="col-md-10">--}%
+            %{--<div id="wkt">--}%
+            %{--${wktGeometry}--}%
+            %{--</div>--}%
+            %{--<g:textArea type="text" name="wkt" value="${wktGeometry}" class="form-control"/>--}%
+            %{--</div>--}%
+            %{--</div>--}%
+            %{--</g:form>--}%
         </div>
     </div>
 </div>

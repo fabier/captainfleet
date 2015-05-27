@@ -27,6 +27,7 @@
         var map; // global so we can access it later
         $(function () {
             map = initMap('map');
+            selectLayer(map, "OpenStreetMap");
             <g:if test="${mapOptions}">
             var markers = [];
             <g:each in="${framesWithGeolocation}" var="frameWithGeolocation" status="i">
