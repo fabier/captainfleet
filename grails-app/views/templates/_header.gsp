@@ -18,6 +18,29 @@
         </div>
 
         <div id="navbar" class="collapse navbar-collapse">
+            <sec:ifLoggedIn>
+                <ul class="nav navbar-nav">
+                    <li class="${controllerName in ["common"] ? "active" : ""}">
+                        <g:link controller="common" action="index" class="lateral-menu">
+                            <i class="glyphicon glyphicon-map-marker"></i>
+                            &nbsp;Carte
+                        </g:link>
+                    </li>
+                    <li class="${controllerName in ["device"] && actionName == "index" ? "active" : ""}">
+                        <g:link controller="device" action="index" class="lateral-menu">
+                            <i class="glyphicon glyphicon-th-large"></i>
+                            &nbsp;Boitiers
+                        </g:link>
+                    </li>
+                    <li class="${controllerName in ["alert"] ? "active" : ""}">
+                        <g:link controller="alert" action="index">
+                            <i class="glyphicon glyphicon-bell"></i>
+                            &nbsp;Alertes
+                        </g:link>
+                    </li>
+                </ul>
+            </sec:ifLoggedIn>
+
             <ul class="nav navbar-nav navbar-right">
                 <sec:ifNotLoggedIn>
                     <li class="${controllerName == 'public' && actionName == "index" ? "active" : ""}">
@@ -28,36 +51,22 @@
                     </li>
                     <li class="${controllerName == 'public' && actionName == "about" ? "active" : ""}">
                         <g:link controller="public" action="about">
-                        %{--<i class="glyphicon glyphicon-blackboard"></i>--}%
                             <i class="glyphicon glyphicon-th-list"></i>
                             &nbsp;Présentation
                         </g:link>
                     </li>
                     <li class="${controllerName == 'public' && actionName == "plans" ? "active" : ""}">
                         <g:link controller="public" action="plans">
-                        %{--<i class="glyphicon glyphicon-euro"></i>--}%
                             <i class="glyphicon glyphicon-credit-card"></i>
                             &nbsp;Tarifs
                         </g:link>
                     </li>
                 </sec:ifNotLoggedIn>
                 <sec:ifLoggedIn>
-                    <li class="${controllerName in ["account"]&& actionName == "index"  ? "active" : ""}">
+                    <li class="${controllerName in ["account"] && actionName == "index" ? "active" : ""}">
                         <g:link controller="account">
                             <i class="glyphicon glyphicon-user"></i>
                             &nbsp;Mon Compte
-                        </g:link>
-                    </li>
-                    <li class="${controllerName in ["account"] && actionName == "devices" ? "active" : ""}">
-                        <g:link controller="account" action="devices" class="lateral-menu">
-                            <i class="glyphicon glyphicon-th-large"></i>
-                            Boitiers
-                        </g:link>
-                    </li>
-                    <li class="${controllerName in ["alert"] ? "active" : ""}">
-                        <g:link controller="alert" action="index">
-                            <i class="glyphicon glyphicon-bell"></i>
-                            Alertes
                         </g:link>
                     </li>
                     <li>

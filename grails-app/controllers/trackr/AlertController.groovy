@@ -38,7 +38,7 @@ class AlertController {
         int endIndex = Math.min(totalCount, offset + max)
 
         render view: "index", model: [
-                results   : alerts.subList(offset, endIndex),
+                alerts    : alerts.subList(offset, endIndex),
                 totalCount: totalCount
         ]
     }

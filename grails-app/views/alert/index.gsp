@@ -15,7 +15,11 @@
         <div class="col-md-10">
             <g:render template="/templates/flashMessage"/>
 
-            <g:if test="${totalCount == 0 && params.name == null}">
+            <legend>
+                Mes alertes
+            </legend>
+
+            <g:if test="${alerts.isEmpty() && params.name == null}">
                 <div class="row">
                     <div class="alert alert-info">
                         Vous n'avez pas encore défini d'alerte, vous pouvez le faire en cliquant sur le bouton "Créer une nouvelle alerte".
@@ -23,11 +27,19 @@
                 </div>
             </g:if>
 
-            <g:if test="${totalCount > 0 || params.name}">
+            <g:if test="${!alerts.isEmpty() || params.name}">
                 <g:render template="searchForm"/>
             </g:if>
 
-            <g:if test="${totalCount == 0 && params.name}">
+            <g:if test="${alerts.isEmpty() && params.name != null}">
+                <div class="alert alert-info">
+                    <p>
+                        Aucun résultat pour cette recherche
+                    </p>
+                </div>
+            </g:if>
+
+            <g:if test="${alerts.isEmpty() && params.name}">
                 <div class="row">
                     <div class="alert alert-info">
                         Aucune alerte ne correspond à votre recherche.
@@ -35,7 +47,7 @@
                 </div>
             </g:if>
 
-            <g:if test="${totalCount > 0}">
+            <g:if test="${!alerts.isEmpty()}">
                 <div class="row">
                     <table class="table table-hover small nomargin-left-right">
                         <thead>
@@ -48,7 +60,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <g:each in="${results}" var="alert">
+                        <g:each in="${alerts}" var="alert">
                             <tr class="clickable-row"
                                 data-href="${createLink(action: "show", id: alert.id)}">
                                 <td>${alert.id}</td>
@@ -65,10 +77,9 @@
                         </tbody>
                     </table>
 
-                    <g:if test="${totalCount > results.size()}">
+                    <g:if test="${totalCount > alerts.size()}">
                         <div class="text-center">
-                            <g:paginate next="&gt;" prev="&lt;" maxsteps="5" action="deviceSearch"
-                                        total="${totalCount}"/>
+                            <g:paginate next="&gt;" prev="&lt;" maxsteps="5" action="index" total="${totalCount}"/>
                         </div>
                     </g:if>
                 </div>
