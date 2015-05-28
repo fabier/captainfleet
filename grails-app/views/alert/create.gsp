@@ -4,7 +4,6 @@
     <meta name="layout" content="main"/>
     <title>CaptainFleet - Alertes</title>
     <script type="application/javascript">
-        var map; // global so we can access it later
         $(function () {
             map = initMap('map');
             selectLayer(map, "OpenStreetMap");
@@ -27,8 +26,9 @@
     <script type="application/javascript">
         var draw; // global so we can remove it later
         var source = new ol.source.Vector(); // source contient les source des features dessinées
+        var alertFeature; // Globale, dès qu'on a créé l'alerte
 
-        function addInteraction() {
+        function addDrawInteraction() {
             var value = 'Polygon';
             if (value !== 'None') {
                 draw = new ol.interaction.Draw({
@@ -39,16 +39,29 @@
                 draw.on('drawend', function (evt) {
                     var format = new ol.format.WKT();
                     var features = source.getFeatures();
-                    for (var i in features) {
-                        var feature = features[i];
-                        var geometry = feature.getGeometry().clone();
+                    if (features.length >= 1) {
+                        alertFeature = features[features.length - 1];
+                        var geometry = alertFeature.getGeometry().clone();
                         geometry = geometry.transform('EPSG:3857', 'EPSG:4326');
                         var geometryAsWKT = format.writeGeometry(geometry);
                         $('#wkt').val(geometryAsWKT);
-                        $('#createAlertUsingGeometryForm').submit();
+                        alertFeature.on('change', function (event) {
+                            var format = new ol.format.WKT();
+                            var geometry = this.getGeometry().clone();
+                            geometry = geometry.transform('EPSG:3857', 'EPSG:4326');
+                            var geometryAsWKT = format.writeGeometry(geometry);
+                            $('#wkt').val(geometryAsWKT);
+                        });
+                        map.removeInteraction(draw);
+                        addDragNDropInteraction();
+                        addModifyInteraction();
                     }
                 });
             }
+        }
+
+        function getDraggableFeature(){
+            return alertFeature;
         }
 
         $(function () {
@@ -73,12 +86,15 @@
 
             map.addLayer(vector);
 
-            addInteraction();
+            addDrawInteraction();
         });
     </script>
 </head>
 
 <body>
+
+<g:render template="/templates/flashMessage"/>
+
 <div class="container margin-top-20">
     <div class="row">
         <div class="col-md-2">
@@ -86,11 +102,42 @@
         </div>
 
         <div class="col-md-10">
-            <g:render template="/templates/mapFixedHeight"/>
+            <legend>
+                <i class="glyphicon glyphicon-bell"></i>
+                &nbsp;Nouvelle alerte
+            </legend>
 
-            <g:form name="createAlertUsingGeometryForm" action="createAlertUsingGeometry">
-                <g:hiddenField name="wkt"/>
-            </g:form>
+            <div class="row">
+                <g:form action="createAlertUsingGeometry" class="form-horizontal">
+
+                    <div class="form-group">
+                        <label for="name" class="col-md-2 control-label">Nom</label>
+
+                        <div class="col-md-4">
+                            <g:field type="text" name="name" value="${alert?.name}" class="form-control"/>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label>
+                                <g:checkBox name="isGeometryInverted" value="${alert?.isGeometryInverted}"/>
+                                Zone inversée
+                            </label>
+                        </div>
+
+                        <div class="col-md-4">
+                            <button type="submit" class="btn btn-primary">
+                                Enregistrer
+                            </button>
+                        </div>
+                    </div>
+
+                    <g:hiddenField name="wkt"/>
+                </g:form>
+            </div>
+
+            <div class="row">
+                <g:render template="/templates/mapFixedHeight"/>
+            </div>
         </div>
     </div>
 </div>
