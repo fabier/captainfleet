@@ -36,9 +36,14 @@ class AlertController {
         int max = params.max ?: 10
         int totalCount = alerts.size()
         int endIndex = Math.min(totalCount, offset + max)
+        alerts = alerts.subList(offset, endIndex)
+
+        alerts.each {
+            it.area = alertService.getArea(it)
+        }
 
         render view: "index", model: [
-                alerts    : alerts.subList(offset, endIndex),
+                alerts    : alerts,
                 totalCount: totalCount
         ]
     }
@@ -57,6 +62,8 @@ class AlertController {
         WKTReader wktReader = new WKTReader()
         Geometry geometry = wktReader.read(params.wkt)
         Alert alert = new Alert(
+                name: params.name,
+                isGeometryInverted: params.isGeometryInverted,
                 geometry: geometry,
                 creator: user
         )
@@ -92,13 +99,19 @@ class AlertController {
 
     def update(long id) {
         Alert alert = Alert.get(id)
-        bindData(alert, params, [include: ["name", "isGeometryInverted"]])
+
         WKTReader wktReader = new WKTReader()
-        Geometry geometry = wktReader.read(params.wkt)
-        alert.geometry = geometry
+        Geometry geometry
+        if (params.wkt) {
+            geometry = wktReader.read(params.wkt)
+            alert.geometry = geometry
+        }
+
+        bindData(alert, params, [include: ["name", "isGeometryInverted"]])
         alert.save()
-        flash.message = "Enregistrement effectué"
-        redirect action: "show", id: id
+
+        flash.success = "Enregistrement effectué"
+        redirect action: "show", id: alert.id
     }
 
     def delete(long id) {

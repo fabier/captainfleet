@@ -6,6 +6,9 @@
 </head>
 
 <body>
+
+<g:render template="/templates/flashMessage"/>
+
 <div class="container margin-top-20">
     <div class="row">
         <div class="col-md-2">
@@ -13,8 +16,6 @@
         </div>
 
         <div class="col-md-10">
-            <g:render template="/templates/flashMessage"/>
-
             <legend>
                 <i class="glyphicon glyphicon-bell"></i>
                 &nbsp;Mes alertes
@@ -55,7 +56,7 @@
                         <tr>
                             <th class="col-md-1">#</th>
                             <th class="col-md-2">Nom de l'alerte</th>
-                            <th class="col-md-2">Type</th>
+                            <th class="col-md-2">Aire</th>
                             <th class="col-md-2">Nombre de points</th>
                             <th class="col-md-1">Actions</th>
                         </tr>
@@ -66,7 +67,9 @@
                                 data-href="${createLink(action: "show", id: alert.id)}">
                                 <td>${alert.id}</td>
                                 <td>${alert.name}</td>
-                                <td>${alert.geometry?.getGeometryType()}</td>
+                                <td>
+                                    <g:formatArea number="${alert.getArea()}"/>
+                                </td>
                                 <td>${alert.geometry?.getNumPoints()}</td>
                                 <td>
                                     <g:link controller="alert" action="delete" id="${alert.id}">
