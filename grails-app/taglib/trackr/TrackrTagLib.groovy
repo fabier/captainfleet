@@ -19,4 +19,27 @@ class TrackrTagLib {
         out << (Math.signum(delay) > 0 ? "+" : "-")
         out << formatDate(date: delayDate, format: "mm:ss''''SSS", timeZone: "UTC")
     }
+
+    def formatArea = { attr, body ->
+        assert attr.number
+        double area = attr.number
+
+        String unit
+        int fractionDigits
+        if (area >= 100000.0) {
+            area = area / 1000000.0
+            unit = "km²"
+            fractionDigits = 1
+        } else {
+            unit = "m²"
+            fractionDigits = 0
+        }
+        out << formatNumber([
+                number           : area,
+                minFractionDigits: fractionDigits,
+                maxFractionDigits: fractionDigits,
+                locale           : Locale.ENGLISH
+        ])
+        out << " ${unit}"
+    }
 }
