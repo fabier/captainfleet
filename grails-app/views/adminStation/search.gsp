@@ -6,6 +6,9 @@
 </head>
 
 <body>
+
+<g:render template="/templates/flashMessage"/>
+
 <div class="container margin-top-20">
     <div class="row">
         <div class="col-md-2">
@@ -14,8 +17,6 @@
 
         <div class="col-md-10">
             <div class="row">
-                <g:render template="/templates/flashMessage"/>
-
                 <div class="col-md-6">
                     <g:form action='stationSearch' name='stationSearchForm' class="form-horizontal">
                         <div class="form-group">

@@ -6,10 +6,12 @@
 </head>
 
 <body>
+
+<g:render template="/templates/flashMessage"/>
+
 <div class="container">
     <div class="row">
         <div class="col-md-8 center-block">
-
             <div class="alert alert-info">
                 <p>
                     <span class="text-large">Conditions Générales d'Utilisation (CGU)</span>

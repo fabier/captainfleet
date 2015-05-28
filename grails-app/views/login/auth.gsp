@@ -8,12 +8,11 @@
 
 <body>
 
-<div class="container ">
+<g:render template="/templates/flashMessage"/>
 
-    <g:render template="/templates/flashMessage"/>
+<div class="container">
     <div class="row">
         <div class="col-md-6 center-block">
-
             <form action='${postUrl}' method='POST' id="loginForm" name="loginForm" class="form-horizontal">
                 <div class="form-group">
                     <label for="username" class="col-md-4 control-label">

@@ -7,8 +7,9 @@
 
 <body>
 
+<g:render template="/templates/flashMessage"/>
+
 <div class="container">
-    <g:render template="/templates/flashMessage"/>
     <div class="row">
         <div class="col-md-8 center-block">
             <g:if test="${flash.message}">

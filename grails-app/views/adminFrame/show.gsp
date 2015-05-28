@@ -7,6 +7,8 @@
 
 <body>
 
+<g:render template="/templates/flashMessage"/>
+
 <div class="container margin-top-20">
     <div class="row">
         <div class="col-md-2">
@@ -14,8 +16,6 @@
         </div>
 
         <div class="col-md-10">
-            <g:render template="/templates/flashMessage"/>
-
             <g:render template="/templates/breadcrumb">
                 <g:render template="/templates/breadcrumb/device"/>
                 <li>

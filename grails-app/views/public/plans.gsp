@@ -7,14 +7,9 @@
 
 <body>
 
-<div class="container">
-    <g:render template="/templates/flashMessage"/>
-    %{--<div class="row">--}%
-    %{--<div class="alert alert-info">--}%
-    %{--<span class="text-large">Découvrez nos offres, et choisissez celle qui vous convient le mieux, directement en ligne !</span>--}%
-    %{--</div>--}%
-    %{--</div>--}%
+<g:render template="/templates/flashMessage"/>
 
+<div class="container">
     <div class="pricing-tables attached">
         <div class="row">
             <div class="col-sm-4 col-md-4">

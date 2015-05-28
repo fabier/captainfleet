@@ -7,8 +7,10 @@
 </head>
 
 <body>
+
+<g:render template="/templates/flashMessage"/>
+
 <div class="container">
-    <g:render template="/templates/flashMessage"/>
     <div class="row">
         <div class="col-md-12">
             <g:if env="development">

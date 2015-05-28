@@ -6,6 +6,9 @@
 </head>
 
 <body>
+
+<g:render template="/templates/flashMessage"/>
+
 <div class="container margin-top-20">
     <div class="row">
         <div class="col-md-2">
@@ -13,8 +16,6 @@
         </div>
 
         <div class="col-md-10">
-            <g:render template="/templates/flashMessage"/>
-
             <legend>
                 <i class="glyphicon glyphicon-th-large"></i>
                 &nbsp;Fiche boitier

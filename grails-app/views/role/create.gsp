@@ -8,6 +8,8 @@
 
 <body>
 
+<g:render template="/templates/flashMessage"/>
+
 <div class="body">
 
 	<s2ui:form width='100%' height='200' elementId='formContainer'

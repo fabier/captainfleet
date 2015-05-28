@@ -6,6 +6,8 @@
 
 <body>
 
+<g:render template="/templates/flashMessage"/>
+
 <div class="container margin-top-20">
     <div class="row">
         <div class="col-md-2">
@@ -14,9 +16,6 @@
 
         <div class="col-md-10">
             <div class="row">
-
-                <g:render template="/templates/flashMessage"/>
-
                 <div class="alert alert-danger">
                     Attention, éditer un utilisateur est dangereux, soyez attentifs aux modifications apportées.
                 </div>

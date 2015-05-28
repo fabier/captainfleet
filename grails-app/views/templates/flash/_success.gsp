@@ -1,4 +1,4 @@
-<div class="flashMessage alert alert-warning alert-dismissible" role="alert">
+<div class="flashMessage alert alert-success alert-dismissible" role="alert">
     <button type="button" class="close" data-dismiss="alert">
         <span aria-hidden="true">
         &times;
@@ -7,5 +7,5 @@
             Close
         </span>
     </button>
-    ${raw(flash?.warning)}
+    ${raw(flash?.success)}
 </div>

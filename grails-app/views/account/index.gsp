@@ -6,6 +6,9 @@
 </head>
 
 <body>
+
+<g:render template="/templates/flashMessage"/>
+
 <div class="container margin-top-20">
     <div class="row">
         <div class="col-md-2">
@@ -24,8 +27,6 @@
                         Vous pouvez utiliser le formulaire ci dessous pour changer votre nom.
                     </p>
                 </div>
-
-                <g:render template="/templates/flashMessage"/>
 
                 <div class="col-md-6">
                     <g:form action='update' class="form-horizontal">

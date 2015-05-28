@@ -6,6 +6,9 @@
 </head>
 
 <body>
+
+<g:render template="/templates/flashMessage"/>
+
 <div class="container">
     <div class="row">
         <div class="col-md-8 center-block">

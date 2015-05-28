@@ -7,12 +7,11 @@
 
 <body>
 
+<g:render template="/templates/flashMessage"/>
+
 <div class="container">
     <div class="row">
         <div class="col-md-8 center-block">
-
-            <g:render template="/templates/flashMessage"/>
-
             <g:if test='${emailSent}'>
                 <div class="alert alert-info">
                     <g:message code='trackr.emailSent'/>

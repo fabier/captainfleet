@@ -4,7 +4,6 @@
     <meta name="layout" content="map"/>
     <title>CaptainFleet - Accueil</title>
     <script type="application/javascript">
-        var map; // global so we can access it later
         $(function () {
             map = initMap('map');
             selectLayer(map, "Stamen Watercolor");
@@ -27,7 +26,8 @@
 </head>
 
 <body>
-<!-- Begin page content -->
+
+<g:render template="/templates/flashMessage"/>
 
 <div class="container-fluid">
     <div class="row-fluid">

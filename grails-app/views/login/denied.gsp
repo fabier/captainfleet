@@ -5,12 +5,11 @@
 
 <body>
 
+<g:render template="/templates/flashMessage"/>
+
 <div class="container">
     <div class="row">
         <div class="col-md-8 center-block">
-
-            <g:render template="/templates/flashMessage"/>
-
             <div class="alert alert-danger">
                 <div class='errors'>
                     <g:message code="springSecurity.denied.message"/>
