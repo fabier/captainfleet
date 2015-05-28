@@ -1,6 +1,6 @@
 <ul class="nav nav-pills nav-stacked lateral-menu">
     <li role="presentation" class="${controllerName == "device" && actionName == 'index' ? "active" : ""}">
-        <g:link controller="device" action="index"  class="lateral-menu">
+        <g:link controller="device" action="index" class="lateral-menu">
             <i class="glyphicon glyphicon-th-large"></i>
             &nbsp;Boitiers
         </g:link>
@@ -17,7 +17,7 @@
             </ul>
         </li>
     </g:if>
-    <li role="presentation" class="${controllerName == "alert" && actionName == "index" ? "active" : ""}">
+    <li role="presentation" class="${controllerName == "alert" && actionName in ["index", "create"] ? "active" : ""}">
         <g:link controller="alert" action="index" class="lateral-menu">
             <i class="glyphicon glyphicon-bell"></i>
             &nbsp;Alertes
@@ -42,9 +42,9 @@
         </g:link>
     </li>
     %{--<li role="presentation" class="${actionName == 'preferences' ? "active" : ""}">--}%
-        %{--<g:link controller="account" action="preferences" class="lateral-menu">--}%
-            %{--<i class="glyphicon glyphicon-cog"></i>--}%
-            %{--&nbsp;Préferences--}%
-        %{--</g:link>--}%
+    %{--<g:link controller="account" action="preferences" class="lateral-menu">--}%
+    %{--<i class="glyphicon glyphicon-cog"></i>--}%
+    %{--&nbsp;Préferences--}%
+    %{--</g:link>--}%
     %{--</li>--}%
 </ul>
