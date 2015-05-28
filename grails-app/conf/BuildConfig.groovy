@@ -57,6 +57,8 @@ grails.project.dependency.resolution = {
             exclude 'org.hibernate:hibernate-core:3.6.0.Final'
             excludes 'javassist'
         }
+        compile('org.geotools:gt-main:12-RC1')
+        compile('org.geotools:gt-referencing:12-RC1')
     }
 
     plugins {
