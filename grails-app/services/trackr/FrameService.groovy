@@ -241,7 +241,7 @@ class FrameService {
     }
 
     def checkIfAnyAlertIsToRaiseForFrame(Frame frame) {
-        if (frame?.location) {
+        if (frame?.location && !frame.duplicate) {
             // Cette frame a une géolocalisation
             List<User> users = userService.getUsersByDevice(frame.device)
             Device device = frame.device
