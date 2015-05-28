@@ -122,4 +122,13 @@ class AlertController {
         }
         redirect action: "index"
     }
+
+    def devices(long id) {
+        Alert alert = Alert.get(id)
+        List<DeviceAlert> deviceAlerts = alertService.getDeviceAlerts(alert)
+        render view: "devices", model: [
+                alert       : alert,
+                deviceAlerts: deviceAlerts
+        ]
+    }
 }

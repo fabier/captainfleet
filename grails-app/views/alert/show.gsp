@@ -72,7 +72,7 @@
             addModifyInteraction();
         });
 
-        function getDraggableFeature(){
+        function getDraggableFeature() {
             return alertFeature;
         }
     </script>
@@ -88,7 +88,7 @@
             <g:render template="/templates/lateralMenuAccount"/>
         </div>
 
-        <div class="col-md-10">
+        <div class="col-md-8">
             <legend>
                 <i class="glyphicon glyphicon-bell"></i>
                 &nbsp;Fiche alerte
@@ -125,6 +125,10 @@
             <div class="row">
                 <g:render template="/templates/mapFixedHeight"/>
             </div>
+        </div>
+
+        <div class="col-md-2">
+            <g:render template="actions"/>
         </div>
     </div>
 </div>
