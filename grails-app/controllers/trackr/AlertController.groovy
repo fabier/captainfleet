@@ -19,7 +19,7 @@ class AlertController {
     AlertService alertService
     UtilService utilService
     FrameService frameService
-    GisUtilService gisUtilService
+    UserService userService
 
     def index() {
         User user = springSecurityService.currentUser
@@ -130,5 +130,21 @@ class AlertController {
                 alert       : alert,
                 deviceAlerts: deviceAlerts
         ]
+    }
+
+    def updateDeviceState(long id) {
+        Alert alert = Alert.get(id)
+        User user = springSecurityService.currentUser
+//        List<DeviceAlert> deviceAlerts = alertService.getDeviceAlerts(alert)
+        List<Device> devices = deviceService.getDevicesByUser(user)
+        devices.each {
+            DeviceAlert deviceAlert = DeviceAlert.findOrSaveByDeviceAndAlert(it, alert)
+            Frame frame = frameService.getLastFrameWithGeolocation(it)
+            if (frame) {
+                deviceAlert.isRaised = alertService.isAlertRaised(alert, frame)
+                deviceAlert.save()
+            }
+        }
+        redirect action: "devices", id: id
     }
 }

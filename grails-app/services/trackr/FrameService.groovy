@@ -251,15 +251,7 @@ class FrameService {
                 // Parcourir les alertes et voir si une alerte a changé d'état
                 List<Alert> alerts = alertService.getAlertsForUser(it)
                 alerts.each {
-                    boolean isRaisedNow
-                    if (!it.isGeometryInverted) {
-                        // On teste si le boitier est dans la zone de l'alerte
-                        isRaisedNow = it.geometry.contains(frame.location)
-                    } else {
-                        // Si la géométrie est inversée, on considère que l'alerte est levée lorsque
-                        // le boitier est "en dehors" de la zone de l'alerte
-                        isRaisedNow = !it.geometry.contains(frame.location)
-                    }
+                    boolean isRaisedNow = alertService.isAlertRaised(it, frame)
 
                     DeviceAlert deviceAlert = DeviceAlert.findOrSaveByDeviceAndAlert(device, it)
 
@@ -346,7 +338,7 @@ class FrameService {
     }
 
 
-    Frame lastFrame(Device device) {
+    Frame getLastFrame(Device device) {
         return Frame.createCriteria().get {
             eq("device", device)
             eq("duplicate", false)
@@ -356,7 +348,7 @@ class FrameService {
         }
     }
 
-    Frame lastFrameWithGeolocation(Device device) {
+    Frame getLastFrameWithGeolocation(Device device) {
         return Frame.createCriteria().get {
             eq("device", device)
             eq("duplicate", false)

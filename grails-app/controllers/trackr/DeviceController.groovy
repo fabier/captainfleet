@@ -49,7 +49,7 @@ class DeviceController {
         Device device = Device.get(id)
         Date date = parserService.tryParseDate(params.date)
         if (date == null) {
-            Frame lastFrame = frameService.lastFrame(device)
+            Frame lastFrame = frameService.getLastFrame(device)
             date = lastFrame?.dateCreated ?: new Date()
         }
         Date dateLowerBound = DateUtils.truncate(date, Calendar.DAY_OF_MONTH)

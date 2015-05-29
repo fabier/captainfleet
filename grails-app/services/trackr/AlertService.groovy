@@ -27,4 +27,15 @@ class AlertService {
     List<DeviceAlert> getDeviceAlerts(Alert alert) {
         DeviceAlert.findAllByAlert(alert)
     }
+
+    boolean isAlertRaised(Alert alert, Frame frame) {
+        if (!alert.isGeometryInverted) {
+            // On teste si le boitier est dans la zone de l'alerte
+            return alert.geometry.contains(frame.location)
+        } else {
+            // Si la géométrie est inversée, on considère que l'alerte est levée lorsque
+            // le boitier est "en dehors" de la zone de l'alerte
+            return !alert.geometry.contains(frame.location)
+        }
+    }
 }

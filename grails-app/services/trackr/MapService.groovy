@@ -15,7 +15,7 @@ class MapService {
     MapOptions buildFromDevicesUsingLastFrame(List<Device> devices) {
         Set<com.vividsolutions.jts.geom.Point> points = new HashSet<>()
         devices.each {
-            Frame lastFrame = frameService.lastFrameWithGeolocation(it)
+            Frame lastFrame = frameService.getLastFrameWithGeolocation(it)
             if (lastFrame?.location instanceof com.vividsolutions.jts.geom.Point) {
                 points.add(lastFrame.location as com.vividsolutions.jts.geom.Point)
             }

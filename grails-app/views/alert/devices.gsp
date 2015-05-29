@@ -27,6 +27,12 @@
                         Pas encore de données pour cette alerte.
                     </div>
                 </div>
+
+                <div class="row">
+                    <g:link action="updateDeviceState" id="${alert.id}" class="btn btn-primary">
+                        Chercher des données
+                    </g:link>
+                </div>
             </g:if>
             <g:else>
                 <div class="row">
@@ -35,18 +41,18 @@
                         <tr>
                             <th class="col-md-1">#</th>
                             <th class="col-md-2">Nom du boitier</th>
-                            <th class="col-md-2">Etat</th>
+                            <th class="col-md-2">Dans la zone</th>
                             <th class="col-md-2">Dernière mise à jour</th>
                         </tr>
                         </thead>
                         <tbody>
                         <g:each in="${deviceAlerts}" var="deviceAlert">
                             <tr class="clickable-row"
-                                data-href="${createLink(action: "device", id: deviceAlert.id)}">
+                                data-href="${createLink(controller: "deviceAlert", action: "show", id: deviceAlert.id)}">
                                 <td>${deviceAlert.device.sigfoxId}</td>
                                 <td>${deviceAlert.device.name}</td>
                                 <td>
-                                    <g:formatBoolean boolean="${deviceAlert.isRaised()}"/>
+                                    <g:formatBooleanYesNo boolean="${deviceAlert.isRaised ?: false}"/>
                                 </td>
                                 <td>
                                     <g:formatDate format="yyyy-MM-dd HH:mm" date="${deviceAlert.lastUpdated}"/>

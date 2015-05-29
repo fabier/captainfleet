@@ -42,4 +42,25 @@ class TrackrTagLib {
         ])
         out << " ${unit}"
     }
+
+    def formatBooleanIcon = { attr, body ->
+        if (attr.boolean == null) {
+            out << raw("<i class=\"glyphicon glyphicon-ban-circle\"></i>")
+        } else if (attr.boolean) {
+            out << raw("<i class=\"glyphicon glyphicon-check\"></i>")
+        } else {
+            out << raw("<i class=\"glyphicon glyphicon-unchecked\"></i>")
+        }
+    }
+
+    def formatBooleanYesNo = { attr, body ->
+
+        if (attr.boolean == null) {
+            out << raw("N/A")
+        } else if (attr.boolean) {
+            out << raw("Oui")
+        } else {
+            out << raw("Non")
+        }
+    }
 }
