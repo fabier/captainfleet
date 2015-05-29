@@ -6,8 +6,6 @@ import org.springframework.security.access.annotation.Secured
 class AdminController {
     static defaultAction = "index"
 
-    def springSecurityService
-
     def index() {
         redirect controller: "user", action: "userSearch"
     }

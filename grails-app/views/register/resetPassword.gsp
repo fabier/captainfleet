@@ -29,7 +29,8 @@
 
                         <div class="form-group">
                             <label for="password2" class="col-md-4 control-label">
-                                <g:message code="resetPasswordCommand.password2.label" default="Mot de passe (répéter)"/>
+                                <g:message code="resetPasswordCommand.password2.label"
+                                           default="Mot de passe (répéter)"/>
                             </label>
 
                             <div class="col-md-6">

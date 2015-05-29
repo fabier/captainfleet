@@ -8,7 +8,6 @@ class AdminStationController {
 
     static defaultAction = "search"
 
-    StationService stationService
     FrameService frameService
     MapService mapService
 

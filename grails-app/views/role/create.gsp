@@ -1,9 +1,9 @@
 <html>
 
 <head>
-	<meta name='layout' content='admin'/>
-	<g:set var="entityName" value="${message(code: 'role.label', default: 'Role')}"/>
-	<title>CaptainFleet - Créer un rôle</title>
+    <meta name='layout' content='admin'/>
+    <g:set var="entityName" value="${message(code: 'role.label', default: 'Role')}"/>
+    <title>CaptainFleet - Créer un rôle</title>
 </head>
 
 <body>
@@ -12,42 +12,43 @@
 
 <div class="body">
 
-	<s2ui:form width='100%' height='200' elementId='formContainer'
-	           titleCode='default.create.label' titleCodeArgs='[entityName]'>
+    <s2ui:form width='100%' height='200' elementId='formContainer'
+               titleCode='default.create.label' titleCodeArgs='[entityName]'>
 
-	<g:form action="save" name='roleCreateForm'>
-		<div class="dialog">
+        <g:form action="save" name='roleCreateForm'>
+            <div class="dialog">
 
-			<br/>
+                <br/>
 
-			<table>
-				<tbody>
+                <table>
+                    <tbody>
 
-					<s2ui:textFieldRow name='authority' labelCode='role.authority.label' bean="${role}"
-					                   size='50' labelCodeDefault='Authority' value="${role?.authority}"/>
+                    <s2ui:textFieldRow name='authority' labelCode='role.authority.label' bean="${role}"
+                                       size='50' labelCodeDefault='Authority' value="${role?.authority}"/>
 
-					<tr><td>&nbsp;</td></tr>
+                    <tr><td>&nbsp;</td></tr>
 
-					<tr class="prop">
-						<td valign="top">
-							<s2ui:submitButton elementId='create' form='roleCreateForm' messageCode='default.button.create.label'/>
-						</td>
-					</tr>
+                    <tr class="prop">
+                        <td valign="top">
+                            <s2ui:submitButton elementId='create' form='roleCreateForm'
+                                               messageCode='default.button.create.label'/>
+                        </td>
+                    </tr>
 
-				</tbody>
-			</table>
-		</div>
+                    </tbody>
+                </table>
+            </div>
 
-	</g:form>
+        </g:form>
 
-	</s2ui:form>
+    </s2ui:form>
 
 </div>
 
 <script>
-$(document).ready(function() {
-	$('#authority').focus();
-});
+    $(document).ready(function () {
+        $('#authority').focus();
+    });
 </script>
 
 </body>

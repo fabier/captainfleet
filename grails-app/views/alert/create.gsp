@@ -60,7 +60,7 @@
             }
         }
 
-        function getDraggableFeature(){
+        function getDraggableFeature() {
             return alertFeature;
         }
 

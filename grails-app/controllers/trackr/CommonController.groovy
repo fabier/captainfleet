@@ -1,5 +1,6 @@
 package trackr
 
+import grails.plugin.springsecurity.SpringSecurityService
 import org.springframework.security.access.annotation.Secured
 
 @Secured("hasRole('ROLE_USER')")
@@ -7,8 +8,7 @@ class CommonController {
 
     static defaultAction = "index"
 
-    def springSecurityService
-    DecoderService decoderService
+    SpringSecurityService springSecurityService
     MapService mapService
     DeviceService deviceService
     UtilService utilService

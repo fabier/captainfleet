@@ -5,8 +5,6 @@ import grails.transaction.Transactional
 @Transactional
 class DecoderService {
 
-    ParserService parserService
-
     /**
      *
      * @param frame

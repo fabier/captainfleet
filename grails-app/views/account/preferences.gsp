@@ -14,6 +14,7 @@
         <div class="col-md-2">
             <g:render template="/templates/lateralMenuAccount"/>
         </div>
+
         <div class="col-md-10">
             <g:render template="/templates/workInProgress"/>
         </div>

@@ -1,7 +1,6 @@
 package trackr.admin
 
 import org.springframework.security.access.annotation.Secured
-import trackr.CodeGeneratorService
 import trackr.Device
 import trackr.DeviceService
 import trackr.Frame
@@ -11,7 +10,6 @@ class AdminDeviceController {
 
     static defaultAction = "search"
 
-    CodeGeneratorService codeGeneratorService
     DeviceService deviceService
 
     def search() {

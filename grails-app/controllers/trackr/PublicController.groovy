@@ -1,6 +1,7 @@
 package trackr
 
 import grails.plugin.mail.MailService
+import grails.plugin.springsecurity.SpringSecurityService
 import grails.plugin.springsecurity.SpringSecurityUtils
 import org.springframework.security.access.annotation.Secured
 
@@ -9,7 +10,7 @@ class PublicController {
 
     static defaultAction = "index"
 
-    def springSecurityService
+    SpringSecurityService springSecurityService
     def grailsApplication
 
     MapService mapService

@@ -7,8 +7,6 @@ class SigFoxWSController {
 
     static defaultAction = "v1"
 
-    ParserService parserService
-    DecoderService decoderService
     FrameService frameService
 
     /**
