@@ -5,7 +5,7 @@
             &nbsp;Boitiers
         </g:link>
     </li>
-    <g:if test="${device}">
+    <g:if test="${controllerName == "device" && device}">
         <li>
             <ul class="nav nav-pills nav-stacked">
                 <li class="active">

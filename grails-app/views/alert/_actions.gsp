@@ -4,7 +4,8 @@
             Carte
         </g:link>
     </li>
-    <li class="${controllerName == "alert" && actionName == 'devices' ? "active" : ""}">
+    <li class="${controllerName == "alert" && actionName in 'devices'\
+     || controllerName == "deviceAlert" && actionName == 'show' ? "active" : ""}">
         <g:link controller="alert" action="devices" id="${alert.id}">
             Boitiers
         </g:link>
