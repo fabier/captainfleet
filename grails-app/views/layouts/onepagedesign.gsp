@@ -8,19 +8,14 @@
     <link rel="shortcut icon" href="${assetPath(src: 'favicon.ico')}" type="image/x-icon">
     <link rel="apple-touch-icon" href="${assetPath(src: 'apple-touch-icon.png')}">
     <link rel="apple-touch-icon" sizes="114x114" href="${assetPath(src: 'apple-touch-icon-retina.png')}">
-    <asset:stylesheet src="application"/>
-    <asset:javascript src="application"/>
+    <asset:stylesheet src="onepage"/>
     <g:layoutHead/>
 </head>
 
 <body>
 
-<g:render template="/templates/header"/>
-
 <g:layoutBody/>
 
-<g:render template="/templates/footer"/>
-
-<asset:deferredScripts/>
+<asset:javascript src="onepage"/>
 </body>
 </html>

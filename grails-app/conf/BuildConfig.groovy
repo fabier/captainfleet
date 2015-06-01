@@ -45,7 +45,7 @@ grails.project.dependency.resolution = {
         // Cache entities
         compile 'net.sf.ehcache:ehcache:2.8.5'
 
-		// Librairies utilitaires
+        // Librairies utilitaires
         compile "org.apache.commons:commons-lang3:3.4"
 
         // Base de données géographique

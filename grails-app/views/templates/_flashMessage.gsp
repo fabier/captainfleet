@@ -10,11 +10,3 @@
 <g:elseif test="${flash?.message}">
     <g:render template="/templates/flash/message"/>
 </g:elseif>
-
-<script type="application/javascript">
-    $(function () {
-        setTimeout(function () {
-            $(".flashMessage").fadeOut(2000);
-        }, 3000);
-    });
-</script>
