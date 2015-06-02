@@ -10,7 +10,7 @@
             <ul class="nav nav-pills nav-stacked">
                 <li class="active">
                     <a>
-                        <i class="glyphicon glyphicon-arrow-right"></i>
+                        <i class="glyphicon glyphicon-user"></i>
                         ${user.username}
                     </a>
                 </li>
@@ -28,7 +28,7 @@
             <ul class="nav nav-pills nav-stacked">
                 <li class="active">
                     <a>
-                        <i class="glyphicon glyphicon-arrow-right"></i>
+                        <i class="glyphicon glyphicon-check"></i>
                         ${role.authority}
                     </a>
                 </li>
@@ -38,8 +38,8 @@
     <li role="presentation"
         class="${controllerName == 'adminDevice' && actionName == 'search' ? "active" : ""}">
         <g:link controller="adminDevice" action="search" class="lateral-menu">
-            <i class="glyphicon glyphicon-open"></i>
-            Terminaux
+            <i class="glyphicon glyphicon-th-large"></i>
+            Boitiers
         </g:link>
     </li>
     <g:if test="${device}">
@@ -47,7 +47,7 @@
             <ul class="nav nav-pills nav-stacked">
                 <li class="active">
                     <a>
-                        <i class="glyphicon glyphicon-arrow-right"></i>
+                        <i class="glyphicon glyphicon-th-large"></i>
                         ${device.sigfoxId}
                     </a>
                 </li>
@@ -65,7 +65,7 @@
             <ul class="nav nav-pills nav-stacked">
                 <li class="active">
                     <a>
-                        <i class="glyphicon glyphicon-arrow-right"></i>
+                        <i class="glyphicon glyphicon-cloud-upload"></i>
                         ${station.sigfoxId}
                     </a>
                 </li>
