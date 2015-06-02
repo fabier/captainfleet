@@ -271,24 +271,24 @@ class FrameService {
                                     async true
                                     to "CaptainFleet <${grailsApplication.config.grails.mail.username}>"
                                     subject "[CaptainFleet] Début d'alerte"
-                                    html "Début d'alerte [${it.id}] pour le device [${device.sigfoxId}]"
+                                    html "Début d'alerte [${it.id}] pour le boitier [${device.sigfoxId}]"
                                     from grailsApplication.config.grails.mail.username
                                 }
                             } catch (Exception e) {
-                                log.error "Impossible d'envoyer le message de début d'alerte par mail"
+                                log.error "Impossible d'envoyer le message de début d'alerte par mail", e
                             }
                         } else if (deviceAlert.isRaised) {
-                            // Fin d'alerte : l'état précédent indique que l'alerte
+                            // Fin d'alerte : l'état précédent indique que l'alerte était précédemment levée
                             try {
                                 mailService.sendMail {
                                     async true
                                     to "CaptainFleet <${grailsApplication.config.grails.mail.username}>"
                                     subject "[CaptainFleet] Fin d'alerte"
-                                    html "Fin d'alerte [${it.id}] pour le device [${device.sigfoxId}]"
+                                    html "Fin d'alerte [${it.id}] pour le boitier [${device.sigfoxId}]"
                                     from grailsApplication.config.grails.mail.username
                                 }
                             } catch (Exception e) {
-                                log.error "Impossible d'envoyer le message de fin d'alerte par mail"
+                                log.error "Impossible d'envoyer le message de fin d'alerte par mail", e
                             }
                         }
                         deviceAlert.isRaised = isRaisedNow
