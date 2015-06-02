@@ -17,7 +17,7 @@ class DeviceController {
     SpringSecurityService springSecurityService
 
     def beforeInterceptor = {
-        if (actionName in ['index'] || Device.get(params.id)) {
+        if (actionName in ['index', 'addDevice'] || Device.get(params.id)) {
         } else {
             response.sendError(404)
             return false
