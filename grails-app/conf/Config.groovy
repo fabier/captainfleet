@@ -47,8 +47,8 @@ grails.plugin.springsecurity.authority.className = 'trackr.Role'
 grails.plugin.springsecurity.securityConfigType = "Annotation"
 grails.plugin.springsecurity.controllerAnnotations.staticRules = [
         '/'              : ['permitAll'],
-        '/index'         : ['permitAll'],
-        '/index.gsp'     : ['permitAll'],
+//        '/index'         : ['permitAll'],
+//        '/index.gsp'     : ['permitAll'],
         '/assets/**'     : ['permitAll'],
         '/**/js/**'      : ['permitAll'],
         '/**/css/**'     : ['permitAll'],

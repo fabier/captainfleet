@@ -5,10 +5,6 @@
     &nbsp;-&nbsp;
     2015
         <br/>
-        <g:link controller="public" action="about" class="white nohover">
-            A propos
-        </g:link>
-        &nbsp;-&nbsp;
         <g:link controller="public" action="legal" class="white nohover">
             Mentions légales
         </g:link>

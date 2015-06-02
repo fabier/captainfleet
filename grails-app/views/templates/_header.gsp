@@ -42,26 +42,6 @@
             </sec:ifLoggedIn>
 
             <ul class="nav navbar-nav navbar-right">
-                <sec:ifNotLoggedIn>
-                    <li class="${controllerName == 'public' && actionName == "index" ? "active" : ""}">
-                        <g:link controller="public" action="index">
-                            <i class="glyphicon glyphicon-home"></i>
-                            &nbsp;Accueil
-                        </g:link>
-                    </li>
-                    <li class="${controllerName == 'public' && actionName == "about" ? "active" : ""}">
-                        <g:link controller="public" action="about">
-                            <i class="glyphicon glyphicon-th-list"></i>
-                            &nbsp;Présentation
-                        </g:link>
-                    </li>
-                    <li class="${controllerName == 'public' && actionName == "plans" ? "active" : ""}">
-                        <g:link controller="public" action="plans">
-                            <i class="glyphicon glyphicon-credit-card"></i>
-                            &nbsp;Tarifs
-                        </g:link>
-                    </li>
-                </sec:ifNotLoggedIn>
                 <sec:ifLoggedIn>
                     <li class="${controllerName in ["account"] && actionName == "index" ? "active" : ""}">
                         <g:link controller="account">

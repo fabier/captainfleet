@@ -12,7 +12,7 @@
     <g:layoutHead/>
 </head>
 
-<body>
+<body id="page-top">
 
 <g:layoutBody/>
 

@@ -22,19 +22,24 @@ class PublicController {
         if (user) {
             redirect controller: "common"
         } else {
+            render view: "index"
+        }
+    }
+
+    def login() {
+        User user = springSecurityService.currentUser
+        if (user) {
+            redirect controller: "common"
+        } else {
             def config = SpringSecurityUtils.securityConfig
             def devices = Device.findAllByDeviceState(DeviceState.NORMAL)
             MapOptions mapOptions = mapService.buildFromDevicesUsingRandomFrame(devices)
-            render view: "index", model: [
+            render view: "login", model: [
                     devices   : devices,
                     mapOptions: mapOptions,
                     postUrl   : "${request.contextPath}${config.apf.filterProcessesUrl}"
             ]
         }
-    }
-
-    def about() {
-        render view: "about"
     }
 
     def contact() {
@@ -43,10 +48,6 @@ class PublicController {
 
     def credits() {
         render view: "credits"
-    }
-
-    def plans() {
-        render view: "plans"
     }
 
     def '404'() {
@@ -101,7 +102,7 @@ class PublicController {
     }
 
     def onepage() {
-        render view: "onepage"
+        render view: "index"
     }
 
     def sendNameEmailMail(NameEmailCommand nameEmailCommand) {
