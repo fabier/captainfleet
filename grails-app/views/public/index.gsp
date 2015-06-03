@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta name="layout" content="onepagedesign"/>
-    <title>CaptainFleet - OnePageDesign</title>
+    <title>CaptainFleet</title>
 </head>
 
 <body>
