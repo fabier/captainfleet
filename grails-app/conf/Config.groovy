@@ -1,8 +1,6 @@
 // configuration for plugin testing - will not be included in the plugin zip
 grails.views.gsp.encoding = "UTF-8"
 grails.converters.encoding = "UTF-8"
-//grails.app.context = "trackr"
-//grails.server.port.http = 80
 
 log4j = {
     // Example of changing the log pattern for the default console
@@ -47,8 +45,6 @@ grails.plugin.springsecurity.authority.className = 'trackr.Role'
 grails.plugin.springsecurity.securityConfigType = "Annotation"
 grails.plugin.springsecurity.controllerAnnotations.staticRules = [
         '/'              : ['permitAll'],
-//        '/index'         : ['permitAll'],
-//        '/index.gsp'     : ['permitAll'],
         '/assets/**'     : ['permitAll'],
         '/**/js/**'      : ['permitAll'],
         '/**/css/**'     : ['permitAll'],
