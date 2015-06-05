@@ -26,7 +26,7 @@
 }
 
 .pricing-tables .plan.recommended .head {
-  margin-bottom: 16px;
+  //margin-bottom: 16px;
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
 }
@@ -120,6 +120,31 @@
   font-size: 14px;
 }
 
+.plan .device {
+  background: #222222;
+  margin: 0 auto 0 auto;
+  padding: 10px;
+}
+
+.plan .device h2 {
+  vertical-align: top;
+  color: #FFFFFF;
+  margin: 10px 0;
+  //font-size: 24px;
+}
+
+.plan.first .device {
+  background: #73A3D4;
+}
+
+.plan.recommended .device {
+  background: #65c965;
+}
+
+.plan.last .device {
+  background: #ef5a5c;
+}
+
 .plan .btn {
   padding: 10px 30px;
   text-transform: uppercase;
@@ -128,13 +153,13 @@
 
 .plan ul {
   list-style-type: none;
-  padding: 20px;
+  padding: 5px 20px;
   margin-top: 2px;
 }
 
 .plan ul li {
   line-height: 22px;
-  margin-bottom: 15px;
+  margin-bottom: 5px;
   font-size: 14px;
   font-weight: 400;
 }
@@ -184,4 +209,12 @@
 
 .pricing-tables h2 {
   font-weight: bold;
+}
+
+.plan.recommended .head h2 {
+  line-height: 1.7em;
+}
+
+.initial-price {
+  color: #666;
 }

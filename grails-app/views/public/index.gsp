@@ -75,7 +75,9 @@
         <div class="row">
             <div class="col-lg-12 text-center">
                 <h2 class="section-heading">
-                    Points clés
+                    Fonctionnalités
+                    <br/>
+                    <span class="small">Quels sont les points clés ?</span>
                 </h2>
                 <hr class="primary">
             </div>
@@ -146,7 +148,9 @@
         <div class="row">
             <div class="col-lg-12 text-center">
                 <h2 class="section-heading">
-                    Comment ca fonctionne ?
+                    Technologie
+                    <br/>
+                    <span class="small">Comment est ce que ca fonctionne ?</span>
                 </h2>
                 <hr class="primary">
             </div>
@@ -246,6 +250,17 @@
 
 <section id="pricing" class="padding-top-bottom-20">
     <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2 class="section-heading">
+                    Tarifs
+                </h2>
+                <hr class="primary">
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
         <div class="pricing-tables attached">
             <div class="row">
                 <div class="col-sm-4 col-md-4">
@@ -258,7 +273,6 @@
                         </div>
 
                         <ul class="item-list black">
-                            <li><span class="label label-primary text-large"><strong>3</strong> Boitiers</span></li>
                             <li><strong>1</strong> Utilisateur</li>
                             <li><strong>1</strong> Zone d'alerte</li>
                             <li>Statistiques mensuelles et annuelles</li>
@@ -267,12 +281,16 @@
                             <li>Engagement minimum 1 an</li>
                         </ul>
 
+                        <div class="device">
+                            <h2>3 boitiers</h2>
+                        </div>
+
                         <div class="price">
                             <h3>39<span class="symbol">€</span></h3>
                             <h4>
                                 par mois
                                 <br/>
-                                + 100€ à l'achat
+                                + <span class="initial-price">100€</span> à la commande
                             </h4>
                         </div>
 
@@ -280,7 +298,7 @@
                     </div>
                 </div>
 
-                <div class="col-sm-4 col-md-4 ">
+                <div class="col-sm-4 col-md-4">
 
                     <div class="plan recommended">
 
@@ -290,7 +308,6 @@
                         </div>
 
                         <ul class="item-list">
-                            <li><span class="label label-primary text-large"><strong>10</strong> Boitiers</span></li>
                             <li><strong>3</strong> Utilisateurs</li>
                             <li><strong>5</strong> Zones d'alerte</li>
                             <li>Statistiques mensuelles et annuelles</li>
@@ -299,12 +316,16 @@
                             <li>Engagement minimum 1 an</li>
                         </ul>
 
+                        <div class="device">
+                            <h2>10 boitiers</h2>
+                        </div>
+
                         <div class="price">
                             <h3>99<span class="symbol">€</span></h3>
                             <h4>
                                 par mois
                                 <br/>
-                                + 200€ à l'achat
+                                + <span class="initial-price">200€</span> à la commande
                             </h4>
                         </div>
 
@@ -322,7 +343,6 @@
                         </div>
 
                         <ul class="item-list">
-                            <li><span class="label label-primary text-large"><strong>50</strong> Boitiers</span></li>
                             <li>Utilisateurs <strong>illimités</strong></li>
                             <li>Zones d'alerte <strong>illimités</strong></li>
                             <li>Statistiques hebdomadaires, mensuelles et annuelles</li>
@@ -331,12 +351,16 @@
                             <li>Engagement minimum 1 an</li>
                         </ul>
 
+                        <div class="device">
+                            <h2>50 boitiers</h2>
+                        </div>
+
                         <div class="price">
                             <h3>399<span class="symbol">€</span></h3>
                             <h4>
                                 par mois
                                 <br/>
-                                + 1000€ à l'achat
+                                + <span class="initial-price">1000€</span> à la commande
                             </h4>
                         </div>
 
