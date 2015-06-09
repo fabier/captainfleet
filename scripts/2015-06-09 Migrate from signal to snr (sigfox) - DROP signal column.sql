@@ -1,0 +1,1 @@
+ALTER TABLE public.frame DROP COLUMN signal;
