@@ -250,11 +250,15 @@ class FrameService {
             // Pour chaque utilisateur du boitier
             users?.each {
                 // Parcourir les alertes et voir si une alerte a changé d'état
-                List<Alert> alerts = alertService.getAlertsForUser(it)
-                alerts.each {
-                    boolean isRaisedNow = alertService.isAlertRaised(it, frame)
+                User user = it
+                List<Alert> alerts = alertService.getAlertsForUser(user)
 
-                    DeviceAlert deviceAlert = DeviceAlert.findOrSaveByDeviceAndAlert(device, it)
+                // Pour chaque alerte, ajouter un log et lever l'alerte si le boitier est dans la zone
+                alerts.each {
+                    Alert alert = it
+                    boolean isRaisedNow = alertService.isAlertRaised(alert, frame)
+
+                    DeviceAlert deviceAlert = DeviceAlert.findOrSaveByDeviceAndAlert(device, alert)
 
                     // On ajoute l'information au log des alertes
                     DeviceAlertLog deviceAlertLog = new DeviceAlertLog(
@@ -268,12 +272,15 @@ class FrameService {
                             // Début d'alerte, alors qu'on a un ancien état
                             // indiquant que l'alerte n'était pas précédemment levée
                             try {
+                                String message = "<html><head></head><body>" +
+                                        "Début d'alerte [${alert.id} - ${alert.name}] pour le boitier [${device.sigfoxId} - ${device.name}]" +
+                                        "</body></html>"
                                 mailService.sendMail {
                                     async true
-                                    to "CaptainFleet <${grailsApplication.config.grails.mail.username}>"
+                                    to "${user.username} <${user.email}>"
                                     subject "[CaptainFleet] Début d'alerte"
-                                    html "Début d'alerte [${it.id}] pour le boitier [${device.sigfoxId}]"
-                                    from grailsApplication.config.grails.mail.username
+                                    html message
+                                    from "CaptainFleet <${grailsApplication.config.grails.mail.username}>"
                                 }
                             } catch (Exception e) {
                                 log.error "Impossible d'envoyer le message de début d'alerte par mail", e
@@ -281,12 +288,15 @@ class FrameService {
                         } else if (deviceAlert.isRaised) {
                             // Fin d'alerte : l'état précédent indique que l'alerte était précédemment levée
                             try {
+                                String message = "<html><head></head><body>" +
+                                        "Fin d'alerte [${alert.id} - ${alert.name}] pour le boitier [${device.sigfoxId} - ${device.name}]" +
+                                        "</body></html>"
                                 mailService.sendMail {
                                     async true
-                                    to "CaptainFleet <${grailsApplication.config.grails.mail.username}>"
+                                    to "${user.username} <${user.email}>"
                                     subject "[CaptainFleet] Fin d'alerte"
-                                    html "Fin d'alerte [${it.id}] pour le boitier [${device.sigfoxId}]"
-                                    from grailsApplication.config.grails.mail.username
+                                    html message
+                                    from "CaptainFleet <${grailsApplication.config.grails.mail.username}>"
                                 }
                             } catch (Exception e) {
                                 log.error "Impossible d'envoyer le message de fin d'alerte par mail", e
