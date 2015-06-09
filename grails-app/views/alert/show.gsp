@@ -9,12 +9,6 @@
 
         // Polygone correspondant à l'alerte
         var alertFeature = format.readFeature('${wktGeometry}');
-        <g:if test="${alert?.isGeometryInverted}">
-        var geometry = alertFeature.getGeometry();
-        var world = [[-170, -80], [-170, 80], [170, 80], [170, -80], [-170, -80]];
-        //        geometry = new ol.geom.Polygon([world, geometry]);
-        //        alertFeature.setGeometry(geometry);
-        </g:if>
 
         var format = new ol.format.WKT();
         $('#wktDiv').text(format.writeGeometry(alertFeature.getGeometry()));
@@ -102,13 +96,6 @@
 
                         <div class="col-md-4">
                             <g:field type="text" name="name" value="${alert?.name}" class="form-control"/>
-                        </div>
-
-                        <div class="col-md-2">
-                            <label>
-                                <g:checkBox name="isGeometryInverted" value="${alert?.isGeometryInverted}"/>
-                                Zone inversée
-                            </label>
                         </div>
 
                         <div class="col-md-4">

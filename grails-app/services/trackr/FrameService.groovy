@@ -256,7 +256,7 @@ class FrameService {
                 // Pour chaque alerte, ajouter un log et lever l'alerte si le boitier est dans la zone
                 alerts.each {
                     Alert alert = it
-                    boolean isRaisedNow = alertService.isAlertRaised(alert, frame)
+                    boolean isRaisedNow = alertService.isFrameWithinAlertGeometry(alert, frame)
 
                     DeviceAlert deviceAlert = DeviceAlert.findOrSaveByDeviceAndAlert(device, alert)
 
@@ -442,11 +442,7 @@ class FrameService {
     }
 
     List<Frame> getFramesForAlert(Alert alert) {
-        if (alert.isGeometryInverted) {
-            getFramesNotInArea(alert.geometry)
-        } else {
-            getFramesInArea(alert.geometry)
-        }
+        getFramesInArea(alert.geometry)
     }
 
     def getServiceFramesForDevice(Device device, Date dateLowerBound, Date dateUpperBound) {

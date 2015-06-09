@@ -10,11 +10,6 @@ class Alert extends BaseEntity {
     Geometry geometry
 
     /**
-     * Si on inverse la zone d'alerte
-     */
-    Boolean isGeometryInverted
-
-    /**
      * Etat actuel de l'alerte
      */
     Boolean isRaised
@@ -28,7 +23,6 @@ class Alert extends BaseEntity {
 
     static constraints = {
         geometry nullable: false
-        isGeometryInverted nullable: true
         isRaised nullable: true
     }
 }

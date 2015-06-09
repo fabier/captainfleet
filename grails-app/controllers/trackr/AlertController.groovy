@@ -67,7 +67,6 @@ class AlertController {
         Geometry geometry = wktReader.read(params.wkt)
         Alert alert = new Alert(
                 name: params.name,
-                isGeometryInverted: params.isGeometryInverted,
                 geometry: geometry,
                 creator: user
         )
@@ -169,7 +168,7 @@ class AlertController {
             DeviceAlert deviceAlert = DeviceAlert.findOrSaveByDeviceAndAlert(it, alert)
             Frame frame = frameService.getLastFrameWithGeolocation(it)
             if (frame) {
-                deviceAlert.isRaised = alertService.isAlertRaised(alert, frame)
+                deviceAlert.isRaised = alertService.isFrameWithinAlertGeometry(alert, frame)
                 deviceAlert.save()
             }
         }
