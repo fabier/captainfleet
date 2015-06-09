@@ -45,8 +45,8 @@ class MapService {
     MapOptions defaultMapOptions() {
         Set<com.vividsolutions.jts.geom.Point> staticPoints = new HashSet()
         GeometryFactory geometryFactory = new GeometryFactory()
-        staticPoints.add(geometryFactory.createPoint(new Coordinate(0.0, -80.0)))
-        staticPoints.add(geometryFactory.createPoint(new Coordinate(0.0, 80.0)))
+        staticPoints.add(geometryFactory.createPoint(new Coordinate(10.0, 20.0)))
+        staticPoints.add(geometryFactory.createPoint(new Coordinate(10.0, 60.0)))
         return buildFromPoints(staticPoints)
     }
 
