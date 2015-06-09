@@ -35,11 +35,6 @@ class BootStrap {
                 it.save()
             }
         }
-
-        Frame.findAllByFrameType(null).each {
-            def frameData = decoderService.tryDecode(it)
-            frameService.updateFrameTypeIfUnavailable(it, frameData)
-        }
     }
 
     def destroy = {
