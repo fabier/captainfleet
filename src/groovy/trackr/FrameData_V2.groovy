@@ -85,7 +85,7 @@ class FrameData_V2 extends FrameData {
 
     @Override
     String hexaSuperCapacitorVoltage() {
-        // IIIII : Tension supercapacité entre 0 et 2.91V, pas de 90mV
+        // IIIII : Tension supercapacité entre 0 et 2.79V, pas de 90mV
         String.format("0b%5s", Integer.toBinaryString((int) (superCapacitorVoltage / 0.09d))).replaceAll(' ', '0')
     }
 
