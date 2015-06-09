@@ -17,7 +17,8 @@
             </ul>
         </li>
     </g:if>
-    <li role="presentation" class="${controllerName == "alert" && actionName in ["index", "create"] ? "active" : ""}">
+    <li role="presentation"
+        class="${controllerName == "alert" && actionName in ["index", "create", "logs"] ? "active" : ""}">
         <g:link controller="alert" action="index" class="lateral-menu">
             <i class="glyphicon glyphicon-bell"></i>
             &nbsp;Alertes

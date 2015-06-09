@@ -9,7 +9,7 @@ class DeviceAlertController {
 
     def show(long id) {
         DeviceAlert deviceAlert = DeviceAlert.get(id)
-        List<DeviceAlertLog> deviceAlertLogs = DeviceAlertLog.findAllByDeviceAlert(deviceAlert)
+        List<DeviceAlertLog> deviceAlertLogs = deviceAlertLogService.getDeviceAlertLogsByDeviceAlert(deviceAlert)
         deviceAlertLogs = deviceAlertLogService.sortByMostRecentFirst(deviceAlertLogs)
         render view: "show", model: [
                 deviceAlert    : deviceAlert,

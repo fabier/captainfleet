@@ -4,6 +4,7 @@ import com.vividsolutions.jts.geom.Geometry
 import com.vividsolutions.jts.io.WKTReader
 import com.vividsolutions.jts.io.WKTWriter
 import grails.plugin.springsecurity.SpringSecurityService
+import org.apache.commons.lang3.time.DateUtils
 import org.springframework.security.access.annotation.Secured
 
 import java.util.regex.Pattern
@@ -20,6 +21,9 @@ class AlertController {
     UtilService utilService
     FrameService frameService
     UserService userService
+    DeviceAlertLogService deviceAlertLogService
+    DeviceAlertService deviceAlertService
+    ParserService parserService
 
     def index() {
         User user = springSecurityService.currentUser
@@ -81,19 +85,44 @@ class AlertController {
         MapOptions mapOptions = mapService.buildFromFrames(frames)
         mapOptions.boundingBox = alert.geometry.getEnvelopeInternal()
 
-//        if (alert.isGeometryInverted) {
-//            LineString exteriorRing = ((Polygon) alert.geometry).getExteriorRing()
-//            LinearRing worldForOpenLayers = gisUtilService.getWorldAsLinearRing()
-//            Polygon outerPolygon = new GeometryFactory().createPolygon(worldForOpenLayers, (LinearRing[]) [exteriorRing].toArray())
-//            wktGeometry = new WKTWriter().write(outerPolygon)
-//        } else {
         wktGeometry = new WKTWriter().write(alert.geometry)
-//        }
 
         render view: "show", model: [
                 alert      : alert,
                 mapOptions : mapOptions,
                 wktGeometry: wktGeometry
+        ]
+    }
+
+    def logs() {
+        List<DeviceAlertLog> deviceAlertLogsAggregated = new ArrayList<>()
+
+        Date date = parserService.tryParseDate(params.date) ?: new Date()
+        Date dateLowerBound = DateUtils.truncate(date, Calendar.DAY_OF_MONTH)
+        dateLowerBound = DateUtils.addDays(dateLowerBound, -6)
+        Date dateUpperBound = DateUtils.addDays(dateLowerBound, 7)
+
+        User user = springSecurityService.currentUser
+        List<Alert> alerts = alertService.getAlertsForUser(user)
+        alerts?.each {
+            List<DeviceAlert> deviceAlerts = deviceAlertService.getDeviceAlertsByAlert(it)
+            deviceAlerts?.each {
+                List<DeviceAlertLog> localDeviceAlertLogs = deviceAlertLogService.getDeviceAlertLogsByDeviceAlert(it, dateLowerBound, dateUpperBound)
+                boolean isRaised = localDeviceAlertLogs?.first()?.isRaised
+                localDeviceAlertLogs?.each {
+                    if (isRaised != it.isRaised) {
+                        // Changement d'état, on ajoute ce log à l'aggrégation
+                        deviceAlertLogsAggregated.add(it)
+                        isRaised = it.isRaised
+                    }
+                }
+            }
+        }
+        List<DeviceAlertLog> deviceAlertLogs = deviceAlertLogService.sortByMostRecentFirst(deviceAlertLogsAggregated)
+
+        render view: "logs", model: [
+                alerts         : alerts,
+                deviceAlertLogs: deviceAlertLogs
         ]
     }
 

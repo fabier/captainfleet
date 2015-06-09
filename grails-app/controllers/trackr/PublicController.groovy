@@ -124,7 +124,7 @@ class PublicController {
             mailService.sendMail {
                 async true
                 to "CaptainFleet <${grailsApplication.config.grails.mail.username}>"
-                subject "[CaptainFleet Nom + Email] ${nameEmailCommand.email}"
+                subject "[CaptainFleet Web Contact] ${nameEmailCommand.email}"
                 html message
                 from nameEmailCommand.email
             }

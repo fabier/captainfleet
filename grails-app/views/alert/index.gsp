@@ -89,16 +89,18 @@
                 </div>
             </g:if>
 
-            <g:if test="${alerts.isEmpty() || alerts.size() < 5}">
-                <div class="row">
-                    <div class="col-md-4">
-                        <g:link action="create" class="btn btn-primary">
-                            <i class="glyphicon glyphicon-plus"></i>
-                            Créer une nouvelle alerte
-                        </g:link>
-                    </div>
-                </div>
-            </g:if>
+            <div class="row">
+                <g:if test="${alerts.isEmpty() || alerts.size() < 5}">
+                    <g:link action="create" class="btn btn-primary">
+                        <i class="glyphicon glyphicon-plus"></i>
+                        Créer une nouvelle alerte
+                    </g:link>
+                </g:if>
+
+                <g:link action="logs" class="btn btn-info">
+                    Voir les logs
+                </g:link>
+            </div>
         </div>
     </div>
 </div>
