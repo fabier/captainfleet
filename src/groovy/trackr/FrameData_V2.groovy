@@ -79,14 +79,14 @@ class FrameData_V2 extends FrameData {
 
     @Override
     String hexaSolarArrayVoltage() {
-        // IIIII : Tension supercapacité entre 0 et 2.91V, pas de 90mV
-        String.format("0b%5s", Integer.toBinaryString((int) (solarArrayVoltage / 0.09d))).replaceAll(' ', '0')
+        // HHHHH : Tension panneau solaire entre 0 et 3.1V, pas de 100mV
+        String.format("0b%5s", Integer.toBinaryString((int) (solarArrayVoltage / 0.1d))).replaceAll(' ', '0')
     }
 
     @Override
     String hexaSuperCapacitorVoltage() {
-        // HHHHH : Tension panneau solaire entre 0 et 3.1V, pas de 100mV
-        String.format("0b%5s", Integer.toBinaryString((int) (superCapacitorVoltage / 0.1d))).replaceAll(' ', '0')
+        // IIIII : Tension supercapacité entre 0 et 2.91V, pas de 90mV
+        String.format("0b%5s", Integer.toBinaryString((int) (superCapacitorVoltage / 0.09d))).replaceAll(' ', '0')
     }
 
     @Override
