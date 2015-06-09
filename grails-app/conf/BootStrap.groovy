@@ -1,5 +1,3 @@
-import com.vividsolutions.jts.geom.Coordinate
-import com.vividsolutions.jts.geom.GeometryFactory
 import trackr.*
 
 class BootStrap {
@@ -36,6 +34,11 @@ class BootStrap {
                 it.epochTime = time.getTime()
                 it.save()
             }
+        }
+
+        Frame.findAllByFrameType(null).each {
+            def frameData = decoderService.tryDecode(it)
+            frameService.updateFrameTypeIfUnavailable(it, frameData)
         }
     }
 

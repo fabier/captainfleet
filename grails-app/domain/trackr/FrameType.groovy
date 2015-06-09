@@ -1,5 +1,5 @@
 package trackr
 
 enum FrameType {
-    MESSAGE, SERVICE
+    MESSAGE, SERVICE, ERROR
 }

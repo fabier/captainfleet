@@ -16,6 +16,7 @@ class AdminFrameController {
     def show(long id) {
         Frame frame = Frame.get(id)
         FrameData frameData = decoderService.tryDecode(frame)
+        frameService.updateFrameTypeIfUnavailable(frame, frameData)
 
         def frames = new ArrayList<Frame>()
         frames.add(frame)

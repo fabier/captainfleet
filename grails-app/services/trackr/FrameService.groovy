@@ -235,6 +235,7 @@ class FrameService {
     def doCreateFrame(Map params, FrameProtocol frameProtocol) {
         Frame frame = createAndSaveFrameFromParams(frameProtocol, params)
         FrameData frameData = decoderService.tryDecode(frame)
+        updateFrameTypeIfUnavailable(frame, frameData)
         updateDeviceFamilyFromFrameData(frame.device, frameData)
         updateFrameLocationIfLocationIsAvailableAndCorrect(frame, frameData)
         checkIfAnyAlertIsToRaiseForFrame(frame)
@@ -435,6 +436,44 @@ class FrameService {
             getFramesNotInArea(alert.geometry)
         } else {
             getFramesInArea(alert.geometry)
+        }
+    }
+
+    def getServiceFramesForDevice(Device device, Date dateLowerBound, Date dateUpperBound) {
+        Frame.withCriteria {
+            eq("device", device)
+            eq("duplicate", false)
+            eq("frameType", FrameType.SERVICE)
+            isNull("location")
+            between("dateCreated", dateLowerBound, dateUpperBound)
+            order("dateCreated", "asc")
+        }
+    }
+
+    def getErrorFramesForDevice(Device device, Date dateLowerBound, Date dateUpperBound) {
+        Frame.withCriteria {
+            eq("device", device)
+            eq("duplicate", false)
+            eq("frameType", FrameType.ERROR)
+            isNull("location")
+            between("dateCreated", dateLowerBound, dateUpperBound)
+            order("dateCreated", "asc")
+        }
+    }
+
+    def getFramesForDevice(Device device, Date dateLowerBound, Date dateUpperBound) {
+        Frame.withCriteria {
+            eq("device", device)
+            eq("duplicate", false)
+            between("dateCreated", dateLowerBound, dateUpperBound)
+            order("dateCreated", "asc")
+        }
+    }
+
+    def updateFrameTypeIfUnavailable(Frame frame, FrameData frameData) {
+        if (frame != null && frame.frameType == null && frameData?.frameType != null) {
+            frame.frameType = frameData.frameType
+            frame.save()
         }
     }
 }

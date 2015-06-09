@@ -29,8 +29,8 @@
             selectLayer(map, "OpenStreetMap");
             <g:if test="${mapOptions}">
             var markers = [];
-            <g:each in="${framesWithGeolocation}" var="frameWithGeolocation" status="i">
-            markers[${i}] = ol.proj.transform([${frameWithGeolocation.location?.getX()}, ${frameWithGeolocation.location?.getY()}],
+            <g:each in="${geoFrames}" var="geoFrame" status="i">
+            markers[${i}] = ol.proj.transform([${geoFrame.location?.getX()}, ${geoFrame.location?.getY()}],
                     'EPSG:4326', 'EPSG:3857');
             </g:each>
             var lineFeature = new ol.Feature({
@@ -54,11 +54,11 @@
             map.addLayer(layerLines);
 
             <g:each in="${mapOptions.mapMarkerLayers}" var="mapMarkerLayer">
-            <g:if test="${!framesWithGeolocation.isEmpty()}">
-            addPoint(map, ${framesWithGeolocation.first().location?.getX()}, ${framesWithGeolocation.first().location?.getY()},
+            <g:if test="${!geoFrames.isEmpty()}">
+            addPoint(map, ${geoFrames.first().location?.getX()}, ${geoFrames.first().location?.getY()},
                     "${assetPath(src:mapMarkerLayer.mapMarkerStyle.path)}");
-            <g:if test="${framesWithGeolocation.size()>1}" >
-            addPoint(map, ${framesWithGeolocation.last().location?.getX()}, ${framesWithGeolocation.last().location?.getY()},
+            <g:if test="${geoFrames.size()>1}" >
+            addPoint(map, ${geoFrames.last().location?.getX()}, ${geoFrames.last().location?.getY()},
                     "${assetPath(src:mapMarkerLayer.mapMarkerStyle.path)}");
             </g:if>
             </g:if>
@@ -126,8 +126,7 @@
                             <th>#</th>
                             <th>Date</th>
                             <th>Station</th>
-                            <th>Signal</th>
-                            <th>RSSI</th>
+                            <th>Type</th>
                             </thead>
                             <tbody>
                             <g:each in="${frames}" var="frame">
@@ -143,10 +142,7 @@
                                         ${frame.station.sigfoxId}
                                     </td>
                                     <td>
-                                        ${frame.signal} dB
-                                    </td>
-                                    <td>
-                                        ${frame.rssi} dBm
+                                        ${frame.frameType}
                                     </td>
                                 </tr>
                             </g:each>

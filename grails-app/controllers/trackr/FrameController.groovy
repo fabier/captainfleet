@@ -21,6 +21,7 @@ class FrameController {
     def map(long id) {
         Frame frame = Frame.get(id)
         FrameData frameData = decoderService.tryDecode(frame)
+        frameService.updateFrameTypeIfUnavailable(frame, frameData)
         MapOptions mapOptions
         Set<com.vividsolutions.jts.geom.Point> points = new HashSet<>()
         if (frame.location instanceof com.vividsolutions.jts.geom.Point) {

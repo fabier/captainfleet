@@ -21,7 +21,7 @@ class Frame extends BaseDomain {
     FrameProtocol frameProtocol
 
     /**
-     * Type de trame (trame de donnée ou trame de service)
+     * Type de trame (trame de donnée, trame de service ou trame d'erreur)
      */
     FrameType frameType
 

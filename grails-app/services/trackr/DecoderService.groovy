@@ -154,8 +154,41 @@ class DecoderService {
                             modemKOCount: modemKOCount,
                             frameType: FrameType.SERVICE
                     )
+                } else if (firstCharAsInt == 0b1110) {
+                    // Trame d'erreur
+                    // Plus d'infos : https://trello.com/c/WqL3vfkN
+
+                    // AAAA : Type de trame d'erreur
+                    Integer errorType = Integer.parseInt(data.substring(1, 2), 16)
+
+                    // BBBBBBBB : Raison du message (voir https://trello.com/c/WqL3vfkN pour plus d'infos)
+                    Integer reason = Integer.parseInt(data.substring(2, 4), 16)
+
+                    Integer byte3 = Integer.parseInt(data.substring(4, 6), 16)
+                    // CCCC : N/A
+                    // D : Jour/Nuit
+                    boolean isDay = ((byte3 >> 3) & 0b1) == 1
+                    // EEE : Compteur
+
+                    Integer byte4To5 = Integer.parseInt(data.substring(6, 10), 16)
+                    // FFFFFF : N/A
+                    // HHHHH : Tension panneau solaire entre 0 et 3.1V, pas de 100mV
+                    Double solarArrayVoltage = ((byte4To5 >> 5) & 0b11111) * 0.1d
+
+                    // IIIII : Tension supercapacité entre 0 et 2.91V, pas de 90mV
+                    Double superCapacitorVoltage = (byte4To5 & 0b11111) * 0.09d
+
+                    frameData = new FrameData_V2_Error(
+                            data: data,
+                            errorType: errorType,
+                            reason: reason,
+                            isDay: isDay,
+                            solarArrayVoltage: solarArrayVoltage,
+                            superCapacitorVoltage: superCapacitorVoltage,
+                            frameType: FrameType.ERROR
+                    )
                 } else {
-                    // On ne sait pas décoder
+                    // On ne sait pas décoder, les données sont stockées en base, mais indéchiffrables
                 }
             } else {
                 if (data.length() == 24) {

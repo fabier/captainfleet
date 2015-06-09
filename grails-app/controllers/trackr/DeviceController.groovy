@@ -54,14 +54,29 @@ class DeviceController {
         }
         Date dateLowerBound = DateUtils.truncate(date, Calendar.DAY_OF_MONTH)
         Date dateUpperBound = DateUtils.addDays(dateLowerBound, 1)
-        def frames = frameService.getFramesForDeviceWithGeolocation(device, dateLowerBound, dateUpperBound)
-        List<Frame> framesWithGeolocation = new ArrayList()
+        def frames = frameService.getFramesForDevice(device, dateLowerBound, dateUpperBound)
         Set<com.vividsolutions.jts.geom.Point> points = new HashSet<>()
+        List<Frame> geoFrames = new ArrayList<>()
+        List<Frame> serviceFrames = new ArrayList<>()
+        List<Frame> errorFrames = new ArrayList<>()
         frames?.each {
-            if (it.location instanceof com.vividsolutions.jts.geom.Point) {
-                points.add(it.location as com.vividsolutions.jts.geom.Point)
-                framesWithGeolocation.add(it)
-                ((com.vividsolutions.jts.geom.Point) it.location).getX()
+            switch (it.frameType) {
+                case FrameType.MESSAGE:
+                    if (it.location instanceof com.vividsolutions.jts.geom.Point) {
+                        points.add(it.location as com.vividsolutions.jts.geom.Point)
+                        geoFrames.add(it)
+                        ((com.vividsolutions.jts.geom.Point) it.location).getX()
+                    }
+                    break
+                case FrameType.SERVICE:
+                    serviceFrames.add(it)
+                    break
+                case FrameType.ERROR:
+                    errorFrames.add(it)
+                    break
+                default:
+                    break
+
             }
         }
         MapOptions mapOptions = mapService.buildFromPoints(points)
@@ -76,14 +91,16 @@ class DeviceController {
         def nextDay = calendar.getTime()
 
         render view: "map", model: [
-                device               : device,
-                date                 : date,
-                previousDay          : previousDay,
-                nextDay              : nextDay,
-                now                  : new Date(),
-                frames               : frames,
-                framesWithGeolocation: framesWithGeolocation,
-                mapOptions           : mapOptions
+                device       : device,
+                date         : date,
+                previousDay  : previousDay,
+                nextDay      : nextDay,
+                now          : new Date(),
+                frames       : frames,
+                geoFrames    : geoFrames,
+                serviceFrames: serviceFrames,
+                errorFrames  : errorFrames,
+                mapOptions   : mapOptions
         ]
     }
 
