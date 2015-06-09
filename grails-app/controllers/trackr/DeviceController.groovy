@@ -52,8 +52,9 @@ class DeviceController {
             Frame lastFrame = frameService.getLastFrame(device)
             date = lastFrame?.dateCreated ?: new Date()
         }
-        Date dateLowerBound = DateUtils.truncate(date, Calendar.DAY_OF_MONTH)
-        Date dateUpperBound = DateUtils.addDays(dateLowerBound, 1)
+        Date dateUpperBound = DateUtils.ceiling(date, Calendar.DAY_OF_MONTH)
+        Date dateLowerBound = DateUtils.addDays(dateUpperBound, -1)
+
         def frames = frameService.getFramesForDevice(device, dateLowerBound, dateUpperBound)
         Set<com.vividsolutions.jts.geom.Point> points = new HashSet<>()
         List<Frame> geoFrames = new ArrayList<>()

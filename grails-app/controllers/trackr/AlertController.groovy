@@ -98,9 +98,8 @@ class AlertController {
         List<DeviceAlertLog> deviceAlertLogsAggregated = new ArrayList<>()
 
         Date date = parserService.tryParseDate(params.date) ?: new Date()
-        Date dateLowerBound = DateUtils.truncate(date, Calendar.DAY_OF_MONTH)
-        dateLowerBound = DateUtils.addDays(dateLowerBound, -6)
-        Date dateUpperBound = DateUtils.addDays(dateLowerBound, 7)
+        Date dateUpperBound = DateUtils.ceiling(date, Calendar.DAY_OF_MONTH)
+        Date dateLowerBound = DateUtils.addDays(dateUpperBound, -7)
 
         User user = springSecurityService.currentUser
         List<Alert> alerts = alertService.getAlertsForUser(user)
