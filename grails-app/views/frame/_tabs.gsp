@@ -23,7 +23,7 @@
                 <tr>
                     <td align="right">Timestamp</td>
                     <td colspan="2">
-                        <g:formatDate date="${f.time}" format="yyyy-MM-dd HH:mm:ss.SSSZZ"/>
+                        <g:formatDate date="${f.time}" format="dd MMMM HH'h'mm:ss.SSSZZ"/>
                         <br/>
                         <g:formatDate date="${f.dateCreated}"
                                       format="yyyy-MM-dd HH:mm:ss.SSSZZ"/> (in database)

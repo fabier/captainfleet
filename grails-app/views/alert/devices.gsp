@@ -55,7 +55,7 @@
                                     <g:formatBooleanYesNo boolean="${deviceAlert.isRaised ?: false}"/>
                                 </td>
                                 <td>
-                                    <g:formatDate format="yyyy-MM-dd HH:mm" date="${deviceAlert.lastUpdated}"/>
+                                    <g:formatDate format="dd MMMM HH'h'mm" date="${deviceAlert.lastUpdated}"/>
                                 </td>
                             </tr>
                         </g:each>

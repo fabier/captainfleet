@@ -20,7 +20,8 @@
         <div id="navbar" class="collapse navbar-collapse">
             <sec:ifLoggedIn>
                 <ul class="nav navbar-nav">
-                    <li class="${controllerName in ["common"] ? "active" : ""}">
+                    <li class="${controllerName in ["common"]\
+                      || controllerName in ["device", "frame"] && actionName in ["map"] ? "active" : ""}">
                         <g:link controller="common" action="index" class="lateral-menu">
                             <i class="glyphicon glyphicon-map-marker"></i>
                             &nbsp;Carte

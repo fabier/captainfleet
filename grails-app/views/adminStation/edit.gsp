@@ -83,7 +83,7 @@
                             <tr>
                                 <td>${frame.id}</td>
                                 <td>
-                                    <g:formatDate format="yyyy-MM-dd HH:mm" date="${frame.dateCreated}"/>
+                                    <g:formatDate format="dd MMMM HH'h'mm" date="${frame.dateCreated}"/>
                                 </td>
                                 <td>
                                     <g:formatNumber number="${frame.signal}" type="number" locale="EN"
