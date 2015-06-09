@@ -338,7 +338,7 @@ class FrameService {
                 time: sigFoxWSData.time,
                 epochTime: sigFoxWSData.epochTime,
                 duplicate: sigFoxWSData.duplicate,
-                signal: sigFoxWSData.signal,
+                snr: sigFoxWSData.snr,
                 station: sigFoxWSData.station,
                 data: sigFoxWSData.data,
                 avgSignal: sigFoxWSData.avgSignal,

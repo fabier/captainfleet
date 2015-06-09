@@ -49,7 +49,7 @@ class Frame extends BaseDomain {
     /**
      * Signal envoyé
      */
-    Float signal
+    Float snr
 
     /**
      * Signal moyen
@@ -81,7 +81,7 @@ class Frame extends BaseDomain {
         frameType nullable: true
         epochTime nullable: true
         duplicate nullable: true
-        signal nullable: true
+        snr nullable: true
         station nullable: true
         data nullable: true
         avgSignal nullable: true

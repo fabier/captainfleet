@@ -64,7 +64,7 @@ class ParserService {
     }
 
     /**
-     * http://pfabier.no-ip.org/trackr/sigfoxws?id=89C3&device=89C3&time=1427469936&duplicate=false&signal=22.13&station=0402&data=02951a600013efca29f8c23a&avgSignal=24.83&lat=44&lng=2&rssi=-114.50
+     * http://pfabier.no-ip.org/trackr/sigfoxws?id=89C3&device=89C3&time=1427469936&duplicate=false&snr=22.13&station=0402&data=02951a600013efca29f8c23a&avgSignal=24.83&lat=44&lng=2&rssi=-114.50
      * @param params
      * @return
      */
@@ -129,14 +129,14 @@ class ParserService {
             }
         }
 
-        Float signal = null
-        if (params.signal == null) {
-            // Pas de symbole signal transmis !
-            log.warn("No signal transmitted to WebService !")
+        Float snr = null
+        if (params.snr == null) {
+            // Pas de symbole snr transmis !
+            log.warn("No snr transmitted to WebService !")
         } else {
-            signal = tryParseFloat(params.signal)
-            if (signal == null) {
-                log.warn("signal transmitted to WebService is not parseable as a float ! (signal == ${params.signal})")
+            snr = tryParseFloat(params.snr)
+            if (snr == null) {
+                log.warn("snr transmitted to WebService is not parseable as a float ! (snr == ${params.snr})")
             }
         }
 
@@ -181,7 +181,7 @@ class ParserService {
                 time: time,
                 epochTime: epochTime,
                 duplicate: duplicate,
-                signal: signal,
+                snr: snr,
                 station: station,
                 data: data,
                 avgSignal: avgSignal,

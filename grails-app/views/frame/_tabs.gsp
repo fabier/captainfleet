@@ -14,7 +14,7 @@
                 <tbody>
                 <tr>
                     <td align="right" class="col-md-3">Signal</td>
-                    <td colspan="2" class="col-md-9">${f.signal} dB</td>
+                    <td colspan="2" class="col-md-9">${f.snr} dB</td>
                 </tr>
                 <tr>
                     <td align="right">RSSI</td>

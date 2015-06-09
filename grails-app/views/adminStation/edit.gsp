@@ -86,7 +86,7 @@
                                     <g:formatDate format="dd MMMM HH'h'mm" date="${frame.dateCreated}"/>
                                 </td>
                                 <td>
-                                    <g:formatNumber number="${frame.signal}" type="number" locale="EN"
+                                    <g:formatNumber number="${frame.snr}" type="number" locale="EN"
                                                     minFractionDigits="2"
                                                     maxFractionDigits="2"/> dB
                                 </td>

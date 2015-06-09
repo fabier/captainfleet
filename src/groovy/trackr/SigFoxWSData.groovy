@@ -10,7 +10,7 @@ class SigFoxWSData {
     Date time
     Long epochTime
     Boolean duplicate
-    Double signal
+    Double snr
     Double avgSignal
     Point position
     Double rssi

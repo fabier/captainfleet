@@ -78,7 +78,7 @@
                             <g:formatDate format="dd MMMM HH'h'mm" date="${frame.dateCreated}"/>
                         </td>
                         <td>
-                            ${frame.signal} dB
+                            ${frame.snr} dB
                         </td>
                         <td>
                             ${frame.rssi} dBm
