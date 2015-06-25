@@ -11,17 +11,22 @@
             </button>
             <g:link uri="/" class="navbar-brand danger">
                 CaptainFleet
-                <g:if test="${backofficeAdminPage}">
-                    <span class="badge bg-danger">Administration</span>
-                </g:if>
             </g:link>
         </div>
+
+        <g:if test="${backofficeAdminPage}">
+            <div class="nav navbar-nav">
+                <div class="admin-header-nav">
+                    <span class="badge bg-danger admin-header">Administration</span>
+                </div>
+            </div>
+        </g:if>
 
         <div id="navbar" class="collapse navbar-collapse">
             <sec:ifLoggedIn>
                 <ul class="nav navbar-nav">
                     <li class="${controllerName in ["common"]\
-                      || controllerName in ["device", "frame"] && actionName in ["map"] ? "active" : ""}">
+                             || controllerName in ["device", "frame"] && actionName in ["map"] ? "active" : ""}">
                         <g:link controller="common" action="index" class="lateral-menu">
                             <i class="glyphicon glyphicon-map-marker"></i>
                             &nbsp;Carte
