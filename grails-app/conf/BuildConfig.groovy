@@ -86,6 +86,9 @@ grails.project.dependency.resolution = {
 
         // Statistiques et monitoring
         compile ":grails-melody:1.55.0"
+
+        // Pour Google Analytics
+        compile ":google-analytics:2.3.3"
     }
 }
 

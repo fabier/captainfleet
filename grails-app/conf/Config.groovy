@@ -203,3 +203,7 @@ grails.gorm.default.mapping = {
     'user-type'(type: org.hibernatespatial.GeometryUserType, class: com.vividsolutions.jts.geom.Lineal)
     'user-type'(type: org.hibernatespatial.GeometryUserType, class: com.vividsolutions.jts.geom.Polygonal)
 }
+
+// Google Analytics
+// CaptainFleet UA-64603494-1
+google.analytics.webPropertyID = "UA-64603494-1"

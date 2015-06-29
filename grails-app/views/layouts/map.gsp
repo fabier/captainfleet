@@ -11,6 +11,7 @@
     <asset:stylesheet src="application"/>
     <asset:javascript src="application"/>
     <g:layoutHead/>
+    <ga:trackPageview/>
 </head>
 
 <body>
