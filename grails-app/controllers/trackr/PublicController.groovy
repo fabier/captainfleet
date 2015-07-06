@@ -166,7 +166,7 @@ class PublicController {
             redirect action: "order", params: params
         } else {
             String message = "<html><head></head><body>" +
-                    "${orderEmailCommand.name} vous a commandé un pacj ${params.packname}.<br/><br/>" +
+                    "${orderEmailCommand.name} vous a commandé un pack ${params.packname}.<br/><br/>" +
                     "Contactez le sur son adresse mail : ${orderEmailCommand.email}" +
                     "${orderEmailCommand.phonenumber != null ? "<br/>ou sur son téléphone : ${orderEmailCommand.phonenumber}" : ""}" +
                     "<br/><br/>" +
