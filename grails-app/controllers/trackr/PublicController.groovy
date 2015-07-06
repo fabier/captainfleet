@@ -139,6 +139,63 @@ class PublicController {
             redirect action: "onepage"
         }
     }
+
+    def order(long id) {
+        if (params.packname == null) {
+            switch (id) {
+                case 1:
+                    params.packname = "Starter"
+                    break
+                case 2:
+                    params.packname = "Basic"
+                    break
+                case 3:
+                    params.packname = "Pro"
+                    break
+                default:
+                    params.packname = "Starter"
+                    break
+            }
+        }
+        render view: "order"
+    }
+
+    def sendOrderMail(OrderEmailCommand orderEmailCommand) {
+        if (orderEmailCommand.hasErrors()) {
+            flash.warning = "Merci de renseigner votre nom et votre email"
+            redirect action: "order", params: params
+        } else {
+            String message = "<html><head></head><body>" +
+                    "${orderEmailCommand.name} vous a commandé un pacj ${params.packname}.<br/><br/>" +
+                    "Contactez le sur son adresse mail : ${orderEmailCommand.email}" +
+                    "${orderEmailCommand.phonenumber != null ? "<br/>ou sur son téléphone : ${orderEmailCommand.phonenumber}" : ""}" +
+                    "<br/><br/>" +
+                    "L'équipe CaptainFleet.<br/><br/>" +
+                    "</body></html>"
+            String messageAck = "<html><head></head><body>Bonjour,<br/><br/>" +
+                    "Vous venez d'envoyer un message à CaptainFleet indiquant votre intérêt pour le pack ${params.packname}.<br/>" +
+                    "Nous nous efforçons de répondre à votre demande dans les plus brefs délais.<br/><br/>" +
+                    "Cordialement,<br/><br/>" +
+                    "L'équipe CaptainFleet.<br/><br/>" +
+                    "</body></html>"
+            mailService.sendMail {
+                async true
+                to "CaptainFleet <${grailsApplication.config.grails.mail.username}>"
+                subject "[CaptainFleet Commande] ${orderEmailCommand.email}"
+                html message
+                from orderEmailCommand.email
+            }
+            mailService.sendMail {
+                async true
+                to orderEmailCommand.email
+                subject "CaptainFleet - Confirmation d'envoi de message"
+                html messageAck
+                from "CaptainFleet <${grailsApplication.config.grails.mail.username}>"
+            }
+            flash.message = "Votre message a été envoyé, il sera traité dans les plus brefs délais."
+            redirect action: "order"
+        }
+    }
 }
 
 class ContactCommand {
@@ -158,6 +215,18 @@ class ContactCommand {
 class NameEmailCommand {
     String name
     String email
+
+    static constraints = {
+        name nullable: false
+        email email: true
+    }
+}
+
+
+class OrderEmailCommand {
+    String name
+    String email
+    String phonenumber
 
     static constraints = {
         name nullable: false

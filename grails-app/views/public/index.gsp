@@ -294,7 +294,9 @@
                             </h4>
                         </div>
 
-                        <button type="button" class="btn btn-success">Commander !</button>
+                        <g:link controller="public" action="order" id="1" class="btn btn-success">
+                            Commander !
+                        </g:link>
                     </div>
                 </div>
 
@@ -329,7 +331,9 @@
                             </h4>
                         </div>
 
-                        <button type="button" class="btn btn-success">Commander !</button>
+                        <g:link controller="public" action="order" id="2" class="btn btn-success">
+                            Commander !
+                        </g:link>
                     </div>
                 </div>
 
@@ -364,7 +368,9 @@
                             </h4>
                         </div>
 
-                        <button type="button" class="btn btn-success">Commander !</button>
+                        <g:link controller="public" action="order" id="3" class="btn btn-success">
+                            Commander !
+                        </g:link>
                     </div>
                 </div>
             </div>
