@@ -43,7 +43,7 @@ class BootStrap {
         int frameCount = allFrames.size()
         log.info("Found ${frameCount} frames to process...")
         int frameIndex = 0
-        int collateSize = 50
+        int collateSize = 100
         allFrames.collate(collateSize).each {
             List<Frame> frames = it
             int upperFrameIndex = Math.min(frameIndex + collateSize, frameCount)
@@ -52,6 +52,7 @@ class BootStrap {
                 Frame frame = it
                 FrameExtra frameExtra = decoderService.tryDecode(frame)
                 if (frameExtra != null) {
+                    frame.frameExtra = frameExtra
                     frame.save()
                 }
             }
