@@ -6,6 +6,7 @@ dataSource {
     dialect = org.hibernatespatial.postgis.PostgisDialect
     username = "dev"
     password = "dev"
+//    logSql = true
 }
 
 hibernate {
