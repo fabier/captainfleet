@@ -1,178 +1,178 @@
-<g:if test="${frameData.hdop != null}">
+<g:if test="${frameExtra.hdop != null}">
     <tr>
         <td align="right" class="col-md-3">Dilution horizontale</td>
-        <td class="col-md-6">${frameData.hdop}</td>
+        <td class="col-md-6">${frameExtra.hdop}</td>
         <td class="col-md-3">
             <span class="display-block">
-                <code>${frameData.hexaHdop()}</code>
+                <code>${frameExtra.hexaHdop()}</code>
             </span>
         </td>
     </tr>
 </g:if>
 
-<g:if test="${frameData.satelliteCount != null}">
+<g:if test="${frameExtra.satelliteCount != null}">
     <tr>
         <td align="right" class="col-md-3">Nombre de satellites</td>
-        <td class="col-md-6">${frameData.satelliteCount}</td>
+        <td class="col-md-6">${frameExtra.satelliteCount}</td>
         <td class="col-md-3">
             <span class="display-block">
-                <code>${frameData.hexaSatelliteCount()}</code>
+                <code>${frameExtra.hexaSatelliteCount()}</code>
             </span>
         </td>
     </tr>
 </g:if>
 
-<g:if test="${frameData.isDay != null}">
+<g:if test="${frameExtra.isDay != null}">
     <tr>
         <td align="right" class="col-md-3">Jour</td>
-        <td class="col-md-6">${frameData.isDay ? "Oui" : "Non"}</td>
+        <td class="col-md-6">${frameExtra.isDay ? "Oui" : "Non"}</td>
         <td class="col-md-3">
             <span class="display-block">
-                <code>${frameData.hexaIsDay()}</code>
+                <code>${frameExtra.hexaIsDay()}</code>
             </span>
         </td>
     </tr>
 </g:if>
 
-<g:if test="${frameData.frameCount != null}">
+<g:if test="${frameExtra.frameCount != null}">
     <tr>
         <td align="right" class="col-md-3">Compteur de trames</td>
-        <td class="col-md-6">${frameData.frameCount}</td>
+        <td class="col-md-6">${frameExtra.frameCount}</td>
         <td class="col-md-3">
             <span class="display-block">
-                <code>${frameData.hexaFrameCount()}</code>
+                <code>${frameExtra.hexaFrameCount()}</code>
             </span>
         </td>
     </tr>
 </g:if>
 
-<g:if test="${frameData.gpsTimeToFix != null}">
+<g:if test="${frameExtra.gpsTimeToFix != null}">
     <tr>
         <td align="right" class="col-md-3">GPS TimeToFix</td>
-        <td class="col-md-6"><g:formatNumber number="${frameData.gpsTimeToFix}" maxFractionDigits="3"/> s</td>
+        <td class="col-md-6"><g:formatNumber number="${frameExtra.gpsTimeToFix}" maxFractionDigits="3"/> s</td>
         <td class="col-md-3">
             <span class="display-block">
-                <code>${frameData.hexaGpsTimeToFix()}</code>
+                <code>${frameExtra.hexaGpsTimeToFix()}</code>
             </span>
         </td>
     </tr>
 </g:if>
 
-<g:if test="${frameData.speed != null}">
+<g:if test="${frameExtra.speed != null}">
     <tr>
         <td align="right" class="col-md-3">Vitesse</td>
-        <td class="col-md-6"><g:formatNumber number="${frameData.speed}" maxFractionDigits="3"/> km/h</td>
+        <td class="col-md-6"><g:formatNumber number="${frameExtra.speed}" maxFractionDigits="3"/> km/h</td>
         <td class="col-md-3">
             <span class="display-block">
-                <code>${frameData.hexaSpeed()}</code>
+                <code>${frameExtra.hexaSpeed()}</code>
             </span>
         </td>
     </tr>
 </g:if>
 
-<g:if test="${frameData.azimuth != null}">
+<g:if test="${frameExtra.azimuth != null}">
     <tr>
         <td align="right" class="col-md-3">Azimuth</td>
-        <td class="col-md-6"><g:formatNumber number="${frameData.azimuth}" maxFractionDigits="3"/> °</td>
+        <td class="col-md-6"><g:formatNumber number="${frameExtra.azimuth}" maxFractionDigits="3"/> °</td>
         <td class="col-md-3">
             <span class="display-block">
-                <code>${frameData.hexaAzimuth()}</code>
+                <code>${frameExtra.hexaAzimuth()}</code>
             </span>
         </td>
     </tr>
 </g:if>
 
-<g:if test="${frameData.solarArrayVoltage != null}">
+<g:if test="${frameExtra.solarArrayVoltage != null}">
     <tr>
         <td align="right" class="col-md-3">Tension panneau solaire</td>
-        <td class="col-md-6"><g:formatNumber number="${frameData.solarArrayVoltage}" maxFractionDigits="3"/> V</td>
+        <td class="col-md-6"><g:formatNumber number="${frameExtra.solarArrayVoltage}" maxFractionDigits="3"/> V</td>
         <td class="col-md-3">
             <span class="display-block">
-                <code>${frameData.hexaSolarArrayVoltage()}</code>
+                <code>${frameExtra.hexaSolarArrayVoltage()}</code>
             </span>
         </td>
     </tr>
 </g:if>
 
-<g:if test="${frameData.superCapacitorVoltage != null}">
+<g:if test="${frameExtra.superCapacitorVoltage != null}">
     <tr>
         <td align="right" class="col-md-3">Tension condensateur</td>
-        <td class="col-md-6"><g:formatNumber number="${frameData.superCapacitorVoltage}" maxFractionDigits="3"/> V</td>
+        <td class="col-md-6"><g:formatNumber number="${frameExtra.superCapacitorVoltage}" maxFractionDigits="3"/> V</td>
         <td class="col-md-3">
             <span class="display-block">
-                <code>${frameData.hexaSuperCapacitorVoltage()}</code>
+                <code>${frameExtra.hexaSuperCapacitorVoltage()}</code>
             </span>
         </td>
     </tr>
 </g:if>
 
-<g:if test="${frameData.currentTemperature != null}">
+<g:if test="${frameExtra.currentTemperature != null}">
     <tr>
         <td align="right" class="col-md-3">T° actuelle</td>
-        <td class="col-md-6"><g:formatNumber number="${frameData.currentTemperature}" maxFractionDigits="1"/> °C</td>
+        <td class="col-md-6"><g:formatNumber number="${frameExtra.currentTemperature}" maxFractionDigits="1"/> °C</td>
         <td class="col-md-3">
             <span class="display-block">
-                <code>${frameData.hexaCurrentTemperature()}</code>
+                <code>${frameExtra.hexaCurrentTemperature()}</code>
             </span>
         </td>
     </tr>
 </g:if>
 
-<g:if test="${frameData.averageTemperature != null}">
+<g:if test="${frameExtra.averageTemperature != null}">
     <tr>
         <td align="right" class="col-md-3">T° moyenne</td>
-        <td class="col-md-6"><g:formatNumber number="${frameData.averageTemperature}" maxFractionDigits="1"/> °C</td>
+        <td class="col-md-6"><g:formatNumber number="${frameExtra.averageTemperature}" maxFractionDigits="1"/> °C</td>
         <td class="col-md-3">
             <span class="display-block">
-                <code>${frameData.hexaAverageTemperature()}</code>
+                <code>${frameExtra.hexaAverageTemperature()}</code>
             </span>
         </td>
     </tr>
 </g:if>
 
-<g:if test="${frameData.minTemperature != null}">
+<g:if test="${frameExtra.minTemperature != null}">
     <tr>
         <td align="right" class="col-md-3">T° min</td>
-        <td class="col-md-6"><g:formatNumber number="${frameData.minTemperature}" maxFractionDigits="1"/> °C</td>
+        <td class="col-md-6"><g:formatNumber number="${frameExtra.minTemperature}" maxFractionDigits="1"/> °C</td>
         <td class="col-md-3">
             <span class="display-block">
-                <code>${frameData.hexaMinTemperature()}</code>
+                <code>${frameExtra.hexaMinTemperature()}</code>
             </span>
         </td>
     </tr>
 </g:if>
 
-<g:if test="${frameData.maxTemperature != null}">
+<g:if test="${frameExtra.maxTemperature != null}">
     <tr>
         <td align="right" class="col-md-3">T° max</td>
-        <td class="col-md-6"><g:formatNumber number="${frameData.maxTemperature}" maxFractionDigits="1"/> °C</td>
+        <td class="col-md-6"><g:formatNumber number="${frameExtra.maxTemperature}" maxFractionDigits="1"/> °C</td>
         <td class="col-md-3">
             <span class="display-block">
-                <code>${frameData.hexaMaxTemperature()}</code>
+                <code>${frameExtra.hexaMaxTemperature()}</code>
             </span>
         </td>
     </tr>
 </g:if>
 
-<g:if test="${frameData.superCapacitorProtectCount != null}">
+<g:if test="${frameExtra.superCapacitorProtectCount != null}">
     <tr>
         <td align="right" class="col-md-3">Nb de protections capacité</td>
-        <td class="col-md-6">${frameData.superCapacitorProtectCount}</td>
+        <td class="col-md-6">${frameExtra.superCapacitorProtectCount}</td>
         <td class="col-md-3">
             <span class="display-block">
-                <code>${frameData.hexaSuperCapacitorProtectCount()}</code>
+                <code>${frameExtra.hexaSuperCapacitorProtectCount()}</code>
             </span>
         </td>
     </tr>
 </g:if>
 
-<g:if test="${frameData.modemKOCount != null}">
+<g:if test="${frameExtra.modemKOCount != null}">
     <tr>
         <td align="right" class="col-md-3">Nombre de KO Modem</td>
-        <td class="col-md-6">${frameData.modemKOCount}</td>
+        <td class="col-md-6">${frameExtra.modemKOCount}</td>
         <td class="col-md-3">
             <span class="display-block">
-                <code>${frameData.hexaModemKOCount()}</code>
+                <code>${frameExtra.hexaModemKOCount()}</code>
             </span>
         </td>
     </tr>

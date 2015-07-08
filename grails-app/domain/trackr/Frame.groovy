@@ -26,6 +26,11 @@ class Frame extends BaseDomain {
     FrameType frameType
 
     /**
+     * Données traduites contenues dans les datas
+     */
+    FrameExtra frameExtra
+
+    /**
      * Donnée utile contenue dans le message
      */
     String data
@@ -79,11 +84,12 @@ class Frame extends BaseDomain {
         time nullable: true
         frameProtocol nullable: true
         frameType nullable: true
+        frameExtra nullable: true
+        data nullable: true
         epochTime nullable: true
         duplicate nullable: true
         snr nullable: true
         station nullable: true
-        data nullable: true
         avgSignal nullable: true
         position nullable: true
         rssi nullable: true

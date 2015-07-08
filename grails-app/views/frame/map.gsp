@@ -57,7 +57,7 @@
                         </div>
                     </div>
 
-                    <g:render template="/frame/tabs" model="[frames: frames, frame: frame, frameData: frameData]"/>
+                    <g:render template="/frame/tabs" model="[frames: frames, frame: frame]"/>
                 </div>
             </div>
         </div>

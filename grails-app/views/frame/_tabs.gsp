@@ -44,38 +44,39 @@
         </div>
     </g:each>
 
-    <g:if test="${frameData}">
+    <g:set var="frameExtra" value="${frame.frameExtra}"/>
+    <g:if test="${frameExtra}">
         <table class="table table-hover table-nolineseparator small nomargin-left-right">
             <tbody>
-            <g:if test="${frameData.latitude != null}">
+            <g:if test="${frameExtra.latitude != null}">
                 <tr>
                     <td align="right" class="col-md-3">Latitude</td>
-                    <td class="col-md-6"><g:formatNumber number="${frameData.latitude}" maxFractionDigits="6"/></td>
+                    <td class="col-md-6"><g:formatNumber number="${frameExtra.latitude}" maxFractionDigits="6"/></td>
                     <td class="col-md-3">
                         <span class="display-block">
-                            <code>${frameData.hexaLatitude()}</code>
+                            <code>${frameExtra.hexaLatitude()}</code>
                         </span>
                     </td>
                 </tr>
             </g:if>
 
-            <g:if test="${frameData.longitude != null}">
+            <g:if test="${frameExtra.longitude != null}">
                 <tr>
                     <td align="right" class="col-md-3">Longitude</td>
-                    <td class="col-md-6"><g:formatNumber number="${frameData.longitude}" maxFractionDigits="6"/></td>
+                    <td class="col-md-6"><g:formatNumber number="${frameExtra.longitude}" maxFractionDigits="6"/></td>
                     <td class="col-md-3">
                         <span class="display-block">
-                            <code>${frameData.hexaLongitude()}</code>
+                            <code>${frameExtra.hexaLongitude()}</code>
                         </span>
                     </td>
                 </tr>
             </g:if>
 
             <g:if test="${frame.frameProtocol == FrameProtocol.V1}">
-                <g:render template="/frame/frameV1" model="[frameData: frameData]"/>
+                <g:render template="/frame/frameV1" model="[frameExtra: frameExtra]"/>
             </g:if>
             <g:elseif test="${frame.frameProtocol == FrameProtocol.V2}">
-                <g:render template="/frame/frameV2" model="[frameData: frameData]"/>
+                <g:render template="/frame/frameV2" model="[frameExtra: frameExtra]"/>
             </g:elseif>
         </table>
     </g:if>

@@ -89,6 +89,9 @@ grails.project.dependency.resolution = {
 
         // Pour Google Analytics
         compile ":google-analytics:2.3.3"
+
+        // Pour afficher des graphiques
+        compile ":google-visualization:1.0.2"
     }
 }
 

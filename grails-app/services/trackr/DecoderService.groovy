@@ -1,5 +1,7 @@
 package trackr
 
+import com.vividsolutions.jts.geom.Coordinate
+import com.vividsolutions.jts.geom.GeometryFactory
 import grails.transaction.Transactional
 
 @Transactional
@@ -10,18 +12,35 @@ class DecoderService {
      * @param frame
      * @return
      */
-    FrameData tryDecode(Frame frame) {
-        if (frame) {
-            switch (frame.frameProtocol) {
-                case FrameProtocol.V1:
-                    return tryDecode_V1(frame.data)
-                case FrameProtocol.V2:
-                    return tryDecode_V2(frame.data)
-                default:
-                    return tryDecode_V1(frame.data)
-            }
+    FrameExtra tryDecode(Frame frame) {
+        if (frame == null) {
+            return null
         } else {
-            null
+            if (frame.frameExtra != null) {
+                return frame.frameExtra
+            } else {
+                return tryDecode(frame.frameProtocol, frame.data)
+            }
+        }
+    }
+
+    FrameExtra tryDecode(FrameProtocol frameProtocol, String data) {
+        if (data == null) {
+            return null
+        } else {
+            FrameExtra frameExtra
+            switch (frameProtocol) {
+                case FrameProtocol.V1:
+                    frameExtra = tryDecode_V1(data)
+                    break
+                case FrameProtocol.V2:
+                    frameExtra = tryDecode_V2(data)
+                    break
+                default:
+                    frameExtra = tryDecode_V2(data)
+                    break
+            }
+            return frameExtra
         }
     }
 
@@ -41,8 +60,8 @@ class DecoderService {
      * @param data
      * @return
      */
-    FrameData_V1 tryDecode_V1(String data) {
-        FrameData_V1 frameData = null
+    FrameExtra tryDecode_V1(String data) {
+        FrameExtra frameExtra = null
         try {
             if (data.length() == 24) {
                 // Latitude
@@ -73,8 +92,7 @@ class DecoderService {
                     longitude = null
                 }
 
-                frameData = new FrameData_V1(
-                        data: data,
+                frameExtra = new FrameExtra(
                         latitude: latitude,
                         longitude: longitude,
                         gpsTimeToFix: gpsTimeToFix,
@@ -90,7 +108,7 @@ class DecoderService {
             // On n'a pas réussi à décoder...
             log.warn "Impossible to decode ${data}", e
         }
-        return frameData
+        return frameExtra
     }
 
     /**
@@ -123,8 +141,8 @@ class DecoderService {
      * @param data Chaine de caractères au format Hexa correspondant à la donnée data envoyée par le device
      * @return frameData , un objet contenant toutes les données décodées.
      */
-    FrameData_V2 tryDecode_V2(String data) {
-        FrameData_V2 frameData = null
+    FrameExtra tryDecode_V2(String data) {
+        FrameExtra frameExtra = null
         try {
             int firstCharAsInt = Integer.parseInt(data.substring(0, 1), 16)
             if (firstCharAsInt in [0b0110, 0b0111, 0b1110, 0b1111]) {
@@ -143,8 +161,7 @@ class DecoderService {
                     Integer superCapacitorProtectCount = (superCapacitorProtectCountAndModemKOCount >> 2) & 0b111111
                     Integer modemKOCount = superCapacitorProtectCountAndModemKOCount & 0b11
 
-                    frameData = new FrameData_V2(
-                            data: data,
+                    frameExtra = new FrameExtra(
                             frameCount: frameCount,
                             currentTemperature: currentTemperature,
                             averageTemperature: averageTemperature,
@@ -178,8 +195,7 @@ class DecoderService {
                     // IIIII : Tension supercapacité entre 0 et 2.91V, pas de 90mV
                     Double superCapacitorVoltage = (byte4To5 & 0b11111) * 0.09d
 
-                    frameData = new FrameData_V2_Error(
-                            data: data,
+                    frameExtra = new FrameExtra(
                             errorType: errorType,
                             reason: reason,
                             isDay: isDay,
@@ -238,8 +254,7 @@ class DecoderService {
                         longitude = null
                     }
 
-                    frameData = new FrameData_V2(
-                            data: data,
+                    frameExtra = new FrameExtra(
                             latitude: latitude,
                             longitude: longitude,
                             gpsTimeToFix: gpsTimeToFix,
@@ -261,7 +276,7 @@ class DecoderService {
             // On n'a pas réussi à décoder...
             log.warn "Impossible to decode ${data}", e
         }
-        return frameData
+        return frameExtra
     }
 
     int integerToSmallInt(int i) {

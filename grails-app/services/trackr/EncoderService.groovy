@@ -24,52 +24,52 @@ class EncoderService {
         return String.format("%08x", returnValue);
     }
 
-    String encodeFrame(FrameData_V2 frameData_v2) {
+    String encodeFrame(FrameExtra frameExtra) {
         StringBuilder encodedData = new StringBuilder();
 
         // Latitude
-        String sLatitude = encodeLatitudeOrLongitude(frameData_v2.latitude);
+        String sLatitude = encodeLatitudeOrLongitude(frameExtra.latitude);
         encodedData.append(sLatitude);
 
         // Longitude
-        String sLongitude = encodeLatitudeOrLongitude(frameData_v2.longitude);
+        String sLongitude = encodeLatitudeOrLongitude(frameExtra.longitude);
         encodedData.append(sLongitude);
 
         long last4Bytes = 0;
         // AA : HDOP encodé (0 : < 1.0, 1 : < 2.0, 2 : < 5.0 ou 3 : > 5.0)
-        last4Bytes |= frameData_v2.hdop;
+        last4Bytes |= frameExtra.hdop;
 
         // BB : Nombre de Satellites (0 : 0-3, 1 : 4-5, 2 : 6-7, 3 : 8+)
         last4Bytes <<= 2;
-        last4Bytes |= frameData_v2.satelliteCount;
+        last4Bytes |= frameExtra.satelliteCount;
 
         // C : Flag Jour(1)/Nuit(0)
         last4Bytes <<= 1;
-        last4Bytes |= frameData_v2.isDay ? 1 : 0;
+        last4Bytes |= frameExtra.isDay ? 1 : 0;
 
         // DDD : Compteur de trames
         last4Bytes <<= 3;
-        last4Bytes |= frameData_v2.frameCount;
+        last4Bytes |= frameExtra.frameCount;
 
         // EEEE : Durée d'acquisition GPS entre 0 et 75s ou +, pas de 5s
         last4Bytes <<= 4;
-        last4Bytes |= (int) (frameData_v2.gpsTimeToFix / 5.0d);
+        last4Bytes |= (int) (frameExtra.gpsTimeToFix / 5.0d);
 
         // FFFFF : Vitesse en km/h entre 0 et 155, pas de 5km/h
         last4Bytes <<= 5;
-        last4Bytes |= (int) (frameData_v2.speed / 5.0d);
+        last4Bytes |= (int) (frameExtra.speed / 5.0d);
 
         // GGGGG : Cap / Azimuth entre 0° et 360°, pas de 11,25°
         last4Bytes <<= 5;
-        last4Bytes |= (int) (frameData_v2.azimuth / 11.25d);
+        last4Bytes |= (int) (frameExtra.azimuth / 11.25d);
 
         // HHHHH : Tension panneau entre 0 et 3.1V, pas de 100mV
         last4Bytes <<= 5;
-        last4Bytes |= (int) (frameData_v2.solarArrayVoltage / 0.1d);
+        last4Bytes |= (int) (frameExtra.solarArrayVoltage / 0.1d);
 
         // IIIII : Tension supercapacité entre 0 et 2.91V, pas de 90mV
         last4Bytes <<= 5;
-        last4Bytes |= (int) (frameData_v2.superCapacitorVoltage / 0.9d);
+        last4Bytes |= (int) (frameExtra.superCapacitorVoltage / 0.9d);
 
         encodedData.append(String.format("%08x", last4Bytes));
 

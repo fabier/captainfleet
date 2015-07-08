@@ -1,70 +1,70 @@
-<g:if test="${frameData.gpsTimeToFix != null}">
+<g:if test="${frameExtra.gpsTimeToFix != null}">
     <tr>
         <td align="right" class="col-md-3">GPS TimeToFix</td>
-        <td class="col-md-6"><g:formatNumber number="${frameData.gpsTimeToFix}" maxFractionDigits="3"/> s</td>
+        <td class="col-md-6"><g:formatNumber number="${frameExtra.gpsTimeToFix}" maxFractionDigits="3"/> s</td>
         <td class="col-md-3">
             <span class="display-block">
-                <code>${frameData.hexaGpsTimeToFix()}</code>
+                <code>${frameExtra.hexaGpsTimeToFix()}</code>
             </span>
         </td>
     </tr>
 </g:if>
 
-<g:if test="${frameData.solarArrayVoltage != null}">
+<g:if test="${frameExtra.solarArrayVoltage != null}">
     <tr>
         <td align="right" class="col-md-3">Tension panneau solaire</td>
-        <td class="col-md-6"><g:formatNumber number="${frameData.solarArrayVoltage}" maxFractionDigits="3"/> V</td>
+        <td class="col-md-6"><g:formatNumber number="${frameExtra.solarArrayVoltage}" maxFractionDigits="3"/> V</td>
         <td class="col-md-3">
             <span class="display-block">
-                <code>${frameData.hexaSolarArrayVoltage()}</code>
+                <code>${frameExtra.hexaSolarArrayVoltage()}</code>
             </span>
         </td>
     </tr>
 </g:if>
 
-<g:if test="${frameData.superCapacitorVoltage != null}">
+<g:if test="${frameExtra.superCapacitorVoltage != null}">
     <tr>
         <td align="right" class="col-md-3">Tension condensateur</td>
-        <td class="col-md-6"><g:formatNumber number="${frameData.superCapacitorVoltage}" maxFractionDigits="3"/> V</td>
+        <td class="col-md-6"><g:formatNumber number="${frameExtra.superCapacitorVoltage}" maxFractionDigits="3"/> V</td>
         <td class="col-md-3">
             <span class="display-block">
-                <code>${frameData.hexaSuperCapacitorVoltage()}</code>
+                <code>${frameExtra.hexaSuperCapacitorVoltage()}</code>
             </span>
         </td>
     </tr>
 </g:if>
 
-<g:if test="${frameData.superCapacitorProtectCount != null}">
+<g:if test="${frameExtra.superCapacitorProtectCount != null}">
     <tr>
         <td align="right" class="col-md-3">Nb de protections capacité</td>
-        <td class="col-md-6">${frameData.superCapacitorProtectCount}</td>
+        <td class="col-md-6">${frameExtra.superCapacitorProtectCount}</td>
         <td class="col-md-3">
             <span class="display-block">
-                <code>${frameData.hexaSuperCapacitorProtectCount()}</code>
+                <code>${frameExtra.hexaSuperCapacitorProtectCount()}</code>
             </span>
         </td>
     </tr>
 </g:if>
 
-<g:if test="${frameData.isDay != null}">
+<g:if test="${frameExtra.isDay != null}">
     <tr>
         <td align="right" class="col-md-3">Jour</td>
-        <td class="col-md-6">${frameData.isDay ? "Oui" : "Non"}</td>
+        <td class="col-md-6">${frameExtra.isDay ? "Oui" : "Non"}</td>
         <td class="col-md-3">
             <span class="display-block">
-                <code>${frameData.hexaIsDay()}</code>
+                <code>${frameExtra.hexaIsDay()}</code>
             </span>
         </td>
     </tr>
 </g:if>
 
-<g:if test="${frameData.frameCount != null}">
+<g:if test="${frameExtra.frameCount != null}">
     <tr>
         <td align="right" class="col-md-3">Compteur de trames</td>
-        <td class="col-md-6">${frameData.frameCount}</td>
+        <td class="col-md-6">${frameExtra.frameCount}</td>
         <td class="col-md-3">
             <span class="display-block">
-                <code>${frameData.hexaFrameCount()}</code>
+                <code>${frameExtra.hexaFrameCount()}</code>
             </span>
         </td>
     </tr>

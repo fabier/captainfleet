@@ -25,6 +25,12 @@
         <div id="navbar" class="collapse navbar-collapse">
             <sec:ifLoggedIn>
                 <ul class="nav navbar-nav">
+                    <li class="${controllerName in ["dashboard"] ? "active" : ""}">
+                        <g:link controller="dashboard" action="index">
+                            <i class="glyphicon glyphicon-dashboard"></i>
+                            &nbsp;Tableau de bord
+                        </g:link>
+                    </li>
                     <li class="${controllerName in ["common"]\
                              || controllerName in ["device", "frame"] && actionName in ["map"] ? "active" : ""}">
                         <g:link controller="common" action="index" class="lateral-menu">

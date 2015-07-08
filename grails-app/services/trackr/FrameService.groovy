@@ -205,39 +205,8 @@ class FrameService {
         }
     }
 
-    def updateFrameLocationIfLocationIsAvailableAndCorrect(Frame frame, FrameData frameData) {
-        if (frameData?.hasGeolocationData()) {
-            LatitudeLongitude latitudeLongitude = new LatitudeLongitude(latitude: frameData.latitude,
-                    longitude: frameData.longitude)
-            if (latitudeLongitude.validate()) {
-                // On met à jour la donnée géolocalisée
-                frame.location = new GeometryFactory().createPoint(new Coordinate(frameData.longitude, frameData.latitude))
-            } else {
-                // La position géographique est incohérente, on ne l'enregistre pas
-                frame.location = null
-            }
-            frame.save()
-        }
-    }
-
-    def updateDeviceFamilyFromFrameData(Device device, FrameData frameData) {
-        if (device != null && device.deviceFamily == null) {
-            // La famille de ce device n'est pas renseignée
-            if (frameData) {
-                device.deviceFamily = DeviceFamily.TRACKER
-            } else {
-                device.deviceFamily = DeviceFamily.UNKNOWN
-            }
-            device.save()
-        }
-    }
-
     def doCreateFrame(Map params, FrameProtocol frameProtocol) {
         Frame frame = createAndSaveFrameFromParams(frameProtocol, params)
-        FrameData frameData = decoderService.tryDecode(frame)
-        updateFrameTypeIfUnavailable(frame, frameData)
-        updateDeviceFamilyFromFrameData(frame.device, frameData)
-        updateFrameLocationIfLocationIsAvailableAndCorrect(frame, frameData)
         checkIfAnyAlertIsToRaiseForFrame(frame)
     }
 
@@ -333,7 +302,7 @@ class FrameService {
     Frame createAndSaveFrameFromParams(FrameProtocol frameProtocol, params) {
         SigFoxWSData sigFoxWSData = parserService.tryParseSigFoxWSData(params)
 
-        new Frame(
+        Frame frame = new Frame(
                 device: sigFoxWSData.device,
                 time: sigFoxWSData.time,
                 epochTime: sigFoxWSData.epochTime,
@@ -344,10 +313,18 @@ class FrameService {
                 avgSignal: sigFoxWSData.avgSignal,
                 position: sigFoxWSData.position,
                 rssi: sigFoxWSData.rssi,
-                frameProtocol: frameProtocol
-        ).save()
-    }
+                frameProtocol: frameProtocol,
+                frameExtra: decoderService.tryDecode(frameProtocol, sigFoxWSData.data)
+        )
 
+        // Mise à jour de données dénormalisées
+        updateFrameTypeIfUnavailable(frame)
+        updateDeviceFamilyFromFrame(frame)
+        updateFrameLocationIfLocationIsAvailableAndCorrect(frame)
+
+        // Sauvegarde de la nouvelle trame
+        frame.save()
+    }
 
     Frame getLastFrame(Device device) {
         return Frame.createCriteria().get {
@@ -476,10 +453,51 @@ class FrameService {
         }
     }
 
-    def updateFrameTypeIfUnavailable(Frame frame, FrameData frameData) {
-        if (frame != null && frame.frameType == null && frameData?.frameType != null) {
-            frame.frameType = frameData.frameType
-            frame.save()
+    List<Frame> getLastFrames(Device device, int max) {
+        return Frame.createCriteria().list {
+            eq("device", device)
+            eq("duplicate", false)
+            maxResults(max)
+            order("dateCreated", "desc")
+        }
+    }
+
+    def updateFrameTypeIfUnavailable(Frame frame) {
+        if (frame != null && frame.frameType == null && frame.frameExtra?.frameType != null) {
+            frame.frameType = frame.frameExtra?.frameType
+        }
+    }
+
+    def updateDeviceFamilyFromFrame(Frame frame) {
+        if (frame != null) {
+            Device device = frame.device
+            if (device != null && device.deviceFamily == null) {
+                // La famille de ce device n'est pas renseignée
+                if (frame.frameExtra) {
+                    device.deviceFamily = DeviceFamily.TRACKER
+                } else {
+                    device.deviceFamily = DeviceFamily.UNKNOWN
+                }
+                device.save()
+            }
+        }
+    }
+
+    def updateFrameLocationIfLocationIsAvailableAndCorrect(Frame frame) {
+        if (frame != null) {
+            FrameExtra frameExtra = frame.frameExtra
+            if (frameExtra?.hasGeolocationData()) {
+                LatitudeLongitude latitudeLongitude = new LatitudeLongitude(latitude: frameExtra.latitude,
+                        longitude: frameExtra.longitude)
+                if (latitudeLongitude.validate()) {
+                    // On met à jour la donnée géolocalisée
+                    frame.location = new GeometryFactory().createPoint(new Coordinate(frameExtra.longitude, frameExtra.latitude))
+                } else {
+                    // La position géographique est incohérente, on ne l'enregistre pas
+                    frame.location = null
+                }
+                frame.save()
+            }
         }
     }
 }

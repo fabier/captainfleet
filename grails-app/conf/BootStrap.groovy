@@ -1,3 +1,5 @@
+import org.apache.commons.beanutils.BeanUtils
+import org.apache.commons.beanutils.PropertyUtils
 import trackr.*
 
 class BootStrap {
@@ -35,6 +37,27 @@ class BootStrap {
                 it.save()
             }
         }
+
+        log.info("Trying to decode all frames without FrameExtra in database...")
+        List<Frame> allFrames = Frame.findAllByFrameExtraIsNull()
+        int frameCount = allFrames.size()
+        log.info("Found ${frameCount} frames to process...")
+        int frameIndex = 0
+        int collateSize = 50
+        allFrames.collate(collateSize).each {
+            List<Frame> frames = it
+            int upperFrameIndex = Math.min(frameIndex + collateSize, frameCount)
+            log.info("Storing frameExtra for frames [${frameIndex}-${upperFrameIndex}] out of ${frameCount} frames...")
+            frames.each {
+                Frame frame = it
+                FrameExtra frameExtra = decoderService.tryDecode(frame)
+                if (frameExtra != null) {
+                    frame.save()
+                }
+            }
+            frameIndex = frameIndex + collateSize
+        }
+        log.info("Trying to decode all frames in database... DONE")
     }
 
     def destroy = {
