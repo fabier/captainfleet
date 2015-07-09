@@ -462,6 +462,23 @@ class FrameService {
         }
     }
 
+    List<Frame> getLastFramesSinceLastDays(Device device, int numberOfDays) {
+        assert numberOfDays > 0
+        Calendar calendar = Calendar.getInstance()
+        calendar.set(Calendar.HOUR, 0)
+        calendar.set(Calendar.MINUTE, 0)
+        calendar.set(Calendar.SECOND, 0)
+        calendar.set(Calendar.MILLISECOND, 0)
+        calendar.add(Calendar.DAY_OF_YEAR, -numberOfDays)
+        Date dateLowerBound = calendar.getTime()
+        return Frame.createCriteria().list {
+            eq("device", device)
+            eq("duplicate", false)
+            gte("dateCreated", dateLowerBound)
+            order("dateCreated", "desc")
+        }
+    }
+
     def updateFrameTypeIfUnavailable(Frame frame) {
         if (frame != null && frame.frameType == null && frame.frameExtra?.frameType != null) {
             frame.frameType = frame.frameExtra?.frameType
