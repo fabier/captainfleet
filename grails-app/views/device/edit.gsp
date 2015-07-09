@@ -59,6 +59,10 @@
                                 Générer un nouveau code aléatoire
                             </g:link>
                         </g:if>
+                        <g:link action="remove" id="${device.id}" class="btn btn-warning pull-right">
+                            <i class="glyphicon glyphicon-remove-circle"></i>
+                            Ne plus suivre ce boitier
+                        </g:link>
                     </div>
                 </div>
             </g:form>

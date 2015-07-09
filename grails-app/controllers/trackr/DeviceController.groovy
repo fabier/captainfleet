@@ -112,6 +112,13 @@ class DeviceController {
         ]
     }
 
+    def remove(long id) {
+        Device device = Device.get(id)
+        User user = springSecurityService.currentUser
+        UserDevice.remove(user, device)
+        redirect action: "index"
+    }
+
     def update(long id) {
         Device device = Device.get(id)
         bindData(device, params, [include: ["name"]])
