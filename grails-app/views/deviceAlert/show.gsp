@@ -9,7 +9,7 @@
 
 <g:render template="/templates/flashMessage"/>
 
-<div class="container margin-top-20">
+<div class="container-fluid margin-top-20">
     <div class="row">
         <div class="col-md-2">
             <g:render template="/templates/lateralMenuAccount"/>

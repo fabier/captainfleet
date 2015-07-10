@@ -29,7 +29,7 @@
 
 <g:render template="/templates/flashMessage"/>
 
-<div class="container-fluid">
+<div class="container-fluid with-map">
     <div class="row-fluid">
         <div class="col-md-4 wrapper">
             <g:if test="${devices}">
