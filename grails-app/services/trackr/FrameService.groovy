@@ -475,7 +475,7 @@ class FrameService {
             eq("device", device)
             eq("duplicate", false)
             gte("dateCreated", dateLowerBound)
-            order("dateCreated", "desc")
+            order("dateCreated", "asc")
         }
     }
 

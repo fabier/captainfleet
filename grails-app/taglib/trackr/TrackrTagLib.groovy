@@ -63,4 +63,39 @@ class TrackrTagLib {
             out << raw("Non")
         }
     }
+
+    def formatArrayForGoogleChartRow = { attr, body ->
+        assert attr.data != null
+        Object[] data = attr.data
+        StringBuilder dataAsGoogleChartRow = new StringBuilder()
+        for (Object cellData : data) {
+            if (dataAsGoogleChartRow.length() > 0) {
+                dataAsGoogleChartRow.append(",")
+            }
+            dataAsGoogleChartRow.append(formatObjectForGoogleChartRow(data: cellData))
+        }
+        while (dataAsGoogleChartRow.length() > 0 && dataAsGoogleChartRow.lastIndexOf(',') == dataAsGoogleChartRow.length() - 1) {
+            dataAsGoogleChartRow.deleteCharAt(dataAsGoogleChartRow.length() - 1)
+        }
+        out << dataAsGoogleChartRow.toString()
+    }
+
+
+    def formatObjectForGoogleChartRow = { attr, body ->
+        Object o = attr.data
+        if (o == null) {
+            out << "null"
+        } else if (o instanceof Number) {
+            out << formatNumber([number: o, type: "number", locale: "EN", minFractionDigits: "2", maxFractionDigits: "2"])
+        } else if (o instanceof Date) {
+            out << "new Date(${formatDate([date: o, format: "yyyy, MM, dd, HH, mm, ss, SSS"])})"
+        } else {
+            throw new UnsupportedOperationException("TrackTagLib.formatObject cannot handle class : ${o.class}")
+        }
+    }
+
+    def plural = { attr, body ->
+        assert attr.val != null
+        out << (attr.val > 1 ? "s" : "")
+    }
 }
