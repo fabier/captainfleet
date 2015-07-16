@@ -30,6 +30,7 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <gvisualization:lineChart
+                                                        title="État alimentation"
                                                         elementId="device_chart_${device.id}"
                                                         height="${240}"
                                                         columns="${deviceGraphDataColumns}"
@@ -39,11 +40,34 @@
 
                                             <div class="col-md-6">
                                                 <gvisualization:lineChart
+                                                        title="Température relevée"
                                                         elementId="device_temperature_${device.id}"
                                                         height="${240}"
                                                         columns="${deviceGraphTemperatureDataColumns}"
                                                         data="${deviceGraphTemperatureDataMap.get(device)}"/>
                                                 <div id="device_temperature_${device.id}"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <gvisualization:lineChart
+                                                        title="Qualité signal émis/recu"
+                                                        elementId="device_signal_${device.id}"
+                                                        height="${240}"
+                                                        columns="${deviceGraphSignalDataColumns}"
+                                                        data="${deviceGraphSignalDataMap.get(device)}"/>
+                                                <div id="device_signal_${device.id}"></div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <gvisualization:lineChart
+                                                        title="RSSI"
+                                                        elementId="device_rssi_${device.id}"
+                                                        height="${240}"
+                                                        columns="${deviceGraphRSSIDataColumns}"
+                                                        data="${deviceGraphRSSIDataMap.get(device)}"/>
+                                                <div id="device_rssi_${device.id}"></div>
                                             </div>
                                         </div>
                                     </g:if>
