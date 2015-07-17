@@ -14,7 +14,7 @@
         <div class="col-md-8 center-block">
             <g:if test='${emailSent}'>
                 <div class="alert alert-info">
-                    <g:message code='trackr.emailSent'/>
+                    <g:message code='captainfleet.emailSent'/>
                 </div>
                 <g:link uri="/" class="btn btn-primary">
                     Revenir à la page d'accueil
@@ -32,7 +32,7 @@
                                 "has-error has-feedback"
                             }}">
                                 <label for="username" class="col-md-4 control-label">
-                                    <g:message code="trackr.username" default="Nom"/>
+                                    <g:message code="captainfleet.username" default="Nom"/>
                                 </label>
 
                                 <div class="col-md-6">
@@ -56,7 +56,7 @@
                                 "has-error has-feedback"
                             }}">
                                 <label for="email" class="col-md-4 control-label">
-                                    <g:message code="trackr.email" default="E-mail"/>
+                                    <g:message code="captainfleet.email" default="E-mail"/>
                                 </label>
 
                                 <div class="col-md-6">
@@ -80,7 +80,7 @@
                                 "has-error has-feedback"
                             }}">
                                 <label for="password" class="col-md-4 control-label">
-                                    <g:message code="trackr.password" default="Mot de passe"/>
+                                    <g:message code="captainfleet.password" default="Mot de passe"/>
                                 </label>
 
                                 <div class="col-md-6">
@@ -104,7 +104,7 @@
                                 "has-error has-feedback"
                             }}">
                                 <label for="password2" class="col-md-4 control-label">
-                                    <g:message code="trackr.password2" default="Mot de passe\n(répéter)"/>
+                                    <g:message code="captainfleet.password2" default="Mot de passe\n(répéter)"/>
                                 </label>
 
                                 <div class="col-md-6">

@@ -39,9 +39,9 @@ environments {
 }
 
 // Added by the Spring Security Core plugin:
-grails.plugin.springsecurity.userLookup.userDomainClassName = 'trackr.User'
-grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'trackr.UserRole'
-grails.plugin.springsecurity.authority.className = 'trackr.Role'
+grails.plugin.springsecurity.userLookup.userDomainClassName = 'captainfleet.User'
+grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'captainfleet.UserRole'
+grails.plugin.springsecurity.authority.className = 'captainfleet.Role'
 grails.plugin.springsecurity.securityConfigType = "Annotation"
 grails.plugin.springsecurity.controllerAnnotations.staticRules = [
         '/'              : ['permitAll'],
@@ -163,7 +163,7 @@ grails.cache.config = {
     }
 
     cache {
-        name 'trackr'
+        name 'captainfleet'
         eternal false
         overflowToDisk true
         maxElementsInMemory 10000
@@ -171,7 +171,7 @@ grails.cache.config = {
     }
 
     domain {
-        name 'trackr.Role'
+        name 'captainfleet.Role'
         eternal false
         overflowToDisk false
         path "${System.getProperty("user.home")}/.ehcache"

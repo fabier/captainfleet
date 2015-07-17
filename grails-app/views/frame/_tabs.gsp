@@ -1,4 +1,4 @@
-<%@ page import="trackr.FrameProtocol" %>
+<%@ page import="captainfleet.FrameProtocol" %>
 <ul class="nav nav-tabs margin-top-20">
     <g:each in="${frames}" var="f" status="i">
         <li role="presentation" class="${i == 0 ? "active" : ""}">

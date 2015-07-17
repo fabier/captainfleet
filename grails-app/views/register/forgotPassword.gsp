@@ -15,7 +15,7 @@
         <div class="col-md-8 center-block">
             <g:if test='${emailSent}'>
                 <div class="alert alert-info">
-                    <g:message code='trackr.emailSent.forgotPassword'/>
+                    <g:message code='captainfleet.emailSent.forgotPassword'/>
                 </div>
                 <g:link uri="/" class="btn btn-primary">
                     Revenir à la page d'accueil
@@ -28,7 +28,7 @@
                                 method="POST">
                             <div class="form-group">
                                 <label for="username" class="col-md-4 control-label">
-                                    <g:message code="trackr.email" default="Email"/>
+                                    <g:message code="captainfleet.email" default="Email"/>
                                 </label>
 
                                 <div class="col-md-4">
