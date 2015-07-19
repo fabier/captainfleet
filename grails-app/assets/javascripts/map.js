@@ -282,7 +282,7 @@ app.Drag.prototype.handleUpEvent = function (evt) {
 };
 
 function addDragNDropInteraction() {
-    dragNDropInteraction = new app.Drag()
+    dragNDropInteraction = new app.Drag();
     map.addInteraction(dragNDropInteraction);
 }
 

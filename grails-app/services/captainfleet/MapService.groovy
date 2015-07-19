@@ -5,12 +5,15 @@ import com.vividsolutions.jts.geom.Envelope
 import com.vividsolutions.jts.geom.GeometryFactory
 import com.vividsolutions.jts.geom.MultiPoint
 import grails.transaction.Transactional
+import org.codehaus.groovy.grails.web.mapping.LinkGenerator
 
 @Transactional
 class MapService {
 
     StationService stationService
     FrameService frameService
+
+    LinkGenerator grailsLinkGenerator
 
     MapOptions buildFromDevicesUsingLastFrame(List<Device> devices) {
         Set<com.vividsolutions.jts.geom.Point> points = new HashSet<>()
@@ -27,9 +30,7 @@ class MapService {
         if (points != null && !points.isEmpty()) {
             MultiPoint multiPoint = new GeometryFactory().createMultiPoint(GeometryFactory.toPointArray(points))
             Envelope envelope = multiPoint.getEnvelopeInternal()
-            MapMarkerStyle markerStyle = new MapMarkerStyle(
-                    path: "markers/car.png"
-            )
+            MapMarkerStyle markerStyle = defaultMapMarkerStyle()
             return new MapOptions(
                     boundingBox: envelope,
                     mapMarkerLayers: [new MapMarkerLayer(
@@ -48,6 +49,19 @@ class MapService {
         staticPoints.add(geometryFactory.createPoint(new Coordinate(10.0, 20.0)))
         staticPoints.add(geometryFactory.createPoint(new Coordinate(10.0, 60.0)))
         return buildFromPoints(staticPoints)
+    }
+
+    MapMarkerStyle defaultMapMarkerStyle() {
+        MapMarkerIcon mapMarkerIcon = MapMarkerIcon.first()
+        if (mapMarkerIcon) {
+            new MapMarkerStyle(
+                    path: grailsLinkGenerator.link(controller: "mapMarker", action: "index", id: mapMarkerIcon.id)
+            )
+        } else {
+            new MapMarkerStyle(
+                    path: "markers/car.png"
+            )
+        }
     }
 
     MapOptions buildFromDevicesUsingRandomFrame(List<Device> devices) {

@@ -56,10 +56,10 @@
             <g:each in="${mapOptions.mapMarkerLayers}" var="mapMarkerLayer">
             <g:if test="${!geoFrames.isEmpty()}">
             addPoint(map, ${geoFrames.first().location?.getX()}, ${geoFrames.first().location?.getY()},
-                    "${assetPath(src:mapMarkerLayer.mapMarkerStyle.path)}");
+                    "${mapMarkerLayer.mapMarkerStyle.path}");
             <g:if test="${geoFrames.size()>1}" >
             addPoint(map, ${geoFrames.last().location?.getX()}, ${geoFrames.last().location?.getY()},
-                    "${assetPath(src:mapMarkerLayer.mapMarkerStyle.path)}");
+                    "${mapMarkerLayer.mapMarkerStyle.path}");
             </g:if>
             </g:if>
             </g:each>

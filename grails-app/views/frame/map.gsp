@@ -11,7 +11,7 @@
             <g:each in="${mapOptions.mapMarkerLayers}" var="mapMarkerLayer">
             <g:if test="${frame?.location}" >
             addPoint(map, ${frame.location?.getX()}, ${frame.location?.getY()},
-                    "${assetPath(src:mapMarkerLayer.mapMarkerStyle.path)}");
+                    "${mapMarkerLayer.mapMarkerStyle.path}");
             </g:if>
             </g:each>
             zoomToExtent(map, ${mapOptions.boundingBox.getMinX()}, ${mapOptions.boundingBox.getMinY()},

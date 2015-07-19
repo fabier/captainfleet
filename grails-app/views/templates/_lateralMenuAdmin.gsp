@@ -72,4 +72,22 @@
             </ul>
         </li>
     </g:if>
+    <li role="presentation" class="${controllerName == 'adminMapMarkerIcon' && actionName == 'search' ? "active" : ""}">
+        <g:link controller="adminMapMarkerIcon" action="search" class="lateral-menu">
+            <i class="glyphicon glyphicon-map-marker"></i>
+            Marqueurs
+        </g:link>
+    </li>
+    <g:if test="${mapMarkerIcon}">
+        <li>
+            <ul class="nav nav-pills nav-stacked">
+                <li class="active">
+                    <a>
+                        <i class="glyphicon glyphicon-map-marker"></i>
+                        ${mapMarkerIcon.name}
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </g:if>
 </ul>
