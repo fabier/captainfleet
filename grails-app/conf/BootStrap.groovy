@@ -30,6 +30,7 @@ class BootStrap {
             it.save()
         }
 
+        // Update
         Frame.findAllByEpochTime(null).each {
             Date time = it.time
             if (time) {
@@ -38,6 +39,15 @@ class BootStrap {
             }
         }
 
+        // Decode
+        // decodeAllFrames()
+    }
+
+    /**
+     * Decodes all frames and creates FrameExtra for each one.
+     * @return
+     */
+    def decodeAllFrames() {
         log.info("Trying to decode all frames without FrameExtra in database...")
         List<Frame> allFrames = Frame.findAllByFrameExtraIsNull()
         int frameCount = allFrames.size()

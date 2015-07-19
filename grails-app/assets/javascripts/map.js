@@ -87,7 +87,7 @@ function zoomToExtent(map, minx, miny, maxx, maxy) {
     map.getView().fitGeometry(geometry, map.getSize(), {maxZoom: 16});
 }
 
-function addPoint(map, longitude, latitude, path) {
+function addPoint(map, longitude, latitude, path, anchor) {
     var coordinates = ol.proj.transform([longitude, latitude], 'EPSG:4326', 'EPSG:3857');
     var point = new ol.geom.Point(coordinates);
 
@@ -95,9 +95,11 @@ function addPoint(map, longitude, latitude, path) {
         geometry: point
     });
 
+    anchor = typeof anchor !== 'undefined' ? anchor : [0.5, 1.0];
+
     var iconStyle = new ol.style.Style({
         image: new ol.style.Icon(({
-            anchor: [0.5, 1.0],
+            anchor: anchor,
             opacity: 1.0,
             src: path
         }))

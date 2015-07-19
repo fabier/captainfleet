@@ -12,6 +12,7 @@ class MapService {
 
     StationService stationService
     FrameService frameService
+    MapMarkerIconService mapMarkerIconService
 
     LinkGenerator grailsLinkGenerator
 
@@ -52,14 +53,18 @@ class MapService {
     }
 
     MapMarkerStyle defaultMapMarkerStyle() {
-        MapMarkerIcon mapMarkerIcon = MapMarkerIcon.first()
+        MapMarkerIcon mapMarkerIcon = mapMarkerIconService.getDefault()
         if (mapMarkerIcon) {
             new MapMarkerStyle(
-                    path: grailsLinkGenerator.link(controller: "mapMarker", action: "index", id: mapMarkerIcon.id)
+                    path: grailsLinkGenerator.link(controller: "mapMarker", action: "index", id: mapMarkerIcon.id),
+                    anchorX: mapMarkerIcon.anchorX,
+                    anchorY: mapMarkerIcon.anchorY
             )
         } else {
             new MapMarkerStyle(
-                    path: "markers/car.png"
+                    path: "markers/car.png",
+                    anchorX: 0.5f,
+                    anchorY: 1.0f
             )
         }
     }

@@ -1,5 +1,6 @@
 package captainfleet.admin
 
+import captainfleet.MapMarkerIcon
 import org.springframework.security.access.annotation.Secured
 import captainfleet.Device
 import captainfleet.DeviceService
@@ -28,10 +29,13 @@ class AdminDeviceController {
         def frames = Frame.findAllByDeviceAndDuplicate(device, false,
                 [max: params.max ?: 10, offset: params.offset ?: 0, sort: "dateCreated", order: "desc"])
         int totalCount = Frame.countByDeviceAndDuplicate(device, false)
+        def mapMarkerIcons = MapMarkerIcon.all
         render view: "show", model: [
-                device    : device,
-                results   : frames,
-                totalCount: totalCount
+                device          : device,
+                results         : frames,
+                mapMarkerIcons  : mapMarkerIcons,
+                mapMarkerIconIds: mapMarkerIcons*.id,
+                totalCount      : totalCount
         ]
     }
 

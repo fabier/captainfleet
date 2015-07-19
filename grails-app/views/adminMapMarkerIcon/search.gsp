@@ -3,6 +3,22 @@
 <head>
     <meta name="layout" content="admin"/>
     <title>CaptainFleet - Icones</title>
+    <asset:stylesheet src="dropzone"/>
+    <asset:javascript src="dropzone"/>
+    <script type="application/javascript">
+        Dropzone.autoDiscover = false;
+
+        $(function () {
+            var myDropzone = new Dropzone("#uploadData", {
+                paramName: "file", // The name that will be used to transfer the file
+                maxFilesize: 2 // MB
+            });
+
+            myDropzone.on("complete", function (file) {
+                location.reload();
+            });
+        })
+    </script>
 </head>
 
 <body>
@@ -23,24 +39,28 @@
             </legend>
 
             <div class="row">
-                <div class="col-md-6">
-                    <g:form action='mapMarkerIconSearch' name='mapMarkerIconSearchForm' class="form-horizontal">
-                        <div class="form-group">
-                            <label for="name" class="col-md-2 control-label">Nom</label>
+                <g:form action='mapMarkerIconSearch' name='mapMarkerIconSearchForm' class="form-horizontal">
+                    <div class="form-group">
+                        <label for="name" class="col-md-1 control-label">Nom</label>
 
-                            <div class="col-md-8">
-                                <input class="form-control" id="name" name="name" placeholder="Recherche"
-                                       value="${params.name ?: ""}"/>
-                            </div>
-
-                            <div class="col-md-2">
-                                <button type="submit" class="btn btn-primary">
-                                    Rechercher
-                                </button>
-                            </div>
+                        <div class="col-md-4">
+                            <input class="form-control" id="name" name="name" placeholder="Recherche"
+                                   value="${params.name ?: ""}"/>
                         </div>
-                    </g:form>
-                </div>
+
+                        <div class="col-md-5">
+                            <button type="submit" class="btn btn-primary">
+                                Rechercher
+                            </button>
+                        </div>
+
+                        <div class="col-md-2">
+                            <g:link action="removeAll" class="btn btn-warning">
+                                Supprimer tout
+                            </g:link>
+                        </div>
+                    </div>
+                </g:form>
             </div>
 
             <div class="row">
@@ -82,21 +102,10 @@
             </legend>
 
             <div class="row">
-                <g:uploadForm action="uploadData">
-                    <div class="form-group">
-                        <label for="name" class="col-md-2 control-label">Fichier</label>
-
-                        <div class="col-md-8">
-                            <input type="file" name="markerFile"/>
-                        </div>
-
-                        <div class="col-md-2">
-                            <button type="submit" class="btn btn-primary">
-                                Créer
-                            </button>
-                        </div>
-                    </div>
-                </g:uploadForm>
+                <div class="col-md-8 col-md-offset-1">
+                    <g:form name="uploadData" action="uploadData" class="dropzone">
+                    </g:form>
+                </div>
             </div>
         </div>
     </div>

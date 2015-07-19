@@ -17,6 +17,11 @@ class Device extends BaseEntity {
     // Code unique permettant d'associer un device à son compte
     String code
 
+    /**
+     * Marqueur de carte spécifique pour ce terminal.
+     */
+    MapMarkerIcon mapMarkerIcon
+
     static hasMany = [frames: Frame]
 
     static constraints = {
@@ -25,5 +30,6 @@ class Device extends BaseEntity {
         code nullable: true, unique: true
         deviceFamily nullable: true
         deviceType nullable: true
+        mapMarkerIcon nullable: true
     }
 }

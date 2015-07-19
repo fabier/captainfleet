@@ -45,6 +45,20 @@
                 </div>
 
                 <div class="form-group">
+                    <label class="col-md-2 control-label">Icone</label>
+
+                    <div class="col-md-10">
+                        <g:each in="${mapMarkerIcons}" var="mapMarker">
+                            <label>
+                                <input type="radio" name="mapMarkerIcon"
+                                       value="${mapMarker.id}" ${device.mapMarkerIcon?.id == mapMarker.id ? "checked" : ""}/>
+                                <img src="${createLink(controller: "mapMarker", action: "index", id: mapMarker.id)}">
+                            </label>
+                        </g:each>
+                    </div>
+                </div>
+
+                <div class="form-group">
                     <div class="col-md-10 col-md-offset-2">
                         <button type="submit" class="btn btn-primary">
                             Enregistrer

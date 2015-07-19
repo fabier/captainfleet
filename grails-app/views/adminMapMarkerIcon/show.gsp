@@ -44,10 +44,25 @@
                 </div>
 
                 <div class="form-group">
-                    <div class="col-md-10 col-md-offset-2">
+                    <div class="col-md-6 col-md-offset-2">
                         <button type="submit" class="btn btn-primary">
                             Enregistrer
                         </button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-4 col-md-offset-2">
+                        <g:if test="${!mapMarkerIcon.isDefault}">
+                            <g:link controller="adminMapMarkerIcon" action="setAsDefault" id="${mapMarkerIcon.id}"
+                                    class="btn btn-link">
+                                Définir comme icone par défaut
+                            </g:link>
+                        </g:if>
+                        <g:else>
+                            <i class="glyphicon glyphicon-check"></i>
+                            Icone par défaut
+                        </g:else>
                     </div>
                 </div>
             </g:form>

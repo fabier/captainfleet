@@ -5,4 +5,6 @@ package captainfleet
  */
 class MapMarkerStyle {
     String path
+    Float anchorX
+    Float anchorY
 }

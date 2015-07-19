@@ -4,6 +4,7 @@ import captainfleet.Device
 import captainfleet.DeviceService
 import captainfleet.Frame
 import captainfleet.MapMarkerIcon
+import captainfleet.MapMarkerIconService
 import org.springframework.security.access.annotation.Secured
 import org.springframework.web.multipart.commons.CommonsMultipartFile
 
@@ -11,6 +12,8 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile
 class AdminMapMarkerIconController {
 
     static defaultAction = "search"
+
+    MapMarkerIconService mapMarkerIconService
 
     def search() {
         def mapMarkerIcons = MapMarkerIcon.createCriteria().list {
@@ -49,7 +52,7 @@ class AdminMapMarkerIconController {
     }
 
     def uploadData() {
-        def file = request.getFile('markerFile')
+        def file = request.getFile('file')
         if (file instanceof CommonsMultipartFile) {
             if (file.isEmpty()) {
                 flash.warning = "File cannot be empty"
@@ -61,9 +64,24 @@ class AdminMapMarkerIconController {
                 )
                 mapMarkerIcon.save()
             }
+            render text: "OK"
         } else {
             flash.warning = "Internal error during upload"
+            response.sendError(500)
+            render text: "KO"
+        }
+    }
+
+    def removeAll() {
+        MapMarkerIcon.all.each {
+            it.delete()
         }
         redirect action: "search"
+    }
+
+    def setAsDefault(long id){
+        MapMarkerIcon mapMarkerIcon = MapMarkerIcon.get(id)
+        mapMarkerIconService.setDefaultIcon(mapMarkerIcon)
+        redirect action: "show", id: id
     }
 }
