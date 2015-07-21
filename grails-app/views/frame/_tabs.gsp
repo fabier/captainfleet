@@ -1,4 +1,4 @@
-<%@ page import="captainfleet.FrameProtocol" %>
+<%@ page import="captainfleet.FrameType; captainfleet.FrameProtocol" %>
 <ul class="nav nav-tabs margin-top-20">
     <g:each in="${frames}" var="f" status="i">
         <li role="presentation" class="${i == 0 ? "active" : ""}">
@@ -73,10 +73,21 @@
             </g:if>
 
             <g:if test="${frame.frameProtocol == FrameProtocol.V1}">
-                <g:render template="/frame/frameV1" model="[frameExtra: frameExtra]"/>
+                <g:render template="/frame/frameV1" model="[frame: frame, frameExtra: frameExtra]"/>
             </g:if>
             <g:elseif test="${frame.frameProtocol == FrameProtocol.V2}">
-                <g:render template="/frame/frameV2" model="[frameExtra: frameExtra]"/>
+                <g:if test="${frame.frameType == FrameType.MESSAGE}">
+                    <g:render template="/frame/frameV2Message" model="[frame: frame, frameExtra: frameExtra]"/>
+                </g:if>
+                <g:elseif test="${frame.frameType == FrameType.SERVICE}">
+                    <g:render template="/frame/frameV2Service" model="[frame: frame, frameExtra: frameExtra]"/>
+                </g:elseif>
+                <g:elseif test="${frame.frameType == FrameType.ERROR}">
+                    <g:render template="/frame/frameV2Error" model="[frame: frame, frameExtra: frameExtra]"/>
+                </g:elseif>
+                <g:else>
+                %{--On n'affiche rien--}%
+                </g:else>
             </g:elseif>
         </table>
     </g:if>

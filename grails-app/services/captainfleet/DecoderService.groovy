@@ -184,19 +184,21 @@ class DecoderService {
                     // D : Jour/Nuit
                     boolean isDay = ((byte3 >> 3) & 0b1) == 1
                     // EEE : Compteur
+                    int counter = byte3 & 0b111
 
-                    Integer byte4To5 = Integer.parseInt(data.substring(6, 10), 16)
-                    // FFFFFF : N/A
-                    // HHHHH : Tension panneau solaire entre 0 et 3.1V, pas de 100mV
-                    Double solarArrayVoltage = ((byte4To5 >> 5) & 0b11111) * 0.1d
+                    Integer byte4 = Integer.parseInt(data.substring(6, 8), 16)
+                    // FFFFFFFF : Tension panneau solaire entre 0 et 5.12V, pas de 20mV
+                    Double solarArrayVoltage = byte4 * 0.02d
 
-                    // IIIII : Tension supercapacité entre 0 et 2.91V, pas de 90mV
-                    Double superCapacitorVoltage = (byte4To5 & 0b11111) * 0.09d
+                    Integer byte5 = Integer.parseInt(data.substring(8, 10), 16)
+                    // GGGGGGGG : Tension supercapacité entre 0 et 5.12V, pas de 20mV
+                    Double superCapacitorVoltage = byte5 * 0.02d
 
                     frameExtra = new FrameExtra(
                             errorType: errorType,
                             reason: reason,
                             isDay: isDay,
+                            counter: counter,
                             solarArrayVoltage: solarArrayVoltage,
                             superCapacitorVoltage: superCapacitorVoltage,
                             frameType: FrameType.ERROR

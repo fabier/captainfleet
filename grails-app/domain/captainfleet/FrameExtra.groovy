@@ -102,6 +102,11 @@ class FrameExtra extends BaseDomain {
      */
     Integer reason
 
+    /**
+     * Compteur (pour les trames d'erreur)
+     */
+    Integer counter
+
     static belongsTo = [frame: Frame]
 
     static constraints = {
@@ -125,6 +130,7 @@ class FrameExtra extends BaseDomain {
         modemKOCount nullable: true
         errorType nullable: true
         reason nullable: true
+        counter nullable: true
     }
 
     String hexaLatitude() {
@@ -145,9 +151,19 @@ class FrameExtra extends BaseDomain {
         String.format("0b%5s", Integer.toBinaryString((int) (solarArrayVoltage / 0.1d))).replaceAll(' ', '0')
     }
 
+    String hexaSolarArrayVoltage8bits() {
+        // HHHHH : Tension panneau solaire entre 0 et 5.12V, pas de 20mV (trame d'erreur)
+        String.format("0b%8s", Integer.toBinaryString((int) (solarArrayVoltage / 0.02d))).replaceAll(' ', '0')
+    }
+
     String hexaSuperCapacitorVoltage() {
         // IIIII : Tension supercapacité entre 0 et 2.79V, pas de 90mV
         String.format("0b%5s", Integer.toBinaryString((int) (superCapacitorVoltage / 0.09d))).replaceAll(' ', '0')
+    }
+
+    String hexaSuperCapacitorVoltage8bits() {
+        // IIIII : Tension supercapacité entre 0 et 5.12V, pas de 20mV (trame d'erreur)
+        String.format("0b%8s", Integer.toBinaryString((int) (superCapacitorVoltage / 0.02d))).replaceAll(' ', '0')
     }
 
     String hexaAzimuth() {
@@ -192,6 +208,18 @@ class FrameExtra extends BaseDomain {
 
     String hexaModemKOCount() {
         String.format("0b%2s", Integer.toBinaryString(modemKOCount)).replaceAll(' ', '0')
+    }
+
+    String hexaErrorType() {
+        String.format("0b%4s", Integer.toBinaryString(errorType)).replaceAll(' ', '0')
+    }
+
+    String hexaCounter() {
+        String.format("0b%3s", Integer.toBinaryString(counter)).replaceAll(' ', '0')
+    }
+
+    String hexaReason() {
+        String.format("0b%8s", Integer.toBinaryString(reason)).replaceAll(' ', '0')
     }
 
     final String hexaIsDay() {

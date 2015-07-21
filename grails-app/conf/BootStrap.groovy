@@ -41,6 +41,9 @@ class BootStrap {
 
         // Decode
         // decodeAllFrames()
+
+        // BUGFIX pour le décodage des trames d'erreur
+        bugfixErrorFrames()
     }
 
     /**
@@ -60,7 +63,7 @@ class BootStrap {
             log.info("Storing frameExtra for frames [${frameIndex}-${upperFrameIndex}] out of ${frameCount} frames...")
             frames.each {
                 Frame frame = it
-                FrameExtra frameExtra = decoderService.tryDecode(frame)
+                FrameExtra frameExtra = decoderService.tryDecode(frame.frameProtocol, frame.data)
                 if (frameExtra != null) {
                     frame.frameExtra = frameExtra
                     frame.save()
@@ -69,6 +72,30 @@ class BootStrap {
             frameIndex = frameIndex + collateSize
         }
         log.info("Trying to decode all frames in database... DONE")
+    }
+
+    def bugfixErrorFrames() {
+        log.info("Trying to fix all error frames : recalculating frameExtra...")
+        List<Frame> allFrames = Frame.findAllByFrameType(FrameType.ERROR)
+        int frameCount = allFrames.size()
+        log.info("Found ${frameCount} frames to process...")
+        int frameIndex = 0
+        int collateSize = 10
+        allFrames.collate(collateSize).each {
+            List<Frame> frames = it
+            int upperFrameIndex = Math.min(frameIndex + collateSize, frameCount)
+            log.info("Updating frameExtra for frames [${frameIndex}-${upperFrameIndex}] out of ${frameCount} frames...")
+            frames.each {
+                Frame frame = it
+                FrameExtra frameExtra = decoderService.tryDecode(frame.frameProtocol, frame.data)
+                if (frameExtra != null) {
+                    frame.frameExtra = frameExtra
+                    frame.save()
+                }
+            }
+            frameIndex = frameIndex + collateSize
+        }
+        log.info("Trying to fix all error frames : recalculating frameExtra... DONE")
     }
 
     def destroy = {
