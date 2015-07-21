@@ -17,17 +17,34 @@ class MapService {
     LinkGenerator grailsLinkGenerator
 
     MapOptions buildFromDevicesUsingLastFrame(List<Device> devices) {
-        Set<com.vividsolutions.jts.geom.Point> points = new HashSet<>()
+        Map<Device, Set<com.vividsolutions.jts.geom.Point>> deviceAndPointsMap = new HashMap<>()
         devices.each {
+            Set<com.vividsolutions.jts.geom.Point> points = new HashSet<>()
             Frame lastFrame = frameService.getLastFrameWithGeolocation(it)
             if (lastFrame?.location instanceof com.vividsolutions.jts.geom.Point) {
                 points.add(lastFrame.location as com.vividsolutions.jts.geom.Point)
             }
+            deviceAndPointsMap.put(it, points)
         }
-        return buildFromPoints(points)
+        return buildFromDeviceAndPointsMap(deviceAndPointsMap)
     }
 
-    MapOptions buildFromPoints(Set<com.vividsolutions.jts.geom.Point> points) {
+    MapOptions buildFromPointsNoMarker(Set<com.vividsolutions.jts.geom.Point> points) {
+        if (points != null && !points.isEmpty()) {
+            MultiPoint multiPoint = new GeometryFactory().createMultiPoint(GeometryFactory.toPointArray(points))
+            Envelope envelope = multiPoint.getEnvelopeInternal()
+            return new MapOptions(
+                    boundingBox: envelope,
+                    mapMarkerLayers: [new MapMarkerLayer(
+                            points: points
+                    )]
+            )
+        } else {
+            return defaultMapOptions()
+        }
+    }
+
+    MapOptions buildFromPointsWithDefaultMarker(Set<com.vividsolutions.jts.geom.Point> points) {
         if (points != null && !points.isEmpty()) {
             MultiPoint multiPoint = new GeometryFactory().createMultiPoint(GeometryFactory.toPointArray(points))
             Envelope envelope = multiPoint.getEnvelopeInternal()
@@ -44,12 +61,41 @@ class MapService {
         }
     }
 
+    MapOptions buildFromDeviceAndPoints(Device device, Set<com.vividsolutions.jts.geom.Point> points) {
+        buildFromDeviceAndPointsMap(Collections.singletonMap(device, points))
+    }
+
+    MapOptions buildFromDeviceAndPointsMap(Map<Device, Set<com.vividsolutions.jts.geom.Point>> mapDevicesAndPoints) {
+        if (mapDevicesAndPoints != null && !mapDevicesAndPoints.isEmpty()) {
+            Set<com.vividsolutions.jts.geom.Point> allPoints = new HashSet<>()
+
+            def mapMarkerLayers = []
+            mapDevicesAndPoints.each {
+                allPoints.addAll(it.value)
+                mapMarkerLayers.add(new MapMarkerLayer(
+                        mapMarkerStyle: getMapMarkerStyleForDevice(it.key),
+                        points: it.value
+                ))
+            }
+
+            MultiPoint multiPoint = new GeometryFactory().createMultiPoint(GeometryFactory.toPointArray(allPoints))
+            Envelope envelope = multiPoint.getEnvelopeInternal()
+
+            return new MapOptions(
+                    boundingBox: envelope,
+                    mapMarkerLayers: mapMarkerLayers
+            )
+        } else {
+            return defaultMapOptions()
+        }
+    }
+
     MapOptions defaultMapOptions() {
         Set<com.vividsolutions.jts.geom.Point> staticPoints = new HashSet()
         GeometryFactory geometryFactory = new GeometryFactory()
         staticPoints.add(geometryFactory.createPoint(new Coordinate(10.0, 20.0)))
         staticPoints.add(geometryFactory.createPoint(new Coordinate(10.0, 60.0)))
-        return buildFromPoints(staticPoints)
+        return buildFromPointsNoMarker(staticPoints)
     }
 
     MapMarkerStyle defaultMapMarkerStyle() {
@@ -69,19 +115,42 @@ class MapService {
         }
     }
 
+    MapMarkerStyle getMapMarkerStyleForDevice(Device device) {
+        if (device && device.mapMarkerIcon) {
+            getMapMarkerStyleForMapMarkerIcon(device.mapMarkerIcon)
+        } else {
+            defaultMapMarkerStyle()
+        }
+    }
+
+    MapMarkerStyle getMapMarkerStyleForMapMarkerIcon(MapMarkerIcon mapMarkerIcon) {
+        if (mapMarkerIcon) {
+            new MapMarkerStyle(
+                    path: grailsLinkGenerator.link(controller: "mapMarker", action: "index", id: mapMarkerIcon.id),
+                    anchorX: mapMarkerIcon.anchorX,
+                    anchorY: mapMarkerIcon.anchorY
+            )
+        } else {
+            defaultMapMarkerStyle()
+        }
+    }
+
+
     MapOptions buildFromDevicesUsingRandomFrame(List<Device> devices) {
-        Set<com.vividsolutions.jts.geom.Point> points = new HashSet<>()
+        Map<Device, Set<com.vividsolutions.jts.geom.Point>> deviceAndPointsMap = new HashMap<>()
         devices.each {
+            Set<com.vividsolutions.jts.geom.Point> points = new HashSet<>()
             Frame randomFrameWithGeolocation = frameService.randomFrameWithGeolocation(it)
             if (randomFrameWithGeolocation?.location instanceof com.vividsolutions.jts.geom.Point) {
                 points.add(randomFrameWithGeolocation.location as com.vividsolutions.jts.geom.Point)
             }
+            deviceAndPointsMap.put(it, points)
         }
-        return buildFromPoints(points)
+        return buildFromDeviceAndPointsMap(deviceAndPointsMap)
     }
 
     MapOptions buildFromStation(Station station) {
-        return buildFromFrames(stationService.getFramesWithGeolocation(station))
+        return buildFromFrames(frameService.getFramesForStationWithGeolocation(station))
     }
 
     MapOptions buildFromDevicesUsingAllFrames(List<Device> devices) {
@@ -104,6 +173,6 @@ class MapService {
                 points.add(it.location as com.vividsolutions.jts.geom.Point)
             }
         }
-        return buildFromPoints(points)
+        return buildFromPointsWithDefaultMarker(points)
     }
 }

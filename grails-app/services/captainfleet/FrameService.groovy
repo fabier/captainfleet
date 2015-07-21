@@ -75,7 +75,7 @@ class FrameService {
                 return Frame.createCriteria().list {
                     eq("device", frame.device)
                     eq("epochTime", frame.epochTime)
-                    eq("duplicate", false)
+                    eq("duplicate", true)
                     order("dateCreated", "asc")
                 }
             } else {
@@ -97,7 +97,7 @@ class FrameService {
             return Frame.createCriteria().list {
                 eq("device", frame.device)
                 eq("epochTime", frame.epochTime)
-                eq("duplicate", false)
+                eq("duplicate", true)
                 notEqual("id", frame.id)
                 order("dateCreated", "asc")
             }
@@ -107,19 +107,20 @@ class FrameService {
     }
 
     Pair<Frame, Frame> getPreviousAndNextFrame(Frame frame) {
-//        List<Frame> frames = getFramesForDeviceWithGeolocation(frame.device)
-//        int index = frames.indexOf(frame)
-        Frame previousFrame = getPreviousFrameWithGeolocation(frame)
-        Frame nextFrame = getNextFrameWithGeolocation(frame)
-//        if (index >= 0) {
-//            if (index - 1 >= 0) {
-//                previousFrame = frames.get(index - 1)
-//            }
-//            if (index + 1 < frames.size()) {
-//                nextFrame = frames.get(index + 1)
-//            }
-//        }
+        Frame previousFrame = getPreviousFrame(frame)
+        Frame nextFrame = getNextFrame(frame)
         return new Pair(previousFrame, nextFrame)
+    }
+
+    Frame getPreviousFrame(Frame frame) {
+        return Frame.createCriteria().get {
+            lt("id", frame.id)
+            eq("device", frame.device)
+            eq("duplicate", false)
+            maxResults(1)
+            uniqueResult()
+            order("dateCreated", "desc")
+        }
     }
 
     Frame getPreviousFrameWithGeolocation(Frame frame) {
@@ -132,6 +133,17 @@ class FrameService {
             maxResults(1)
             uniqueResult()
             order("dateCreated", "desc")
+        }
+    }
+
+    Frame getNextFrame(Frame frame) {
+        return Frame.createCriteria().get {
+            gt("id", frame.id)
+            eq("device", frame.device)
+            eq("duplicate", false)
+            maxResults(1)
+            uniqueResult()
+            order("dateCreated", "asc")
         }
     }
 

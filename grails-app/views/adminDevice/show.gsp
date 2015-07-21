@@ -51,7 +51,7 @@
                         <g:each in="${mapMarkerIcons}" var="mapMarker">
                             <label>
                                 <input type="radio" name="mapMarkerIcon"
-                                       value="${mapMarker.id}" ${device.mapMarkerIcon?.id == mapMarker.id ? "checked" : ""}/>
+                                       value="${mapMarker.id}" ${deviceMapMarkerIcon.id == mapMarker.id ? "checked" : ""}/>
                                 <img src="${createLink(controller: "mapMarker", action: "index", id: mapMarker.id)}">
                             </label>
                         </g:each>

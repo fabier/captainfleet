@@ -90,7 +90,7 @@
 
                 <g:if test="${totalCount > results.size()}">
                     <div class="text-center">
-                        <g:paginate next="&gt;" prev="&lt;" maxsteps="5" action="deviceSearch"
+                        <g:paginate next="&gt;" prev="&lt;" maxsteps="5" action="mapMarkerIconSearch"
                                     total="${totalCount}"/>
                     </div>
                 </g:if>

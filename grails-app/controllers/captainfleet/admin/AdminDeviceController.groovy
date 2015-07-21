@@ -1,6 +1,7 @@
 package captainfleet.admin
 
 import captainfleet.MapMarkerIcon
+import captainfleet.MapMarkerIconService
 import org.springframework.security.access.annotation.Secured
 import captainfleet.Device
 import captainfleet.DeviceService
@@ -12,6 +13,7 @@ class AdminDeviceController {
     static defaultAction = "search"
 
     DeviceService deviceService
+    MapMarkerIconService mapMarkerIconService
 
     def search() {
         def devices = Device.createCriteria().list {
@@ -31,11 +33,12 @@ class AdminDeviceController {
         int totalCount = Frame.countByDeviceAndDuplicate(device, false)
         def mapMarkerIcons = MapMarkerIcon.all
         render view: "show", model: [
-                device          : device,
-                results         : frames,
-                mapMarkerIcons  : mapMarkerIcons,
-                mapMarkerIconIds: mapMarkerIcons*.id,
-                totalCount      : totalCount
+                device             : device,
+                results            : frames,
+                deviceMapMarkerIcon: device.mapMarkerIcon ?: mapMarkerIconService.getDefault(),
+                mapMarkerIcons     : mapMarkerIcons,
+                mapMarkerIconIds   : mapMarkerIcons*.id,
+                totalCount         : totalCount
         ]
     }
 
@@ -52,6 +55,14 @@ class AdminDeviceController {
     def update(long id) {
         Device device = Device.get(id)
         bindData(device, params, [include: ["name", "code"]])
+        MapMarkerIcon mapMarkerIcon = MapMarkerIcon.get(params.mapMarkerIcon)
+        if (mapMarkerIcon != null) {
+            if (device.mapMarkerIcon == null && mapMarkerIconService.getDefault() == mapMarkerIcon) {
+                // Pas de modification, on continue d'utiliser l'icone par défaut
+            } else {
+                device.mapMarkerIcon = mapMarkerIcon
+            }
+        }
         device.save()
         flash.message = "Enregistrement effectué"
         redirect action: "show", id: id

@@ -66,7 +66,6 @@ class DeviceController {
                     if (it.location instanceof com.vividsolutions.jts.geom.Point) {
                         points.add(it.location as com.vividsolutions.jts.geom.Point)
                         geoFrames.add(it)
-                        ((com.vividsolutions.jts.geom.Point) it.location).getX()
                     }
                     break
                 case FrameType.SERVICE:
@@ -80,7 +79,7 @@ class DeviceController {
 
             }
         }
-        MapOptions mapOptions = mapService.buildFromPoints(points)
+        MapOptions mapOptions = mapService.buildFromDeviceAndPoints(device, points)
 
         date = date ?: new Date()
 
