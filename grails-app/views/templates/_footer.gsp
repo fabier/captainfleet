@@ -1,9 +1,11 @@
 <footer class="footer text-small">
     <p>
     &copy;&nbsp;
-    CaptainFleet&nbsp;<g:meta name="app.version"/>
+    CaptainFleet
     &nbsp;-&nbsp;
     2015
+    &nbsp;-&nbsp;
+    v.<g:meta name="app.version"/>
         <br/>
         <g:link controller="public" action="legal" class="white nohover">
             Mentions légales
