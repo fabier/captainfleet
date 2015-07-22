@@ -360,7 +360,26 @@ class FrameService {
         }
     }
 
-    Frame randomFrame(Device device) {
+    Frame getLastFrameWithGeolocationWithin24Hours(Device device) {
+        Calendar calendar = Calendar.getInstance()
+        calendar.set(Calendar.MINUTE, 0)
+        calendar.set(Calendar.SECOND, 0)
+        calendar.set(Calendar.MILLISECOND, 0)
+        calendar.add(Calendar.DAY_OF_YEAR, -1)
+        Date dateLowerBound = calendar.getTime()
+        return Frame.createCriteria().get {
+            eq("device", device)
+            eq("duplicate", false)
+            eq("frameType", FrameType.MESSAGE)
+            gte("dateCreated", dateLowerBound)
+            isNotNull("location")
+            maxResults(1)
+            uniqueResult()
+            order("dateCreated", "desc")
+        }
+    }
+
+    Frame getRandomFrame(Device device) {
         return Frame.createCriteria().get {
             eq("device", device)
             eq("duplicate", false)
@@ -371,7 +390,7 @@ class FrameService {
         }
     }
 
-    Frame randomFrameWithGeolocation(Device device) {
+    Frame getRandomFrameWithGeolocation(Device device) {
         return Frame.createCriteria().get {
             eq("device", device)
             eq("duplicate", false)
@@ -385,7 +404,7 @@ class FrameService {
         }
     }
 
-    List<Frame> randomFrames(Device device, int count) {
+    List<Frame> getRandomFrames(Device device, int count) {
         return Frame.createCriteria().list {
             eq("device", device)
             eq("duplicate", false)

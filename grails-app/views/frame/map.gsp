@@ -32,12 +32,20 @@
         <div class="col-md-4 wrapper">
             <div class="row">
                 <div class="col-md-12">
-                    <g:render template="/templates/breadcrumb">
-                        <g:render template="/templates/breadcrumb/home"/>
-                        <li><g:link controller="device" action="map"
-                                    id="${device.id}">Device ${device.sigfoxId}</g:link></li>
-                        <li class="active">Frame ${frame.id}</li>
-                    </g:render>
+                    <div class="row margin-bottom-20">
+                        <div class="col-md-4">
+                            <g:link controller="device" action="map" id="${device.id}">
+                                < Retour
+                            </g:link>
+                        </div>
+                    </div>
+
+                    <div class="row margin-bottom-20">
+                        <g:render template="/device/deviceHeader"
+                                  model="[device: device, frame: frame, defaultMapMarkerIcon: defaultMapMarkerIcon]"/>
+                    </div>
+
+                    <hr/>
 
                     <div class="row">
                         <div class="col-md-3">
@@ -47,7 +55,13 @@
                             </g:if>
                         </div>
 
-                        <div class="col-md-6"></div>
+                        <div class="col-md-6 text-center">
+                            <g:formatDate date="${frame.time}" format="dd MMMM HH'h'mm"/>
+                            <br/>
+                            <span class="text-xsmall text-muted">
+                                ${frame.frameType}
+                            </span>
+                        </div>
 
                         <div class="col-md-3">
                             <g:if test="${nextFrame}">

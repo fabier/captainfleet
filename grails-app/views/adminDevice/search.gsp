@@ -41,7 +41,6 @@
                 <table class="table table-hover small nomargin-left-right">
                     <thead>
                     <tr>
-                        <th>#</th>
                         <th>Nom</th>
                         <th>SigFoxId</th>
                         <th>Code</th>
@@ -51,8 +50,10 @@
                     <g:each in="${results}" var="device">
                         <tr class="clickable-row"
                             data-href="${createLink(controller: "adminDevice", action: "show", id: device.id)}">
-                            <td>${device.id}</td>
-                            <td>${device.name}</td>
+                            <td>
+                                <img src="${createLink(controller: "mapMarker", action: "index", id: (device.mapMarkerIcon ?: defaultMapMarkerIcon).id)}">
+                                <span class="text-larger bolder">${device.name}</span>
+                            </td>
                             <td>${device.sigfoxId}</td>
                             <td>${device.code}</td>
                         </tr>

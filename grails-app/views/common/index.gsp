@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head>
     <meta name="layout" content="map"/>
     <title>CaptainFleet - Accueil</title>
@@ -37,17 +37,51 @@
                     <div class="col-md-12">
                         <table class="table table-hover small nomargin-left-right">
                             <thead>
-                            <th>#</th>
-                            <th>Nom du boitier</th>
-                            <th>Code</th>
+                            <th>Liste des boitiers</th>
                             </thead>
                             <tbody>
                             <g:each in="${devices}" var="device">
+                                <g:set var="frame" value="${deviceFrameMap.get(device)}"/>
                                 <tr class="clickable-row"
                                     data-href="${createLink(controller: "device", action: "map", id: device.id)}">
-                                    <td>${device.sigfoxId}</td>
-                                    <td>${device.name}</td>
-                                    <td>${device.code}</td>
+                                    <td>
+                                        <div class="td-icon-ul">
+                                            <div>
+                                                <img src="${createLink(controller: "mapMarker", action: "index", id: (device.mapMarkerIcon ?: defaultMapMarkerIcon).id)}">
+                                            </div>
+
+                                            <div>
+                                                <ul>
+                                                    <li><span class="text-larger bolder">${device.name}</span></li>
+                                                    <g:if test="${frame}">
+                                                        <li>
+                                                            <span class="text-xsmall text-muted">
+                                                                Dernière transmission à
+                                                                <g:formatDate format="HH'h'mm" date="${frame.time}"/>
+                                                            </span>
+                                                        </li>
+                                                        <li class="text-xsmall text-muted">
+                                                            Signal :
+                                                            <g:formatRSSI rssi="${frame.rssi}"/>
+                                                            Panneau solaire :
+                                                            <g:formatSolarArrayVoltage
+                                                                    solarArrayVoltage="${frame.frameExtra.solarArrayVoltage}"/>
+                                                            Capacité :
+                                                            <g:formatSuperCapacitorVoltage
+                                                                    superCapacitorVoltage="${frame.frameExtra.superCapacitorVoltage}"/>
+                                                        </li>
+                                                    </g:if>
+                                                    <g:else>
+                                                        <li>
+                                                            <span class="label label-warning">
+                                                                Aucune transmission depuis 24h
+                                                            </span>
+                                                        </li>
+                                                    </g:else>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </td>
                                 </tr>
                             </g:each>
                             </tbody>

@@ -26,7 +26,20 @@ class MapService {
             }
             deviceAndPointsMap.put(it, points)
         }
-        return buildFromDeviceAndPointsMap(deviceAndPointsMap)
+        return buildFromDevicePointsMap(deviceAndPointsMap)
+    }
+
+    MapOptions buildFromDevicesUsingLastFrameWithin24Hours(List<Device> devices) {
+        Map<Device, Set<com.vividsolutions.jts.geom.Point>> deviceAndPointsMap = new HashMap<>()
+        devices.each {
+            Set<com.vividsolutions.jts.geom.Point> points = new HashSet<>()
+            Frame lastFrame = frameService.getLastFrameWithGeolocationWithin24Hours(it)
+            if (lastFrame?.location instanceof com.vividsolutions.jts.geom.Point) {
+                points.add(lastFrame.location as com.vividsolutions.jts.geom.Point)
+            }
+            deviceAndPointsMap.put(it, points)
+        }
+        return buildFromDevicePointsMap(deviceAndPointsMap)
     }
 
     MapOptions buildFromPointsNoMarker(Set<com.vividsolutions.jts.geom.Point> points) {
@@ -61,11 +74,34 @@ class MapService {
         }
     }
 
-    MapOptions buildFromDeviceAndPoints(Device device, Set<com.vividsolutions.jts.geom.Point> points) {
-        buildFromDeviceAndPointsMap(Collections.singletonMap(device, points))
+    MapOptions buildFromDeviceAndFrame(Device device, Frame frame) {
+        if (frame?.location instanceof com.vividsolutions.jts.geom.Point) {
+            buildFromDeviceAndPoint(device, frame.location as com.vividsolutions.jts.geom.Point)
+        } else {
+            return defaultMapOptions()
+        }
     }
 
-    MapOptions buildFromDeviceAndPointsMap(Map<Device, Set<com.vividsolutions.jts.geom.Point>> mapDevicesAndPoints) {
+    MapOptions buildFromDeviceFrameMap(Map<Device, Frame> deviceFrameMap) {
+        Map<Device, Set<com.vividsolutions.jts.geom.Point>> mapDevicesAndPoints = new HashMap<>()
+        deviceFrameMap.each {
+            if (it.value?.location instanceof com.vividsolutions.jts.geom.Point) {
+                com.vividsolutions.jts.geom.Point point = it.value?.location as com.vividsolutions.jts.geom.Point
+                mapDevicesAndPoints.put(it.key, Collections.singleton(point))
+            }
+        }
+        buildFromDevicePointsMap(mapDevicesAndPoints)
+    }
+
+    MapOptions buildFromDeviceAndPoint(Device device, com.vividsolutions.jts.geom.Point point) {
+        buildFromDeviceAndPoints(device, Collections.singleton(point))
+    }
+
+    MapOptions buildFromDeviceAndPoints(Device device, Set<com.vividsolutions.jts.geom.Point> points) {
+        buildFromDevicePointsMap(Collections.singletonMap(device, points))
+    }
+
+    MapOptions buildFromDevicePointsMap(Map<Device, Set<com.vividsolutions.jts.geom.Point>> mapDevicesAndPoints) {
         if (mapDevicesAndPoints != null && !mapDevicesAndPoints.isEmpty()) {
             Set<com.vividsolutions.jts.geom.Point> allPoints = new HashSet<>()
 
@@ -140,13 +176,13 @@ class MapService {
         Map<Device, Set<com.vividsolutions.jts.geom.Point>> deviceAndPointsMap = new HashMap<>()
         devices.each {
             Set<com.vividsolutions.jts.geom.Point> points = new HashSet<>()
-            Frame randomFrameWithGeolocation = frameService.randomFrameWithGeolocation(it)
+            Frame randomFrameWithGeolocation = frameService.getRandomFrameWithGeolocation(it)
             if (randomFrameWithGeolocation?.location instanceof com.vividsolutions.jts.geom.Point) {
                 points.add(randomFrameWithGeolocation.location as com.vividsolutions.jts.geom.Point)
             }
             deviceAndPointsMap.put(it, points)
         }
-        return buildFromDeviceAndPointsMap(deviceAndPointsMap)
+        return buildFromDevicePointsMap(deviceAndPointsMap)
     }
 
     MapOptions buildFromStation(Station station) {

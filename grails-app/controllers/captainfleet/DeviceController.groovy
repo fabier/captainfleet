@@ -14,6 +14,7 @@ class DeviceController {
     FrameService frameService
     ParserService parserService
     MapService mapService
+    MapMarkerIconService mapMarkerIconService
     SpringSecurityService springSecurityService
 
     def beforeInterceptor = {
@@ -40,8 +41,9 @@ class DeviceController {
         int endIndex = Math.min(totalCount, offset + max)
 
         render view: "index", model: [
-                devices   : devices.subList(offset, endIndex),
-                totalCount: totalCount
+                devices             : devices.subList(offset, endIndex),
+                totalCount          : totalCount,
+                defaultMapMarkerIcon: mapMarkerIconService.getDefault()
         ]
     }
 
@@ -76,10 +78,11 @@ class DeviceController {
                     break
                 default:
                     break
-
             }
         }
         MapOptions mapOptions = mapService.buildFromDeviceAndPoints(device, points)
+
+        Frame lastFrame = frameService.getLastFrameWithGeolocationWithin24Hours(device)
 
         date = date ?: new Date()
 
@@ -91,23 +94,29 @@ class DeviceController {
         def nextDay = calendar.getTime()
 
         render view: "map", model: [
-                device       : device,
-                date         : date,
-                previousDay  : previousDay,
-                nextDay      : nextDay,
-                now          : new Date(),
-                frames       : frames,
-                geoFrames    : geoFrames,
-                serviceFrames: serviceFrames,
-                errorFrames  : errorFrames,
-                mapOptions   : mapOptions
+                device              : device,
+                date                : date,
+                previousDay         : previousDay,
+                nextDay             : nextDay,
+                now                 : new Date(),
+                frame               : lastFrame,
+                frames              : frames,
+                geoFrames           : geoFrames,
+                serviceFrames       : serviceFrames,
+                errorFrames         : errorFrames,
+                mapOptions          : mapOptions,
+                defaultMapMarkerIcon: mapMarkerIconService.getDefault()
         ]
     }
 
     def edit(long id) {
         Device device = Device.get(id)
+        def mapMarkerIcons = MapMarkerIcon.all
         render view: "edit", model: [
-                device: device
+                device             : device,
+                deviceMapMarkerIcon: device.mapMarkerIcon ?: mapMarkerIconService.getDefault(),
+                mapMarkerIcons     : mapMarkerIcons,
+                mapMarkerIconIds   : mapMarkerIcons*.id,
         ]
     }
 
@@ -121,9 +130,17 @@ class DeviceController {
     def update(long id) {
         Device device = Device.get(id)
         bindData(device, params, [include: ["name"]])
+        MapMarkerIcon mapMarkerIcon = MapMarkerIcon.get(params.mapMarkerIcon)
+        if (mapMarkerIcon != null) {
+            if (device.mapMarkerIcon == null && mapMarkerIconService.getDefault() == mapMarkerIcon) {
+                // Pas de modification, on continue d'utiliser l'icone par défaut
+            } else {
+                device.mapMarkerIcon = mapMarkerIcon
+            }
+        }
         device.save()
         flash.message = "Enregistrement effectué"
-        redirect action: "edit", id: id
+        redirect action: "index"
     }
 
     def addDevice() {

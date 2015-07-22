@@ -79,78 +79,83 @@
 <div class="container-fluid with-map">
     <div class="row-fluid">
         <div class="col-md-4 wrapper">
-            <div class="row">
-                <div class="col-md-12">
-                    <g:render template="/templates/breadcrumb">
-                        <g:render template="/templates/breadcrumb/home"/>
-                        <li class="active">${device.name ?: device.sigfoxId}</li>
-                    </g:render>
-
-
-                    <div class="row">
-                        <div class="col-md-3">
-                            <g:link action="map" id="${device.id}"
-                                    params="[date: raw(formatDate(date: previousDay, format: 'yyyy/MM/dd'))]"
-                                    class="btn btn-primary small">&vltri;</g:link>
-                        </div>
-
-                        <div class="col-md-6">
-
-                            <g:form action="map" id="${device.id}" class="form-horizontal">
-                                <div class="form-group">
-                                    <label for="date" class="col-md-2 control-label">Date</label>
-
-                                    <div class="col-md-10">
-                                        <input type="text" class="form-control" id="date" name="date"
-                                               value="${date ? formatDate(date: date, format: "yyyy/MM/dd") : ""}"/>
-                                    </div>
-                                </div>
-                            </g:form>
-                        </div>
-
-                        <div class="col-md-3">
-                            <g:link action="map" id="${device.id}"
-                                    params="[date: raw(formatDate(date: nextDay, format: 'yyyy/MM/dd'))]"
-                                    class="btn btn-primary small pull-right">&vrtri;</g:link>
-                        </div>
-                    </div>
-
-                    <g:if test="${frames.isEmpty()}">
-                        <p class="alert alert-warning">
-                            Pas de donnée pour cette journée.
-                        </p>
-                    </g:if>
-                    <g:else>
-                        <table class="table table-hover small nomargin-left-right">
-                            <thead>
-                            <th>#</th>
-                            <th>Date</th>
-                            <th>Station</th>
-                            <th>Type</th>
-                            </thead>
-                            <tbody>
-                            <g:each in="${frames}" var="frame">
-                                <tr class="clickable-row"
-                                    data-href="${createLink(controller: "frame", action: "map", id: frame.id)}">
-                                    <td>
-                                        ${frame.id}
-                                    </td>
-                                    <td>
-                                        <g:formatDate format="dd MMMM HH'h'mm" date="${frame.dateCreated}"/>
-                                    </td>
-                                    <td>
-                                        ${frame.station.sigfoxId}
-                                    </td>
-                                    <td>
-                                        ${frame.frameType}
-                                    </td>
-                                </tr>
-                            </g:each>
-                            </tbody>
-                        </table>
-                    </g:else>
+            <div class="row margin-bottom-20">
+                <div class="col-md-4">
+                    <g:link uri="/">
+                        < Retour
+                    </g:link>
                 </div>
             </div>
+
+            <div class="row margin-bottom-20">
+                <g:render template="/device/deviceHeader"
+                          model="[device: device, frame: frame, defaultMapMarkerIcon: defaultMapMarkerIcon]"/>
+            </div>
+
+            <hr/>
+
+            <div class="row">
+                <div class="col-md-3">
+                    <g:link action="map" id="${device.id}"
+                            params="[date: raw(formatDate(date: previousDay, format: 'yyyy/MM/dd'))]"
+                            class="btn btn-primary small">&vltri;</g:link>
+                </div>
+
+                <div class="col-md-6">
+
+                    <g:form action="map" id="${device.id}" class="form-horizontal">
+                        <div class="form-group">
+                            <label for="date" class="col-md-2 control-label">Date</label>
+
+                            <div class="col-md-10">
+                                <input type="text" class="form-control" id="date" name="date"
+                                       value="${date ? formatDate(date: date, format: "yyyy/MM/dd") : ""}"/>
+                            </div>
+                        </div>
+                    </g:form>
+                </div>
+
+                <div class="col-md-3">
+                    <g:link action="map" id="${device.id}"
+                            params="[date: raw(formatDate(date: nextDay, format: 'yyyy/MM/dd'))]"
+                            class="btn btn-primary small pull-right">&vrtri;</g:link>
+                </div>
+            </div>
+
+            <g:if test="${frames.isEmpty()}">
+                <p class="alert alert-warning">
+                    Pas de donnée pour cette journée.
+                </p>
+            </g:if>
+            <g:else>
+                <table class="table table-hover small nomargin-left-right">
+                    <thead>
+                    <th>#</th>
+                    <th>Date</th>
+                    <th>Station</th>
+                    <th>Type</th>
+                    </thead>
+                    <tbody>
+                    <g:each in="${frames}" var="frame">
+                        <tr class="clickable-row"
+                            data-href="${createLink(controller: "frame", action: "map", id: frame.id)}">
+                            <td>
+                                ${frame.id}
+                            </td>
+                            <td>
+                                <g:formatDate format="dd MMMM HH'h'mm" date="${frame.dateCreated}"/>
+                            </td>
+                            <td>
+                                ${frame.station.sigfoxId}
+                            </td>
+                            <td>
+                                ${frame.frameType}
+                            </td>
+                        </tr>
+                    </g:each>
+                    </tbody>
+                </table>
+            </g:else>
         </div>
         <g:render template="/templates/map8col"/>
     </div>

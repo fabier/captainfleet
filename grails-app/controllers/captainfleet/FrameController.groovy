@@ -9,6 +9,7 @@ class FrameController {
     DecoderService decoderService
     FrameService frameService
     MapService mapService
+    MapMarkerIconService mapMarkerIconService
 
     def beforeInterceptor = {
         if (Frame.get(params.id)) {
@@ -37,12 +38,13 @@ class FrameController {
         def previousAndNextFrame = frameService.getPreviousAndNextFrame(frame)
 
         render view: "map", model: [
-                frame        : frame,
-                previousFrame: previousAndNextFrame.aValue,
-                nextFrame    : previousAndNextFrame.bValue,
-                device       : frame.device,
-                frames       : frames,
-                mapOptions   : mapOptions
+                frame               : frame,
+                previousFrame       : previousAndNextFrame.aValue,
+                nextFrame           : previousAndNextFrame.bValue,
+                device              : frame.device,
+                frames              : frames,
+                mapOptions          : mapOptions,
+                defaultMapMarkerIcon: mapMarkerIconService.getDefault()
         ]
     }
 }

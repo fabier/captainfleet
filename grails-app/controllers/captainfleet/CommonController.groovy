@@ -8,31 +8,38 @@ class CommonController {
 
     static defaultAction = "index"
 
-    SpringSecurityService springSecurityService
     MapService mapService
     DeviceService deviceService
     UtilService utilService
+    MapMarkerIconService mapMarkerIconService
+    FrameService frameService
+
+    SpringSecurityService springSecurityService
 
     def index() {
         User user = springSecurityService.currentUser
         List<Device> devices = deviceService.getDevicesByUser(user)
         utilService.sortBaseEntities(devices)
 
+        Map<Device, Frame> deviceFrameMap = new HashMap<>()
+
         if (devices == null || devices.isEmpty()) {
-            // Pas de device pour cet utilisateur, on lui affiche des valeurs "aléatoires"
-            def devicesToFillMap = Device.findAllByDeviceState(DeviceState.NORMAL)
-            MapOptions mapOptions = mapService.buildFromDevicesUsingRandomFrame(devicesToFillMap)
-            render view: "index", model: [
-                    devices   : devices,
-                    mapOptions: mapOptions
-            ]
+            // Pas de device pour cet utilisateur, il devra ajouter ses boitiers.
         } else {
             // Plusieurs devices
-            MapOptions mapOptions = mapService.buildFromDevicesUsingLastFrame(devices)
-            render view: "index", model: [
-                    devices   : devices,
-                    mapOptions: mapOptions
-            ]
+            devices.each {
+                Frame lastFrame = frameService.getLastFrameWithGeolocationWithin24Hours(it)
+                deviceFrameMap.put(it, lastFrame)
+            }
         }
+
+        MapOptions mapOptions = mapService.buildFromDeviceFrameMap(deviceFrameMap)
+
+        render view: "index", model: [
+                devices             : devices,
+                mapOptions          : mapOptions,
+                deviceFrameMap      : deviceFrameMap,
+                defaultMapMarkerIcon: mapMarkerIconService.getDefault()
+        ]
     }
 }

@@ -98,4 +98,83 @@ class CaptainFleetTagLib {
         assert attr.val != null
         out << (attr.val > 1 ? "s" : "")
     }
+
+
+    def formatRSSI = { attr, body ->
+        if (attr.rssi) {
+            float rssi = attr.rssi
+
+            String valueAsText
+            String spanClass
+            if (rssi > -80) {
+                valueAsText = "excellent"
+                spanClass = "label label-success"
+            } else if (rssi > -100) {
+                valueAsText = "très bon"
+                spanClass = "label label-success"
+            } else if (rssi > -120) {
+                valueAsText = "correct"
+                spanClass = "label label-success"
+            } else {
+                valueAsText = "faible"
+                spanClass = "label label-warning"
+            }
+
+            out << raw("<span class=\"${spanClass}\">${valueAsText}</span>")
+        } else {
+            out << raw("<span class=\"label label-warning\">inconnu</span>")
+        }
+    }
+
+    def formatSolarArrayVoltage = { attr, body ->
+        if (attr.solarArrayVoltage) {
+            float solarArrayVoltage = attr.solarArrayVoltage
+
+            String valueAsText
+            String spanClass
+            if (solarArrayVoltage > 2.4) {
+                valueAsText = "excellent"
+                spanClass = "label label-success"
+            } else if (solarArrayVoltage > 2.0) {
+                valueAsText = "très bon"
+                spanClass = "label label-success"
+            } else if (solarArrayVoltage > 1.0) {
+                valueAsText = "correct"
+                spanClass = "label label-success"
+            } else {
+                valueAsText = "faible"
+                spanClass = "label label-warning"
+            }
+
+            out << raw("<span class=\"${spanClass}\">${valueAsText}</span>")
+        } else {
+            out << raw("<span class=\"label label-warning\">inconnu</span>")
+        }
+    }
+
+    def formatSuperCapacitorVoltage = { attr, body ->
+        if (attr.superCapacitorVoltage) {
+            float superCapacitorVoltage = attr.superCapacitorVoltage
+
+            String valueAsText
+            String spanClass
+            if (superCapacitorVoltage > 2.5) {
+                valueAsText = "excellent"
+                spanClass = "label label-success"
+            } else if (superCapacitorVoltage > 2.2) {
+                valueAsText = "très bon"
+                spanClass = "label label-success"
+            } else if (superCapacitorVoltage > 2.0) {
+                valueAsText = "correct"
+                spanClass = "label label-success"
+            } else {
+                valueAsText = "faible"
+                spanClass = "label label-warning"
+            }
+
+            out << raw("<span class=\"${spanClass}\">${valueAsText}</span>")
+        } else {
+            out << raw("<span class=\"label label-warning\">inconnu</span>")
+        }
+    }
 }

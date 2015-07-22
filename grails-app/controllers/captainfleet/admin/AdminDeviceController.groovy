@@ -16,13 +16,14 @@ class AdminDeviceController {
     MapMarkerIconService mapMarkerIconService
 
     def search() {
-        def devices = Device.createCriteria().list {
+        List<Device> devices = Device.createCriteria().list {
             order("name", "asc")
             maxResults(10)
         }
         render view: "search", model: [
-                results   : devices,
-                totalCount: Device.count()
+                results             : devices,
+                totalCount          : Device.count(),
+                defaultMapMarkerIcon: mapMarkerIconService.getDefault()
         ]
     }
 

@@ -44,17 +44,20 @@
             <g:if test="${!devices.isEmpty()}">
                 <table class="table table-hover small nomargin-left-right">
                     <thead>
-                    <th class="col-md-2">#</th>
+                    <th class="col-md-6">Nom du boitier</th>
+                    <th class="col-md-2">SigFox</th>
                     <th class="col-md-2">Code</th>
-                    <th class="col-md-8">Nom du boitier</th>
                     </thead>
                     <tbody>
                     <g:each in="${devices}" var="device">
                         <tr class="clickable-row"
                             data-href="${createLink(controller: "device", action: "edit", id: device.id)}">
+                            <td>
+                                <img src="${createLink(controller: "mapMarker", action: "index", id: (device.mapMarkerIcon ?: defaultMapMarkerIcon).id)}">
+                                <span class="text-larger bolder">${device.name}</span>
+                            </td>
                             <td>${device.sigfoxId}</td>
                             <td>${device.code}</td>
-                            <td>${device.name}</td>
                         </tr>
                     </g:each>
                     </tbody>
