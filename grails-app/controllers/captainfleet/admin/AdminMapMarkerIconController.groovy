@@ -73,13 +73,17 @@ class AdminMapMarkerIconController {
     }
 
     def removeAll() {
+        Device.findAllByMapMarkerIconIsNotNull().each {
+            it.mapMarkerIcon = null
+            it.save()
+        }
         MapMarkerIcon.all.each {
             it.delete()
         }
         redirect action: "search"
     }
 
-    def setAsDefault(long id){
+    def setAsDefault(long id) {
         MapMarkerIcon mapMarkerIcon = MapMarkerIcon.get(id)
         mapMarkerIconService.setDefaultIcon(mapMarkerIcon)
         redirect action: "show", id: id
