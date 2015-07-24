@@ -43,7 +43,7 @@ class BootStrap {
         // decodeAllFrames()
 
         // BUGFIX pour le décodage des trames d'erreur
-        bugfixErrorFrames()
+        // bugfixErrorFrames()
     }
 
     /**
