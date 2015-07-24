@@ -2,7 +2,7 @@ package captainfleet
 
 import org.springframework.security.access.annotation.Secured
 
-@Secured("hasRole('ROLE_USER')")
+@Secured("permitAll")
 class MapMarkerController {
     static defaultAction = "index"
 

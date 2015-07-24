@@ -170,16 +170,12 @@ class MapService {
 
 
     MapOptions buildFromDevicesUsingRandomFrame(List<Device> devices) {
-        Map<Device, Set<com.vividsolutions.jts.geom.Point>> deviceAndPointsMap = new HashMap<>()
+        Map<Device, Frame> deviceFrameMap = new HashMap<>()
         devices.each {
-            Set<com.vividsolutions.jts.geom.Point> points = new HashSet<>()
             Frame randomFrameWithGeolocation = frameService.getRandomFrameWithGeolocation(it)
-            if (randomFrameWithGeolocation?.location instanceof com.vividsolutions.jts.geom.Point) {
-                points.add(randomFrameWithGeolocation.location as com.vividsolutions.jts.geom.Point)
-            }
-            deviceAndPointsMap.put(it, points)
+            deviceFrameMap.put(it, randomFrameWithGeolocation)
         }
-        return buildFromDevicePointsMap(deviceAndPointsMap)
+        return buildFromDeviceFrameMap(deviceFrameMap)
     }
 
     MapOptions buildFromStation(Station station) {
