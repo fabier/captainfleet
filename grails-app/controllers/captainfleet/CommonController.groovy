@@ -23,14 +23,9 @@ class CommonController {
 
         Map<Device, Frame> deviceFrameMap = new HashMap<>()
 
-        if (devices == null || devices.isEmpty()) {
-            // Pas de device pour cet utilisateur, il devra ajouter ses boitiers.
-        } else {
-            // Plusieurs devices
-            devices.each {
-                Frame lastFrame = frameService.getLastFrameWithGeolocationWithin24Hours(it)
-                deviceFrameMap.put(it, lastFrame)
-            }
+        devices?.each {
+            Frame lastFrame = frameService.getLastFrameWithGeolocationWithin24Hours(it)
+            deviceFrameMap.put(it, lastFrame)
         }
 
         MapOptions mapOptions = mapService.buildFromDeviceFrameMap(deviceFrameMap)

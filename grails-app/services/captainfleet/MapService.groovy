@@ -47,10 +47,7 @@ class MapService {
             MultiPoint multiPoint = new GeometryFactory().createMultiPoint(GeometryFactory.toPointArray(points))
             Envelope envelope = multiPoint.getEnvelopeInternal()
             return new MapOptions(
-                    boundingBox: envelope,
-                    mapMarkerLayers: [new MapMarkerLayer(
-                            points: points
-                    )]
+                    boundingBox: envelope
             )
         } else {
             return defaultMapOptions()

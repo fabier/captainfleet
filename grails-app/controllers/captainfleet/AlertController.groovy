@@ -80,8 +80,17 @@ class AlertController {
         User user = springSecurityService.currentUser
         String wktGeometry
 
-        List<Frame> frames = frameService.getFramesForAlert(alert)
-        MapOptions mapOptions = mapService.buildFromFrames(frames)
+        List<Device> devices = deviceService.getDevicesByUser(user)
+        utilService.sortBaseEntities(devices)
+
+        Map<Device, Frame> deviceFrameMap = new HashMap<>()
+
+        devices?.each {
+            Frame lastFrame = frameService.getLastFrameWithGeolocationWithin24Hours(it)
+            deviceFrameMap.put(it, lastFrame)
+        }
+
+        MapOptions mapOptions = mapService.buildFromDeviceFrameMap(deviceFrameMap)
         mapOptions.boundingBox = alert.geometry.getEnvelopeInternal()
 
         wktGeometry = new WKTWriter().write(alert.geometry)
@@ -145,6 +154,7 @@ class AlertController {
         Alert alert = Alert.get(id)
         if (alert) {
             UserAlert.removeAll(alert)
+            DeviceAlert.removeAll(alert)
             alert.delete()
         }
         redirect action: "index"

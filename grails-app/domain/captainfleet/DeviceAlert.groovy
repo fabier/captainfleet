@@ -23,4 +23,12 @@ class DeviceAlert extends BaseDomain {
         device nullable: false, unique: ['alert']
         isRaised nullable: true
     }
+
+    static void removeAll(Alert a) {
+        DeviceAlert.where { alert == a }.deleteAll()
+    }
+
+    static void removeAll(Device d) {
+        DeviceAlert.where { device == d }.deleteAll()
+    }
 }
