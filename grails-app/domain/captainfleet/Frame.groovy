@@ -71,6 +71,9 @@ class Frame extends BaseDomain {
      * Received Signal Strength Indication, en dB
      */
     Float rssi
+    Float rssiMin
+    Float rssiMax
+    Float rssiAvg
 
     /**
      * Position exacte (donnée envoyée par le GPS)
@@ -93,6 +96,9 @@ class Frame extends BaseDomain {
         avgSignal nullable: true
         position nullable: true
         rssi nullable: true
+        rssiMin nullable: true
+        rssiMax nullable: true
+        rssiAvg nullable: true
         location nullable: true
         dateCreated nullable: true
         lastUpdated nullable: true

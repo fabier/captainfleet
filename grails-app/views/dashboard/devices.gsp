@@ -52,22 +52,15 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <gvisualization:lineChart
-                                                        title="Qualité signal émis/recu"
-                                                        elementId="device_signal_${device.id}"
-                                                        height="${240}"
-                                                        columns="${deviceGraphSignalDataColumns}"
-                                                        data="${deviceGraphSignalDataMap.get(device)}"/>
-                                                <div id="device_signal_${device.id}"></div>
-                                            </div>
-
-                                            <div class="col-md-6">
-                                                <gvisualization:lineChart
                                                         title="RSSI"
                                                         elementId="device_rssi_${device.id}"
                                                         height="${240}"
                                                         columns="${deviceGraphRSSIDataColumns}"
                                                         data="${deviceGraphRSSIDataMap.get(device)}"/>
                                                 <div id="device_rssi_${device.id}"></div>
+                                            </div>
+
+                                            <div class="col-md-6">
                                             </div>
                                         </div>
                                     </g:if>

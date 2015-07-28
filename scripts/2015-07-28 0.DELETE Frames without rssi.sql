@@ -1,0 +1,1 @@
+DELETE FROM frame WHERE rssi IS NULL;
