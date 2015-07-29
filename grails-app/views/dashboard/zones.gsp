@@ -14,14 +14,14 @@
         </div>
 
         <div class="col-md-10">
-            <g:each in="${alerts.collate(2)}" var="alertGroup">
+            <g:each in="${zones.collate(2)}" var="zoneGroup">
                 <div class="row">
-                    <g:each in="${alertGroup}" var="alert">
-                        <g:set var="state" value="${stateAlertDeviceMap.get(alert)}"/>
+                    <g:each in="${zoneGroup}" var="zone">
+                        <g:set var="state" value="${stateZoneDeviceMap.get(zone)}"/>
                         <div class="col-md-6">
                             <div class="panel panel-info">
                                 <div class="panel-heading">
-                                    <h4 class="nomargin">${alert.name}</h4>
+                                    <h4 class="nomargin">${zone.name}</h4>
                                 </div>
 
                                 <div class="panel-body">

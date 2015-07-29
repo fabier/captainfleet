@@ -7,10 +7,10 @@
         </g:link>
     </li>
     <li role="presentation"
-        class="${controllerName == 'dashboard' && actionName == 'alerts' ? "active" : ""}">
-        <g:link controller="dashboard" action="alerts" class="lateral-menu">
+        class="${controllerName == 'dashboard' && actionName == 'zones' ? "active" : ""}">
+        <g:link controller="dashboard" action="zones" class="lateral-menu">
             <i class="glyphicon glyphicon-bell"></i>
-            Alertes
+            Zones
         </g:link>
     </li>
 </ul>

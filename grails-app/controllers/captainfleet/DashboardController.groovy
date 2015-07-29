@@ -10,7 +10,7 @@ class DashboardController {
     DeviceService deviceService
     SpringSecurityService springSecurityService
     UtilService utilService
-    AlertService alertService
+    ZoneService zoneService
 
     def index() {
         redirect action: "devices"
@@ -72,40 +72,40 @@ class DashboardController {
         ]
     }
 
-    def alerts() {
+    def zones() {
         User user = springSecurityService.currentUser
 
-        List<Alert> alerts = alertService.getAlertsForUser(user)
+        List<Zone> zones = zoneService.getZonesForUser(user)
         List<Device> devices = deviceService.getDevicesByUser(user)
-        def stateAlertDeviceMap = [:]
+        def stateZoneDeviceMap = [:]
 
         def calendar = Calendar.getInstance()
         // Avant une semaine, on considère qu'on ne sait plus où est l'objet.
         calendar.add(Calendar.DAY_OF_YEAR, -7)
         Date lowerBoundDate = calendar.getTime()
 
-        alerts.each {
-            Alert alert = it
+        zones.each {
+            Zone zone = it
             int inZoneCount = 0
             int outOfZoneCount = 0
             int unknownStateCount = 0
             devices.count {
                 Device device = it
-                DeviceAlert deviceAlert = DeviceAlert.findByDeviceAndAlertAndLastUpdatedGreaterThan(device, alert, lowerBoundDate)
-                if (deviceAlert == null) {
+                DeviceZone deviceZone = DeviceZone.findByDeviceAndZoneAndLastUpdatedGreaterThan(device, zone, lowerBoundDate)
+                if (deviceZone == null) {
                     unknownStateCount++
                 } else {
-                    if (deviceAlert.isRaised) {
+                    if (deviceZone.isRaised) {
                         inZoneCount++
                     } else {
                         outOfZoneCount++
                     }
                 }
             }
-            stateAlertDeviceMap.put(alert, [inZoneCount, outOfZoneCount, unknownStateCount])
+            stateZoneDeviceMap.put(zone, [inZoneCount, outOfZoneCount, unknownStateCount])
         }
 
-        render view: "alerts", model: [alerts: alerts, stateAlertDeviceMap: stateAlertDeviceMap]
+        render view: "zones", model: [zones: zones, stateZoneDeviceMap: stateZoneDeviceMap]
     }
 }
 

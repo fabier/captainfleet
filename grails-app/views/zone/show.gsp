@@ -2,8 +2,28 @@
 <html lang="en">
 <head>
     <meta name="layout" content="main"/>
-    <title>CaptainFleet - Alertes</title>
+    <title>CaptainFleet - Zones</title>
     <script type="application/javascript">
+        var source = new ol.source.Vector(); // source contient les source des features dessinées
+        var format = new ol.format.WKT();
+
+        // Polygone correspondant à la zone
+        var zoneFeature = format.readFeature('${wktGeometry}');
+
+        var format = new ol.format.WKT();
+        $('#wktDiv').text(format.writeGeometry(zoneFeature.getGeometry()));
+
+        zoneFeature.getGeometry().transform('EPSG:4326', 'EPSG:3857');
+
+        zoneFeature.on('change', function (event) {
+            var format = new ol.format.WKT();
+            var geometry = this.getGeometry().clone();
+            geometry = geometry.transform('EPSG:3857', 'EPSG:4326');
+            var geometryAsWKT = format.writeGeometry(geometry);
+            $('#wkt').val(geometryAsWKT);
+//            $('#wktDiv').text(geometryAsWKT);
+        });
+
         $(function () {
             map = initMap('map');
             selectLayer(map, "OpenStreetMap");
@@ -17,56 +37,13 @@
             <g:if test="${mapOptions.boundingBox}">
             zoomToExtent(map, ${mapOptions.boundingBox.getMinX()}, ${mapOptions.boundingBox.getMinY()},
                     ${mapOptions.boundingBox.getMaxX()}, ${mapOptions.boundingBox.getMaxY()});
-            var zoomLevel = Math.max(4, map.getView().getZoom() - 2);
-            map.getView().setZoom(zoomLevel);
             </g:if>
             </g:if>
-        });
-    </script>
-    <script type="application/javascript">
-        var draw; // global so we can remove it later
-        var source = new ol.source.Vector(); // source contient les source des features dessinées
-        var alertFeature; // Globale, dès qu'on a créé l'alerte
 
-        function addDrawInteraction() {
-            var value = 'Polygon';
-            if (value !== 'None') {
-                draw = new ol.interaction.Draw({
-                    source: source,
-                    type: 'Polygon'
-                });
-                map.addInteraction(draw);
-                draw.on('drawend', function (evt) {
-                    var format = new ol.format.WKT();
-                    var features = source.getFeatures();
-                    if (features.length >= 1) {
-                        alertFeature = features[features.length - 1];
-                        var geometry = alertFeature.getGeometry().clone();
-                        geometry = geometry.transform('EPSG:3857', 'EPSG:4326');
-                        var geometryAsWKT = format.writeGeometry(geometry);
-                        $('#wkt').val(geometryAsWKT);
-                        alertFeature.on('change', function (event) {
-                            var format = new ol.format.WKT();
-                            var geometry = this.getGeometry().clone();
-                            geometry = geometry.transform('EPSG:3857', 'EPSG:4326');
-                            var geometryAsWKT = format.writeGeometry(geometry);
-                            $('#wkt').val(geometryAsWKT);
-                        });
-                        map.removeInteraction(draw);
-                        addDragNDropInteraction();
-                        addModifyInteraction();
-                    }
-                });
-            }
-        }
-
-        function getDraggableFeature() {
-            return alertFeature;
-        }
-
-        $(function () {
             var vector = new ol.layer.Vector({
-                source: source,
+                source: new ol.source.Vector({
+                    features: [zoneFeature]
+                }),
                 style: new ol.style.Style({
                     fill: new ol.style.Fill({
                         color: 'rgba(255, 255, 255, 0.5)'
@@ -85,9 +62,13 @@
             });
 
             map.addLayer(vector);
-
-            addDrawInteraction();
+            addDragNDropInteraction();
+            addModifyInteraction();
         });
+
+        function getDraggableFeature() {
+            return zoneFeature;
+        }
     </script>
 </head>
 
@@ -101,23 +82,20 @@
             <g:render template="/templates/lateralMenuAccount"/>
         </div>
 
-        <div class="col-md-10">
+        <div class="col-md-8">
             <legend>
                 <i class="glyphicon glyphicon-bell"></i>
-                &nbsp;Nouvelle alerte
+                &nbsp;Fiche zone
             </legend>
 
             <div class="row">
-                <g:form action="createAlertUsingGeometry" class="form-horizontal">
+                <g:form action="update" id="${zone?.id ?: 0}" class="form-horizontal">
 
                     <div class="form-group">
                         <label for="name" class="col-md-2 control-label">Nom</label>
 
                         <div class="col-md-4">
-                            <g:field type="text" name="name" value="${alert?.name}" class="form-control"/>
-                        </div>
-
-                        <div class="col-md-2">
+                            <g:field type="text" name="name" value="${zone?.name}" class="form-control"/>
                         </div>
 
                         <div class="col-md-4">
@@ -127,13 +105,17 @@
                         </div>
                     </div>
 
-                    <g:hiddenField name="wkt"/>
+                    <g:hiddenField name="wkt" value="${wktGeometry}"/>
                 </g:form>
             </div>
 
             <div class="row">
                 <g:render template="/templates/mapFixedHeight"/>
             </div>
+        </div>
+
+        <div class="col-md-2">
+            <g:render template="actions"/>
         </div>
     </div>
 </div>

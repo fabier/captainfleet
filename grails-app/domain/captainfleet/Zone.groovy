@@ -2,20 +2,20 @@ package captainfleet
 
 import com.vividsolutions.jts.geom.Geometry
 
-class Alert extends BaseEntity {
+class Zone extends BaseEntity {
 
     /**
-     * Zone définissant où se situe l'alerte
+     * Géométrie de la zone
      */
     Geometry geometry
 
     /**
-     * Etat actuel de l'alerte
+     * Etat actuel de la zone
      */
     Boolean isRaised
 
     /**
-     * Aire de la zone d'alerte en m²
+     * Aire de la zone en m²
      */
     Double areaInSquareMeters
 

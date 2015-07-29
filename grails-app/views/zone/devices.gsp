@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta name="layout" content="main"/>
-    <title>CaptainFleet - Alertes</title>
+    <title>CaptainFleet - Zones</title>
 </head>
 
 <body>
@@ -18,18 +18,18 @@
         <div class="col-md-8">
             <legend>
                 <i class="glyphicon glyphicon-bell"></i>
-                &nbsp;Fiche alerte - Etat des boitiers
+                &nbsp;Fiche zone - Etat des boitiers
             </legend>
 
-            <g:if test="${deviceAlerts.isEmpty()}">
+            <g:if test="${deviceZones.isEmpty()}">
                 <div class="row">
                     <div class="alert alert-info">
-                        Pas encore de données pour cette alerte.
+                        Pas encore de données pour cette zone.
                     </div>
                 </div>
 
                 <div class="row">
-                    <g:link action="updateDeviceState" id="${alert.id}" class="btn btn-primary">
+                    <g:link action="updateDeviceState" id="${zone.id}" class="btn btn-primary">
                         Chercher des données
                     </g:link>
                 </div>
@@ -46,16 +46,16 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <g:each in="${deviceAlerts}" var="deviceAlert">
+                        <g:each in="${deviceZones}" var="deviceZone">
                             <tr class="clickable-row"
-                                data-href="${createLink(controller: "deviceAlert", action: "show", id: deviceAlert.id)}">
-                                <td>${deviceAlert.device.sigfoxId}</td>
-                                <td>${deviceAlert.device.name}</td>
+                                data-href="${createLink(controller: "deviceZone", action: "show", id: deviceZone.id)}">
+                                <td>${deviceZone.device.sigfoxId}</td>
+                                <td>${deviceZone.device.name}</td>
                                 <td>
-                                    <g:formatBooleanYesNo boolean="${deviceAlert.isRaised ?: false}"/>
+                                    <g:formatBooleanYesNo boolean="${deviceZone.isRaised ?: false}"/>
                                 </td>
                                 <td>
-                                    <g:formatDate format="dd MMMM HH'h'mm" date="${deviceAlert.lastUpdated}"/>
+                                    <g:formatDate format="dd MMMM HH'h'mm" date="${deviceZone.lastUpdated}"/>
                                 </td>
                             </tr>
                         </g:each>

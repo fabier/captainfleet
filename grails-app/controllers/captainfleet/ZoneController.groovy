@@ -10,44 +10,44 @@ import org.springframework.security.access.annotation.Secured
 import java.util.regex.Pattern
 
 @Secured("hasRole('ROLE_USER')")
-class AlertController {
+class ZoneController {
 
     static defaultAction = "index"
 
     SpringSecurityService springSecurityService
     MapService mapService
     DeviceService deviceService
-    AlertService alertService
+    ZoneService zoneService
     UtilService utilService
     FrameService frameService
     UserService userService
-    DeviceAlertLogService deviceAlertLogService
-    DeviceAlertService deviceAlertService
+    DeviceZoneLogService deviceZoneLogService
+    DeviceZoneService deviceZoneService
     ParserService parserService
 
     def index() {
         User user = springSecurityService.currentUser
-        List<Alert> alerts = alertService.getAlertsForUser(user)
+        List<Zone> zones = zoneService.getZonesForUser(user)
         if (params.name) {
             Pattern pattern = Pattern.compile(".*${params.name}.*", Pattern.CASE_INSENSITIVE)
-            alerts = alerts.findAll {
+            zones = zones.findAll {
                 pattern.matcher(it.name ?: "").matches()
             }
         }
-        utilService.sortBaseEntities(alerts)
+        utilService.sortBaseEntities(zones)
 
         int offset = params.offset ?: 0
         int max = params.max ?: 10
-        int totalCount = alerts.size()
+        int totalCount = zones.size()
         int endIndex = Math.min(totalCount, offset + max)
-        alerts = alerts.subList(offset, endIndex)
+        zones = zones.subList(offset, endIndex)
 
-        alerts.each {
-            it.areaInSquareMeters = alertService.getArea(it)
+        zones.each {
+            it.areaInSquareMeters = zoneService.getArea(it)
         }
 
         render view: "index", model: [
-                alerts    : alerts,
+                zones    : zones,
                 totalCount: totalCount
         ]
     }
@@ -61,22 +61,22 @@ class AlertController {
         ]
     }
 
-    def createAlertUsingGeometry() {
+    def createZoneUsingGeometry() {
         User user = springSecurityService.currentUser
         WKTReader wktReader = new WKTReader()
         Geometry geometry = wktReader.read(params.wkt)
-        Alert alert = new Alert(
+        Zone zone = new Zone(
                 name: params.name,
                 geometry: geometry,
                 creator: user
         )
-        alert.save(flush: true)
-        UserAlert.create(user, alert)
-        redirect action: "show", id: alert.id
+        zone.save(flush: true)
+        UserZone.create(user, zone)
+        redirect action: "show", id: zone.id
     }
 
     def show(long id) {
-        Alert alert = Alert.get(id)
+        Zone zone = Zone.get(id)
         User user = springSecurityService.currentUser
         String wktGeometry
 
@@ -91,95 +91,95 @@ class AlertController {
         }
 
         MapOptions mapOptions = mapService.buildFromDeviceFrameMap(deviceFrameMap)
-        mapOptions.boundingBox = alert.geometry.getEnvelopeInternal()
+        mapOptions.boundingBox = zone.geometry.getEnvelopeInternal()
 
-        wktGeometry = new WKTWriter().write(alert.geometry)
+        wktGeometry = new WKTWriter().write(zone.geometry)
 
         render view: "show", model: [
-                alert      : alert,
+                zone      : zone,
                 mapOptions : mapOptions,
                 wktGeometry: wktGeometry
         ]
     }
 
     def logs() {
-        List<DeviceAlertLog> deviceAlertLogsAggregated = new ArrayList<>()
+        List<DeviceZoneLog> deviceZoneLogsAggregated = new ArrayList<>()
 
         Date date = parserService.tryParseDate(params.date) ?: new Date()
         Date dateUpperBound = DateUtils.ceiling(date, Calendar.DAY_OF_MONTH)
         Date dateLowerBound = DateUtils.addDays(dateUpperBound, -7)
 
         User user = springSecurityService.currentUser
-        List<Alert> alerts = alertService.getAlertsForUser(user)
-        alerts?.each {
-            List<DeviceAlert> deviceAlerts = deviceAlertService.getDeviceAlertsByAlert(it)
-            deviceAlerts?.each {
-                List<DeviceAlertLog> localDeviceAlertLogs = deviceAlertLogService.getDeviceAlertLogsByDeviceAlert(it, dateLowerBound, dateUpperBound)
-                boolean isRaised = localDeviceAlertLogs?.first()?.isRaised
-                localDeviceAlertLogs?.each {
+        List<Zone> zones = zoneService.getZonesForUser(user)
+        zones?.each {
+            List<DeviceZone> deviceZones = deviceZoneService.getDeviceZonesByZone(it)
+            deviceZones?.each {
+                List<DeviceZoneLog> localDeviceZoneLogs = deviceZoneLogService.getDeviceZoneLogsByDeviceZone(it, dateLowerBound, dateUpperBound)
+                boolean isRaised = localDeviceZoneLogs?.first()?.isRaised
+                localDeviceZoneLogs?.each {
                     if (isRaised != it.isRaised) {
                         // Changement d'état, on ajoute ce log à l'aggrégation
-                        deviceAlertLogsAggregated.add(it)
+                        deviceZoneLogsAggregated.add(it)
                         isRaised = it.isRaised
                     }
                 }
             }
         }
-        List<DeviceAlertLog> deviceAlertLogs = deviceAlertLogService.sortByMostRecentFirst(deviceAlertLogsAggregated)
+        List<DeviceZoneLog> deviceZoneLogs = deviceZoneLogService.sortByMostRecentFirst(deviceZoneLogsAggregated)
 
         render view: "logs", model: [
-                alerts         : alerts,
-                deviceAlertLogs: deviceAlertLogs
+                zones         : zones,
+                deviceZoneLogs: deviceZoneLogs
         ]
     }
 
     def update(long id) {
-        Alert alert = Alert.get(id)
+        Zone zone = Zone.get(id)
 
         WKTReader wktReader = new WKTReader()
         Geometry geometry
         if (params.wkt) {
             geometry = wktReader.read(params.wkt)
-            alert.geometry = geometry
+            zone.geometry = geometry
         }
 
-        bindData(alert, params, [include: ["name"]])
-        alert.save()
+        bindData(zone, params, [include: ["name"]])
+        zone.save()
 
         flash.success = "Enregistrement effectué"
-        redirect action: "show", id: alert.id
+        redirect action: "show", id: zone.id
     }
 
     def delete(long id) {
-        Alert alert = Alert.get(id)
-        if (alert) {
-            UserAlert.removeAll(alert)
-            DeviceAlert.removeAll(alert)
-            alert.delete()
+        Zone zone = Zone.get(id)
+        if (zone) {
+            UserZone.removeAll(zone)
+            DeviceZone.removeAll(zone)
+            zone.delete()
         }
         redirect action: "index"
     }
 
     def devices(long id) {
-        Alert alert = Alert.get(id)
-        List<DeviceAlert> deviceAlerts = alertService.getDeviceAlerts(alert)
+        Zone zone = Zone.get(id)
+        List<DeviceZone> deviceZones = zoneService.getDeviceZones(zone)
         render view: "devices", model: [
-                alert       : alert,
-                deviceAlerts: deviceAlerts
+                zone       : zone,
+                deviceZones: deviceZones
         ]
     }
 
     def updateDeviceState(long id) {
-        Alert alert = Alert.get(id)
+        Zone zone = Zone.get(id)
         User user = springSecurityService.currentUser
-//        List<DeviceAlert> deviceAlerts = alertService.getDeviceAlerts(alert)
+//        List<DeviceZone> deviceZones = zoneService.getDeviceZones(zone)
         List<Device> devices = deviceService.getDevicesByUser(user)
         devices.each {
-            DeviceAlert deviceAlert = DeviceAlert.findOrSaveByDeviceAndAlert(it, alert)
+            DeviceZone deviceZone = DeviceZone.findOrSaveByDeviceAndZone(it, zone)
             Frame frame = frameService.getLastFrameWithGeolocation(it)
             if (frame) {
-                deviceAlert.isRaised = alertService.isFrameWithinAlertGeometry(alert, frame)
-                deviceAlert.save()
+                deviceZone.isRaised = zoneService.isFrameWithinZoneGeometry(zone, frame)
+                deviceZone.save()
             }
         }
         redirect action: "devices", id: id

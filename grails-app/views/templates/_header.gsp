@@ -44,10 +44,10 @@
                             &nbsp;Boitiers
                         </g:link>
                     </li>
-                    <li class="${controllerName in ["alert"] ? "active" : ""}">
-                        <g:link controller="alert" action="index">
+                    <li class="${controllerName in ["zone"] ? "active" : ""}">
+                        <g:link controller="zone" action="index">
                             <i class="glyphicon glyphicon-bell"></i>
-                            &nbsp;Alertes
+                            &nbsp;Zones
                         </g:link>
                     </li>
                 </ul>

@@ -135,7 +135,7 @@ function selectInLayers(layers, layerName) {
 
 function addModifyInteraction() {
     modifyInteraction = new ol.interaction.Modify({
-        features: new ol.Collection([alertFeature])
+        features: new ol.Collection([zoneFeature])
     });
     map.addInteraction(modifyInteraction);
 }

@@ -18,19 +18,19 @@
         </li>
     </g:if>
     <li role="presentation"
-        class="${controllerName == "alert" && actionName in ["index", "create", "logs"] ? "active" : ""}">
-        <g:link controller="alert" action="index" class="lateral-menu">
+        class="${controllerName == "zone" && actionName in ["index", "create", "logs"] ? "active" : ""}">
+        <g:link controller="zone" action="index" class="lateral-menu">
             <i class="glyphicon glyphicon-bell"></i>
-            &nbsp;Alertes
+            &nbsp;Zones
         </g:link>
     </li>
-    <g:if test="${alert}">
+    <g:if test="${zone}">
         <li>
             <ul class="nav nav-pills nav-stacked">
                 <li class="active">
                     <a>
                         <i class="glyphicon glyphicon-bell"></i>
-                        &nbsp;${alert.name ?: "Alerte ${alert.id}"}
+                        &nbsp;${zone.name ?: "Zone ${zone.id}"}
                     </a>
                 </li>
             </ul>

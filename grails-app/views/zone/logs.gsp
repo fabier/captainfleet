@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta name="layout" content="main"/>
-    <title>CaptainFleet - Alertes</title>
+    <title>CaptainFleet - Zones</title>
 </head>
 
 <body>
@@ -18,45 +18,45 @@
         <div class="col-md-10">
             <legend>
                 <i class="glyphicon glyphicon-bell"></i>
-                &nbsp;Mes alertes - Évènements sur les 7 derniers jours
+                &nbsp;Mes zones - Évènements sur les 7 derniers jours
             </legend>
 
-            <g:if test="${alerts.isEmpty() && params.name == null}">
+            <g:if test="${zones.isEmpty() && params.name == null}">
                 <div class="row">
                     <div class="alert alert-info">
-                        Vous n'avez pas encore défini d'alerte, vous pouvez le faire en cliquant sur le bouton "Créer une nouvelle alerte".
+                        Vous n'avez pas encore défini de zone, vous pouvez le faire en cliquant sur le bouton "Créer une nouvelle zone".
                     </div>
                 </div>
             </g:if>
 
-            <g:if test="${!deviceAlertLogs.isEmpty()}">
+            <g:if test="${!deviceZoneLogs.isEmpty()}">
                 <div class="row">
                     <table class="table table-hover small nomargin-left-right">
                         <thead>
                         <tr>
                             <th class="col-md-1">#</th>
-                            <th class="col-md-2">Nom de l'alerte</th>
+                            <th class="col-md-2">Nom de la zone</th>
                             <th class="col-md-2">Boitier</th>
                             <th class="col-md-2">Date</th>
                             <th class="col-md-3">Etat</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <g:each in="${deviceAlertLogs}" var="deviceAlertLog">
-                            <g:set var="deviceAlert" value="${deviceAlertLog.deviceAlert}"/>
-                            <g:set var="alert" value="${deviceAlert.alert}"/>
-                            <g:set var="device" value="${deviceAlert.device}"/>
+                        <g:each in="${deviceZoneLogs}" var="deviceZoneLog">
+                            <g:set var="deviceZone" value="${deviceZoneLog.deviceZone}"/>
+                            <g:set var="zone" value="${deviceZone.zone}"/>
+                            <g:set var="device" value="${deviceZone.device}"/>
                             <tr class="clickable-row"
-                                data-href="${createLink(controller: "deviceAlert", action: "show", id: deviceAlertLog.deviceAlert.id)}">
-                                <td>${deviceAlertLog.id}</td>
-                                <td>${alert.name}</td>
+                                data-href="${createLink(controller: "deviceZone", action: "show", id: deviceZoneLog.deviceZone.id)}">
+                                <td>${deviceZoneLog.id}</td>
+                                <td>${zone.name}</td>
                                 <td>${device.name}</td>
                                 <td>
                                     <g:formatDate format="dd MMMM HH'h'mm"
-                                                  date="${deviceAlertLog.dateCreated}"/>
+                                                  date="${deviceZoneLog.dateCreated}"/>
                                 </td>
                                 <td>
-                                    <g:if test="${deviceAlertLog.isRaised}">
+                                    <g:if test="${deviceZoneLog.isRaised}">
                                         <i class="glyphicon glyphicon-log-in"></i>
                                         &nbsp;
                                         Entrée dans la zone
@@ -72,7 +72,7 @@
                         </tbody>
                     </table>
 
-                    <g:if test="${totalCount > alerts.size()}">
+                    <g:if test="${totalCount > zones.size()}">
                         <div class="text-center">
                             <g:paginate next="&gt;" prev="&lt;" maxsteps="5" action="index" total="${totalCount}"/>
                         </div>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta name="layout" content="main"/>
-    <title>CaptainFleet - Alertes</title>
+    <title>CaptainFleet - Zones</title>
 </head>
 
 <body>
@@ -18,14 +18,14 @@
         <div class="col-md-8">
             <legend>
                 <i class="glyphicon glyphicon-bell"></i>
-                &nbsp;Logs pour l'alerte "${alert.name ?: alert.id}" et le boitier ${device.sigfoxId}
+                &nbsp;Logs pour la zone "${zone.name ?: zone.id}" et le boitier ${device.sigfoxId}
             </legend>
 
 
-            <g:if test="${deviceAlertLogs.isEmpty()}">
+            <g:if test="${deviceZoneLogs.isEmpty()}">
                 <div class="row">
                     <div class="alert alert-info">
-                        Aucun log pour l'alerte "${alert.name ?: alert.id}" et le boitier ${device.sigfoxId}
+                        Aucun log pour la zone "${zone.name ?: zone.id}" et le boitier ${device.sigfoxId}
                     </div>
                 </div>
             </g:if>
@@ -40,18 +40,18 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <g:set var="state" value="${deviceAlertLogs?.first().isRaised}"/>
-                        <g:set var="previousDeviceAlertLog" value="${deviceAlertLogs?.first()}"/>
-                        <g:each in="${deviceAlertLogs}" var="deviceAlertLog">
-                            <g:if test="${state != deviceAlertLog.isRaised}">
+                        <g:set var="state" value="${deviceZoneLogs?.first().isRaised}"/>
+                        <g:set var="previousDeviceZoneLog" value="${deviceZoneLogs?.first()}"/>
+                        <g:each in="${deviceZoneLogs}" var="deviceZoneLog">
+                            <g:if test="${state != deviceZoneLog.isRaised}">
                                 <tr class="clickable-row" data-href="#">
-                                    <td>${previousDeviceAlertLog.id}</td>
+                                    <td>${previousDeviceZoneLog.id}</td>
                                     <td>
                                         <g:formatDate format="dd MMMM HH'h'mm"
-                                                      date="${previousDeviceAlertLog.dateCreated}"/>
+                                                      date="${previousDeviceZoneLog.dateCreated}"/>
                                     </td>
                                     <td>
-                                        <g:if test="${previousDeviceAlertLog.isRaised}">
+                                        <g:if test="${previousDeviceZoneLog.isRaised}">
                                             <i class="glyphicon glyphicon-log-in"></i>
                                             &nbsp;
                                             Entrée dans la zone
@@ -63,9 +63,9 @@
                                         </g:else>
                                     </td>
                                 </tr>
-                                <g:set var="state" value="${deviceAlertLog.isRaised}"/>
+                                <g:set var="state" value="${deviceZoneLog.isRaised}"/>
                             </g:if>
-                            <g:set var="previousDeviceAlertLog" value="${deviceAlertLog}"/>
+                            <g:set var="previousDeviceZoneLog" value="${deviceZoneLog}"/>
                         </g:each>
                         </tbody>
                     </table>
@@ -85,15 +85,15 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <g:each in="${deviceAlertLogs}" var="deviceAlertLog">
+                        <g:each in="${deviceZoneLogs}" var="deviceZoneLog">
                             <tr class="clickable-row" data-href="#">
-                                <td>${deviceAlertLog.id}</td>
+                                <td>${deviceZoneLog.id}</td>
                                 <td>
                                     <g:formatDate format="dd MMMM HH'h'mm"
-                                                  date="${deviceAlertLog.dateCreated}"/>
+                                                  date="${deviceZoneLog.dateCreated}"/>
                                 </td>
                                 <td>
-                                    <g:if test="${deviceAlertLog.isRaised}">
+                                    <g:if test="${deviceZoneLog.isRaised}">
                                         Dans la zone
                                     </g:if>
                                     <g:else>
@@ -109,7 +109,7 @@
         </div>
 
         <div class="col-md-2">
-            <g:render template="/alert/actions"/>
+            <g:render template="/zone/actions"/>
         </div>
     </div>
 </div>

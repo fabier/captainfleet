@@ -12,7 +12,7 @@ import org.hibernatespatial.criterion.SpatialRestrictions
 class FrameService {
 
     UserService userService
-    AlertService alertService
+    ZoneService zoneService
     DecoderService decoderService
     ParserService parserService
     MailService mailService
@@ -219,10 +219,10 @@ class FrameService {
 
     def doCreateFrame(Map params, FrameProtocol frameProtocol) {
         Frame frame = createAndSaveFrameFromParams(frameProtocol, params)
-        checkIfAnyAlertIsToRaiseForFrame(frame)
+        checkIfAnyZoneIsToRaiseForFrame(frame)
     }
 
-    def checkIfAnyAlertIsToRaiseForFrame(Frame frame) {
+    def checkIfAnyZoneIsToRaiseForFrame(Frame frame) {
         if (frame?.location && !frame.duplicate) {
             // Cette frame a une géolocalisation
             List<User> users = userService.getUsersByDevice(frame.device)
@@ -230,31 +230,30 @@ class FrameService {
 
             // Pour chaque utilisateur du boitier
             users?.each {
-                // Parcourir les alertes et voir si une alerte a changé d'état
+                // Parcourir les zones et voir si une zone a changé d'état
                 User user = it
-                List<Alert> alerts = alertService.getAlertsForUser(user)
+                List<Zone> zones = zoneService.getZonesForUser(user)
 
-                // Pour chaque alerte, ajouter un log et lever l'alerte si le boitier est dans la zone
-                alerts.each {
-                    Alert alert = it
-                    boolean isRaisedNow = alertService.isFrameWithinAlertGeometry(alert, frame)
+                // Pour chaque zone, ajouter un log et lever une alerte par mail si le boitier est dans la zone
+                zones.each {
+                    Zone zone = it
+                    boolean isRaisedNow = zoneService.isFrameWithinZoneGeometry(zone, frame)
 
-                    DeviceAlert deviceAlert = DeviceAlert.findOrSaveByDeviceAndAlert(device, alert)
+                    DeviceZone deviceZone = DeviceZone.findOrSaveByDeviceAndZone(device, zone)
 
-                    // On ajoute l'information au log des alertes
-                    DeviceAlertLog deviceAlertLog = new DeviceAlertLog(
-                            deviceAlert: deviceAlert,
+                    // On ajoute l'information au log des zones
+                    DeviceZoneLog deviceZoneLog = new DeviceZoneLog(
+                            deviceZone: deviceZone,
                             isRaised: isRaisedNow
                     ).save()
 
-                    if (deviceAlert.isRaised != isRaisedNow) {
-                        // Changement d'état de l'alerte
+                    if (deviceZone.isRaised != isRaisedNow) {
+                        // Changement d'état de la zone
                         if (isRaisedNow) {
-                            // Début d'alerte, alors qu'on a un ancien état
-                            // indiquant que l'alerte n'était pas précédemment levée
+                            // Début d'alerte, alors que le précedent état n'indique pas la présence du boitier dans la zone
                             try {
                                 String message = "<html><head></head><body>" +
-                                        "Début d'alerte [${alert.id} - ${alert.name}] pour le boitier [${device.sigfoxId} - ${device.name}]" +
+                                        "Début d'alerte [${zone.id} - ${zone.name}] pour le boitier [${device.sigfoxId} - ${device.name}]" +
                                         "</body></html>"
                                 mailService.sendMail {
                                     async true
@@ -266,11 +265,11 @@ class FrameService {
                             } catch (Exception e) {
                                 log.error "Impossible d'envoyer le message de début d'alerte par mail", e
                             }
-                        } else if (deviceAlert.isRaised) {
-                            // Fin d'alerte : l'état précédent indique que l'alerte était précédemment levée
+                        } else if (deviceZone.isRaised) {
+                            // Fin d'alerte, alors que le précedent état indiquait la présence du boitier dans la zone
                             try {
                                 String message = "<html><head></head><body>" +
-                                        "Fin d'alerte [${alert.id} - ${alert.name}] pour le boitier [${device.sigfoxId} - ${device.name}]" +
+                                        "Fin d'alerte [${zone.id} - ${zone.name}] pour le boitier [${device.sigfoxId} - ${device.name}]" +
                                         "</body></html>"
                                 mailService.sendMail {
                                     async true
@@ -283,28 +282,28 @@ class FrameService {
                                 log.error "Impossible d'envoyer le message de fin d'alerte par mail", e
                             }
                         }
-                        deviceAlert.isRaised = isRaisedNow
-                        deviceAlert.save()
+                        deviceZone.isRaised = isRaisedNow
+                        deviceZone.save()
                     }
 
                     if (isRaisedNow) {
-                        it.isRaised = true
+                        zone.isRaised = true
                     } else {
-                        // On doit regarder les autres devices s'ils sont en état "alerte levée"
-                        DeviceAlert anotherAlertIsRaised = DeviceAlert.findAllByAlert(it)?.find {
-                            it.isRaised
+                        // On doit regarder les autres devices s'ils sont en état "zone levée"
+                        DeviceZone anotherZoneIsRaised = DeviceZone.findAllByZone(zone)?.find {
+                            zone.isRaised
                         }
 
-                        // Si un seul autre device est en "état haut", alors l'alerte est en "état haut".
-                        if (anotherAlertIsRaised != null) {
-                            it.isRaised = true
+                        // Si un seul autre device est en "état haut", alors la zone est en "état haut".
+                        if (anotherZoneIsRaised != null) {
+                            zone.isRaised = true
                         } else {
-                            it.isRaised = false
+                            zone.isRaised = false
                         }
                     }
 
-                    if (it.isDirty("isRaised")) {
-                        it.save()
+                    if (zone.isDirty("isRaised")) {
+                        zone.save()
                     }
                 }
             }
@@ -449,8 +448,8 @@ class FrameService {
         Frame.createCriteria().add(SpatialRestrictions.within("location", geometry)).list()
     }
 
-    List<Frame> getFramesForAlert(Alert alert) {
-        getFramesInArea(alert.geometry)
+    List<Frame> getFramesForZone(Zone zone) {
+        getFramesInArea(zone.geometry)
     }
 
     def getServiceFramesForDevice(Device device, Date dateLowerBound, Date dateUpperBound) {
