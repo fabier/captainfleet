@@ -26,22 +26,6 @@ class PublicController {
         }
     }
 
-    def login() {
-        User user = springSecurityService.currentUser
-        if (user) {
-            redirect controller: "common"
-        } else {
-            def config = SpringSecurityUtils.securityConfig
-            def devices = Device.findAllByDeviceState(DeviceState.NORMAL)
-            MapOptions mapOptions = mapService.buildFromDevicesUsingRandomFrame(devices)
-            render view: "login", model: [
-                    devices   : devices,
-                    mapOptions: mapOptions,
-                    postUrl   : "${request.contextPath}${config.apf.filterProcessesUrl}"
-            ]
-        }
-    }
-
     def contact() {
         render view: "contact"
     }

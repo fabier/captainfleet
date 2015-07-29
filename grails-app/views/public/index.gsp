@@ -63,7 +63,7 @@
                 En savoir plus
             </a>
 
-            <g:link controller="public" action="login" class="btn btn-success btn-xl margin-left-right-20">
+            <g:link controller="login" action="auth" class="btn btn-success btn-xl margin-left-right-20">
                 Se connecter
             </g:link>
         </div>

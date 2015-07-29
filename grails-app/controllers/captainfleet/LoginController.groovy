@@ -39,6 +39,8 @@ class LoginController {
      */
     def springSecurityService
 
+    MapService mapService
+
     /**
      * Default action; redirects to 'defaultTargetUrl' if logged in, /login/auth otherwise.
      */
@@ -61,10 +63,17 @@ class LoginController {
             return
         }
 
+        def devices = Device.findAllByDeviceState(DeviceState.NORMAL)
+        MapOptions mapOptions = mapService.buildFromDevicesUsingRandomFrame(devices)
+
         String view = 'auth'
         String postUrl = "${request.contextPath}${config.apf.filterProcessesUrl}"
-        render view: view, model: [postUrl            : postUrl,
-                                   rememberMeParameter: config.rememberMe.parameter]
+        render view: view, model: [
+                postUrl            : postUrl,
+                devices            : devices,
+                mapOptions         : mapOptions,
+                rememberMeParameter: config.rememberMe.parameter
+        ]
     }
 
     /**
