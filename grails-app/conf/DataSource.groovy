@@ -1,6 +1,6 @@
 dataSource {
     pooled = true
-    dbCreate = "update"
+    dbCreate = "update" // "validate"
     driverClassName = "org.postgresql.Driver"
     url = "jdbc:postgresql://localhost:5432/captainfleet"
     dialect = org.hibernatespatial.postgis.PostgisDialect
