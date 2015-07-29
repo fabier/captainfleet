@@ -43,7 +43,7 @@ class AlertController {
         alerts = alerts.subList(offset, endIndex)
 
         alerts.each {
-            it.area = alertService.getArea(it)
+            it.areaInSquareMeters = alertService.getArea(it)
         }
 
         render view: "index", model: [

@@ -17,9 +17,9 @@ class Alert extends BaseEntity {
     /**
      * Aire de la zone d'alerte en m²
      */
-    Double area
+    Double areaInSquareMeters
 
-    static transients = ['area']
+    static transients = ['areaInSquareMeters']
 
     static constraints = {
         geometry nullable: false

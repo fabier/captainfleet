@@ -68,7 +68,7 @@
                                 <td>${alert.id}</td>
                                 <td>${alert.name}</td>
                                 <td>
-                                    <g:formatArea number="${alert.getArea()}"/>
+                                    <g:formatArea number="${alert.getAreaInSquareMeters()}"/>
                                 </td>
                                 <td>${alert.geometry?.getNumPoints()}</td>
                                 <td>
