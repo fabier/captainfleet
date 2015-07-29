@@ -143,7 +143,7 @@ class AlertController {
             alert.geometry = geometry
         }
 
-        bindData(alert, params, [include: ["name", "isGeometryInverted"]])
+        bindData(alert, params, [include: ["name"]])
         alert.save()
 
         flash.success = "Enregistrement effectué"

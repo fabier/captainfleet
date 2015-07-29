@@ -118,10 +118,6 @@
                         </div>
 
                         <div class="col-md-2">
-                            <label>
-                                <g:checkBox name="isGeometryInverted" value="${alert?.isGeometryInverted}"/>
-                                Zone inversée
-                            </label>
                         </div>
 
                         <div class="col-md-4">
