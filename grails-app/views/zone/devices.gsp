@@ -48,7 +48,9 @@
                         <tbody>
                         <g:each in="${deviceZones}" var="deviceZone">
                             <tr class="clickable-row"
-                                data-href="${raw(createLink(controller: "zone", action: "deviceLog", params: [id1: zone.id, id2: deviceZone.deviceId]))}">
+                                data-href="${raw(createLink(controller: "zone", action: "deviceLog",
+                                        params: [zoneId: zone.id, deviceId: deviceZone.deviceId]
+                                ))}">
                                 <td>${deviceZone.device.sigfoxId}</td>
                                 <td>${deviceZone.device.name}</td>
                                 <td>

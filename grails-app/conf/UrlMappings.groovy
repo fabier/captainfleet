@@ -2,18 +2,18 @@ class UrlMappings {
 
     static mappings = {
 
+        "/zone/deviceLog/$zoneId/$deviceId"(controller: "zone", action: "deviceLog") {
+            constraints {
+                // apply constraints here
+                zoneId(matches: /\d*/)
+                deviceId(matches: /\d*/)
+            }
+        }
+
         "/$controller/$action?/$id?" {
             constraints {
                 // apply constraints here
                 id(matches: /\d*/)
-            }
-        }
-
-        "/$controller/$action?/$id1?/$id2?" {
-            constraints {
-                // apply constraints here
-                id1(matches: /\d*/)
-                id2(matches: /\d*/)
             }
         }
 

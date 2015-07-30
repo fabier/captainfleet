@@ -165,9 +165,9 @@ class ZoneController {
         redirect action: "devices", id: id
     }
 
-    def deviceLog(long id1, long id2) {
-        Zone zone = Zone.get(id1)
-        Device device = Device.get(id2)
+    def deviceLog(long zoneId, long deviceId) {
+        Zone zone = Zone.get(zoneId)
+        Device device = Device.get(deviceId)
         DeviceZone deviceZone = DeviceZone.findByDeviceAndZone(device, zone)
 
         List<DeviceZoneLog> deviceZoneLogs = deviceZoneLogService.getDeviceZoneLogsByDeviceAndZone(device, zone)
