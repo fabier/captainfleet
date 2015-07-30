@@ -3,7 +3,7 @@
         <td>
             <div class="td-icon-ul">
                 <div>
-                    <img src="${createLink(controller: "mapMarker", action: "index", id: (device.mapMarkerIcon ?: defaultMapMarkerIcon).id)}">
+                    <img src="${raw(createLink(controller: "mapMarker", action: "index", id: (device.mapMarkerIcon ?: defaultMapMarkerIcon).id))}">
                 </div>
 
                 <div>

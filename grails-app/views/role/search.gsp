@@ -53,7 +53,7 @@
                         <tbody>
                         <g:each in="${results}" var="role">
                             <tr class="clickable-row"
-                                data-href="${createLink(action: "edit", id: role.id)}">
+                                data-href="${raw(createLink(action: "edit", id: role.id))}">
                                 <td>
                                     ${fieldValue(bean: role, field: "id")}
                                 </td>

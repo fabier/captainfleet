@@ -76,12 +76,12 @@
                     <tbody>
                     <g:each in="${results}" var="mapMarkerIcon">
                         <tr class="clickable-row"
-                            data-href="${createLink(controller: "adminMapMarkerIcon", action: "show", id: mapMarkerIcon.id)}">
+                            data-href="${raw(createLink(controller: "adminMapMarkerIcon", action: "show", id: mapMarkerIcon.id))}">
                             <td>${mapMarkerIcon.id}</td>
                             <td>${mapMarkerIcon.name}</td>
                             <td>${mapMarkerIcon.filename}</td>
                             <td>
-                                <img src="${createLink(controller: "mapMarker", action: "index", id: mapMarkerIcon.id)}">
+                                <img src="${raw(createLink(controller: "mapMarker", action: "index", id: mapMarkerIcon.id))}">
                             </td>
                         </tr>
                     </g:each>

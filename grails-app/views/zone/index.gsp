@@ -64,7 +64,7 @@
                         <tbody>
                         <g:each in="${zones}" var="zone">
                             <tr class="clickable-row"
-                                data-href="${createLink(action: "show", id: zone.id)}">
+                                data-href="${raw(createLink(action: "show", id: zone.id))}">
                                 <td>${zone.id}</td>
                                 <td>${zone.name}</td>
                                 <td>
@@ -120,7 +120,7 @@
                             <g:set var="zone" value="${deviceZoneLogAggregate.zone}"/>
                             <g:set var="device" value="${deviceZoneLogAggregate.device}"/>
                             <tr class="clickable-row"
-                                data-href="${createLink(controller: "zone", action: "devicesLog", id1: zone.id, id2: device.id)}">
+                                data-href="${raw(createLink(controller: "zone", action: "devicesLog", id1: zone.id, id2: device.id))}">
                                 <td>${deviceZoneLogAggregate.id}</td>
                                 <td>${zone.name}</td>
                                 <td>${device.name}</td>

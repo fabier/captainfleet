@@ -60,7 +60,7 @@
                         <tbody>
                         <g:each in="${results}" var="user">
                             <tr class="clickable-row"
-                                data-href="${createLink(action: "edit", id: user.id)}">
+                                data-href="${raw(createLink(action: "edit", id: user.id))}">
                                 <td>
                                     ${fieldValue(bean: user, field: "id")}
                                 </td>
@@ -102,7 +102,7 @@
         $("#username").focus().autocomplete({
             minLength: 3,
             cache: false,
-            source: "${createLink(action: 'ajaxUserSearch')}"
+            source: "${raw(createLink(action: 'ajaxUserSearch'))}"
         });
     });
 

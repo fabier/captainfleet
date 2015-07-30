@@ -49,7 +49,7 @@
                     <tbody>
                     <g:each in="${results}" var="station">
                         <tr class="clickable-row"
-                            data-href="${createLink(controller: "adminStation", action: "edit", id: station.id)}">
+                            data-href="${raw(createLink(controller: "adminStation", action: "edit", id: station.id))}">
                             <td>${station.id}</td>
                             <td>${station.sigfoxId}</td>
                             <td>${station.frameCount()}</td>

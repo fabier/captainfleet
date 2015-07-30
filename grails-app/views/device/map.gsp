@@ -18,7 +18,7 @@
             });
             dateInput.on("changeDate", function (event) {
                 location.href =
-                        "${createLink(controller: "device", action: "map", id: device.id, params: [date:"_DATE_"])}"
+                        "${raw(createLink(controller: "device", action: "map", id: device.id, params: [date:"_DATE_"]))}"
                                 .replace("_DATE_", $("#date").datepicker('getFormattedDate'));
             });
         });
@@ -138,7 +138,7 @@
                     <tbody>
                     <g:each in="${frames}" var="frame">
                         <tr class="clickable-row"
-                            data-href="${createLink(controller: "frame", action: "map", id: frame.id)}">
+                            data-href="${raw(createLink(controller: "frame", action: "map", id: frame.id))}">
                             <td>
                                 ${frame.id}
                             </td>

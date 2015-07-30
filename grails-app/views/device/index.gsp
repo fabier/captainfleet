@@ -51,9 +51,9 @@
                     <tbody>
                     <g:each in="${devices}" var="device">
                         <tr class="clickable-row"
-                            data-href="${createLink(controller: "device", action: "edit", id: device.id)}">
+                            data-href="${raw(createLink(controller: "device", action: "edit", id: device.id))}">
                             <td>
-                                <img src="${createLink(controller: "mapMarker", action: "index", id: (device.mapMarkerIcon ?: defaultMapMarkerIcon).id)}">
+                                <img src="${raw(createLink(controller: "mapMarker", action: "index", id: (device.mapMarkerIcon ?: defaultMapMarkerIcon).id))}">
                                 <span class="text-larger bolder">${device.name}</span>
                             </td>
                             <td>${device.sigfoxId}</td>

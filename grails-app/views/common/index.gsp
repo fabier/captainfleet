@@ -43,11 +43,11 @@
                             <g:each in="${devices}" var="device">
                                 <g:set var="frame" value="${deviceFrameMap.get(device)}"/>
                                 <tr class="clickable-row"
-                                    data-href="${createLink(controller: "device", action: "map", id: device.id)}">
+                                    data-href="${raw(createLink(controller: "device", action: "map", id: device.id))}">
                                     <td>
                                         <div class="td-icon-ul">
                                             <div>
-                                                <img src="${createLink(controller: "mapMarker", action: "index", id: (device.mapMarkerIcon ?: defaultMapMarkerIcon).id)}">
+                                                <img src="${raw(createLink(controller: "mapMarker", action: "index", id: (device.mapMarkerIcon ?: defaultMapMarkerIcon).id))}">
                                             </div>
 
                                             <div>

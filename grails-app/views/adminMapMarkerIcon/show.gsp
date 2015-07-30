@@ -39,7 +39,7 @@
                     <label for="name" class="col-md-2 control-label">Icone</label>
 
                     <div class="col-md-10">
-                        <img src="${createLink(controller: "mapMarker", action: "index", id: mapMarkerIcon.id)}">
+                        <img src="${raw(createLink(controller: "mapMarker", action: "index", id: mapMarkerIcon.id))}">
                     </div>
                 </div>
 

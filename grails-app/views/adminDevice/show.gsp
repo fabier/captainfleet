@@ -52,7 +52,7 @@
                             <label>
                                 <input type="radio" name="mapMarkerIcon"
                                        value="${mapMarker.id}" ${deviceMapMarkerIcon.id == mapMarker.id ? "checked" : ""}/>
-                                <img src="${createLink(controller: "mapMarker", action: "index", id: mapMarker.id)}">
+                                <img src="${raw(createLink(controller: "mapMarker", action: "index", id: mapMarker.id))}">
                             </label>
                         </g:each>
                     </div>
@@ -83,7 +83,7 @@
                 <tbody>
                 <g:each in="${results}" var="frame">
                     <tr class="clickable-row"
-                        data-href="${createLink(controller: "adminFrame", action: "show", id: frame.id)}">
+                        data-href="${raw(createLink(controller: "adminFrame", action: "show", id: frame.id))}">
                         <td>${frame.id}</td>
                         <td>
                             <code>0x${frame.data.toUpperCase()}</code>
