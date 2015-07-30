@@ -29,7 +29,7 @@
                 </div>
             </g:if>
 
-            <g:if test="${!deviceZoneLogs.isEmpty()}">
+            <g:if test="${!deviceZoneLogAggregates.isEmpty()}">
                 <div class="row">
                     <table class="table table-hover small nomargin-left-right">
                         <thead>
@@ -42,21 +42,19 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <g:each in="${deviceZoneLogs}" var="deviceZoneLog">
-                            <g:set var="deviceZone" value="${deviceZoneLog.deviceZone}"/>
-                            <g:set var="zone" value="${deviceZone.zone}"/>
-                            <g:set var="device" value="${deviceZone.device}"/>
+                        <g:each in="${deviceZoneLogAggregates}" var="deviceZoneLogAggregate">
+                            <g:set var="zone" value="${deviceZoneLogAggregate.zone}"/>
+                            <g:set var="device" value="${deviceZoneLogAggregate.device}"/>
                             <tr class="clickable-row"
-                                data-href="${createLink(controller: "deviceZone", action: "show", id: deviceZoneLog.deviceZone.id)}">
-                                <td>${deviceZoneLog.id}</td>
+                                data-href="${createLink(controller: "zone", action: "devicesLog", id1: zone.id, id2: device.id)}">
+                                <td>${deviceZoneLogAggregate.id}</td>
                                 <td>${zone.name}</td>
                                 <td>${device.name}</td>
                                 <td>
-                                    <g:formatDate format="dd MMMM HH'h'mm"
-                                                  date="${deviceZoneLog.dateCreated}"/>
+                                    <g:formatDate format="dd MMMM HH'h'mm" date="${deviceZoneLogAggregate.dateCreated}"/>
                                 </td>
                                 <td>
-                                    <g:if test="${deviceZoneLog.isRaised}">
+                                    <g:if test="${deviceZoneLogAggregate.isRaised}">
                                         <i class="glyphicon glyphicon-log-in"></i>
                                         &nbsp;
                                         Entrée dans la zone

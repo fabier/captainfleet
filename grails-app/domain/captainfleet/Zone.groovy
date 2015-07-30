@@ -21,6 +21,8 @@ class Zone extends BaseEntity {
 
     static transients = ['areaInSquareMeters']
 
+    static hasMany = [deviceZoneLogAggregates: DeviceZoneLogAggregate]
+
     static constraints = {
         geometry nullable: false
         isRaised nullable: true

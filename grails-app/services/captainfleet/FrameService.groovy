@@ -223,6 +223,8 @@ class FrameService {
     }
 
     def checkIfAnyZoneIsToRaiseForFrame(Frame frame) {
+        // On ne crée des logs et des alertes que pour les frames qui ne sont pas duplicate,
+        // sinon on aurait plusieurs fois les mêmes logs et plusieurs fois les mêmes alertes
         if (frame?.location && !frame.duplicate) {
             // Cette frame a une géolocalisation
             List<User> users = userService.getUsersByDevice(frame.device)
@@ -242,13 +244,24 @@ class FrameService {
                     DeviceZone deviceZone = DeviceZone.findOrSaveByDeviceAndZone(device, zone)
 
                     // On ajoute l'information au log des zones
-                    DeviceZoneLog deviceZoneLog = new DeviceZoneLog(
-                            deviceZone: deviceZone,
-                            isRaised: isRaisedNow
+                    new DeviceZoneLog(
+                            device: device,
+                            zone: zone,
+                            isRaised: isRaisedNow,
+                            frame: frame
                     ).save()
 
                     if (deviceZone.isRaised != isRaisedNow) {
                         // Changement d'état de la zone
+
+                        // On loggue ce changement d'état
+                        new DeviceZoneLogAggregate(
+                                device: device,
+                                zone: zone,
+                                isRaised: isRaisedNow,
+                                frame: frame
+                        ).save()
+
                         if (isRaisedNow) {
                             // Début d'alerte, alors que le précedent état n'indique pas la présence du boitier dans la zone
                             try {

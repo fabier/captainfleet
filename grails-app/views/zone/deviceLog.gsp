@@ -18,14 +18,14 @@
         <div class="col-md-8">
             <legend>
                 <i class="glyphicon glyphicon-bell"></i>
-                &nbsp;Logs pour la zone "${zone.name ?: zone.id}" et le boitier ${device.sigfoxId}
+                &nbsp;Logs pour la zone "${zone.name ?: zone.id}" et le boitier "${device.name}"
             </legend>
 
 
             <g:if test="${deviceZoneLogs.isEmpty()}">
                 <div class="row">
                     <div class="alert alert-info">
-                        Aucun log pour la zone "${zone.name ?: zone.id}" et le boitier ${device.sigfoxId}
+                        Aucun log pour la zone "${zone.name ?: zone.id}" et le boitier "${device.name}"
                     </div>
                 </div>
             </g:if>
@@ -40,32 +40,26 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <g:set var="state" value="${deviceZoneLogs?.first().isRaised}"/>
-                        <g:set var="previousDeviceZoneLog" value="${deviceZoneLogs?.first()}"/>
-                        <g:each in="${deviceZoneLogs}" var="deviceZoneLog">
-                            <g:if test="${state != deviceZoneLog.isRaised}">
-                                <tr class="clickable-row" data-href="#">
-                                    <td>${previousDeviceZoneLog.id}</td>
-                                    <td>
-                                        <g:formatDate format="dd MMMM HH'h'mm"
-                                                      date="${previousDeviceZoneLog.dateCreated}"/>
-                                    </td>
-                                    <td>
-                                        <g:if test="${previousDeviceZoneLog.isRaised}">
-                                            <i class="glyphicon glyphicon-log-in"></i>
-                                            &nbsp;
-                                            Entrée dans la zone
-                                        </g:if>
-                                        <g:else>
-                                            <i class="glyphicon glyphicon-log-out"></i>
-                                            &nbsp;
-                                            Sortie de la zone
-                                        </g:else>
-                                    </td>
-                                </tr>
-                                <g:set var="state" value="${deviceZoneLog.isRaised}"/>
-                            </g:if>
-                            <g:set var="previousDeviceZoneLog" value="${deviceZoneLog}"/>
+                        <g:each in="${deviceZoneLogAggregates}" var="deviceZoneLogAggregate">
+                            <tr class="clickable-row" data-href="#">
+                                <td>${deviceZoneLogAggregate.id}</td>
+                                <td>
+                                    <g:formatDate format="dd MMMM HH'h'mm"
+                                                  date="${deviceZoneLogAggregate.dateCreated}"/>
+                                </td>
+                                <td>
+                                    <g:if test="${deviceZoneLogAggregate.isRaised}">
+                                        <i class="glyphicon glyphicon-log-in"></i>
+                                        &nbsp;
+                                        Entrée dans la zone
+                                    </g:if>
+                                    <g:else>
+                                        <i class="glyphicon glyphicon-log-out"></i>
+                                        &nbsp;
+                                        Sortie de la zone
+                                    </g:else>
+                                </td>
+                            </tr>
                         </g:each>
                         </tbody>
                     </table>

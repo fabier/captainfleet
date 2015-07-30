@@ -22,8 +22,20 @@ class UtilService {
     }
 
     def sortBaseEntities(List<BaseEntity> entities) {
-        entities.sort { a, b ->
+        entities?.sort { a, b ->
             compareBaseEntity(a, b)
+        }
+    }
+
+    List<BaseDomain> sortByMostRecentFirst(List<BaseDomain> baseDomains) {
+        baseDomains?.sort { a, b ->
+            -a.dateCreated.compareTo(b.dateCreated)
+        }
+    }
+
+    List<BaseDomain> sortByLeastRecentFirst(List<BaseDomain> baseDomains) {
+        baseDomains?.sort { a, b ->
+            a.dateCreated.compareTo(b.dateCreated)
         }
     }
 }

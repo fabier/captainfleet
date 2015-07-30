@@ -5,7 +5,7 @@
         </g:link>
     </li>
     <li class="${controllerName == "zone" && actionName in 'devices'\
-     || controllerName == "deviceZone" && actionName == 'show' ? "active" : ""}">
+     || controllerName == "zone" && actionName == 'deviceLog' ? "active" : ""}">
         <g:link controller="zone" action="devices" id="${zone.id}">
             Boitiers
         </g:link>

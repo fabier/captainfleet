@@ -28,6 +28,14 @@ class ZoneController {
     def index() {
         User user = springSecurityService.currentUser
         List<Zone> zones = zoneService.getZonesForUser(user)
+
+        // On affiche aussi les logs sur une semaine
+        def calendar = Calendar.getInstance()
+        calendar.add(Calendar.DAY_OF_YEAR, -7)
+        Date dateLowerBound = calendar.getTime()
+        List<DeviceZoneLogAggregate> deviceZoneLogAggregates = deviceZoneLogService.getDeviceZoneLogAggregatesForZonesWithinPeriod(zones, dateLowerBound, new Date())
+        deviceZoneLogAggregates = utilService.sortByMostRecentFirst(deviceZoneLogAggregates) as List<DeviceZoneLogAggregate>
+
         if (params.name) {
             Pattern pattern = Pattern.compile(".*${params.name}.*", Pattern.CASE_INSENSITIVE)
             zones = zones.findAll {
@@ -47,8 +55,9 @@ class ZoneController {
         }
 
         render view: "index", model: [
-                zones    : zones,
-                totalCount: totalCount
+                zones                  : zones,
+                totalCount             : totalCount,
+                deviceZoneLogAggregates: deviceZoneLogAggregates
         ]
     }
 
@@ -96,40 +105,9 @@ class ZoneController {
         wktGeometry = new WKTWriter().write(zone.geometry)
 
         render view: "show", model: [
-                zone      : zone,
+                zone       : zone,
                 mapOptions : mapOptions,
                 wktGeometry: wktGeometry
-        ]
-    }
-
-    def logs() {
-        List<DeviceZoneLog> deviceZoneLogsAggregated = new ArrayList<>()
-
-        Date date = parserService.tryParseDate(params.date) ?: new Date()
-        Date dateUpperBound = DateUtils.ceiling(date, Calendar.DAY_OF_MONTH)
-        Date dateLowerBound = DateUtils.addDays(dateUpperBound, -7)
-
-        User user = springSecurityService.currentUser
-        List<Zone> zones = zoneService.getZonesForUser(user)
-        zones?.each {
-            List<DeviceZone> deviceZones = deviceZoneService.getDeviceZonesByZone(it)
-            deviceZones?.each {
-                List<DeviceZoneLog> localDeviceZoneLogs = deviceZoneLogService.getDeviceZoneLogsByDeviceZone(it, dateLowerBound, dateUpperBound)
-                boolean isRaised = localDeviceZoneLogs?.first()?.isRaised
-                localDeviceZoneLogs?.each {
-                    if (isRaised != it.isRaised) {
-                        // Changement d'état, on ajoute ce log à l'aggrégation
-                        deviceZoneLogsAggregated.add(it)
-                        isRaised = it.isRaised
-                    }
-                }
-            }
-        }
-        List<DeviceZoneLog> deviceZoneLogs = deviceZoneLogService.sortByMostRecentFirst(deviceZoneLogsAggregated)
-
-        render view: "logs", model: [
-                zones         : zones,
-                deviceZoneLogs: deviceZoneLogs
         ]
     }
 
@@ -155,6 +133,7 @@ class ZoneController {
         if (zone) {
             UserZone.removeAll(zone)
             DeviceZone.removeAll(zone)
+            DeviceZoneLog.removeAll(zone)
             zone.delete()
         }
         redirect action: "index"
@@ -165,6 +144,7 @@ class ZoneController {
         List<DeviceZone> deviceZones = zoneService.getDeviceZones(zone)
         render view: "devices", model: [
                 zone       : zone,
+                devices    : deviceZones*.device,
                 deviceZones: deviceZones
         ]
     }
@@ -183,5 +163,37 @@ class ZoneController {
             }
         }
         redirect action: "devices", id: id
+    }
+
+    def deviceLog(long id1, long id2) {
+        Zone zone = Zone.get(id1)
+        Device device = Device.get(id2)
+        DeviceZone deviceZone = DeviceZone.findByDeviceAndZone(device, zone)
+
+        List<DeviceZoneLog> deviceZoneLogs = deviceZoneLogService.getDeviceZoneLogsByDeviceAndZone(device, zone)
+        deviceZoneLogs = utilService.sortByMostRecentFirst(deviceZoneLogs)
+
+        List<DeviceZoneLogAggregate> deviceZoneLogAggregates = deviceZoneLogService.getDeviceZoneLogAggregatesByDeviceAndZone(device, zone)
+        deviceZoneLogs = utilService.sortByMostRecentFirst(deviceZoneLogs)
+
+        render view: "deviceLog", model: [
+                deviceZone             : deviceZone,
+                zone                   : zone,
+                device                 : device,
+                deviceZoneLogs         : deviceZoneLogs,
+                deviceZoneLogAggregates: deviceZoneLogAggregates
+        ]
+    }
+
+    def logs() {
+        User user = springSecurityService.currentUser
+        List<Zone> zones = zoneService.getZonesForUser(user)
+        List<DeviceZoneLogAggregate> deviceZoneLogAggregates = deviceZoneLogService.getDeviceZoneLogAggregatesForZones(zones)
+        deviceZoneLogAggregates = utilService.sortByMostRecentFirst(deviceZoneLogAggregates) as List<DeviceZoneLogAggregate>
+
+        render view: "logs", model: [
+                zones                  : zones,
+                deviceZoneLogAggregates: deviceZoneLogAggregates
+        ]
     }
 }

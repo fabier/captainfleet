@@ -89,18 +89,63 @@
                 </div>
             </g:if>
 
-            <div class="row">
+            <div class="row margin-bottom-20">
                 <g:if test="${zones.isEmpty() || zones.size() < 5}">
                     <g:link action="create" class="btn btn-primary">
                         <i class="glyphicon glyphicon-plus"></i>
                         Créer une nouvelle zone
                     </g:link>
                 </g:if>
-
-                <g:link action="logs" class="btn btn-info">
-                    Voir les logs
-                </g:link>
             </div>
+
+            <legend>
+                <i class="glyphicon glyphicon-bell"></i>
+                &nbsp;Mes zones - Évènements sur les 7 derniers jours
+            </legend>
+
+            <g:if test="${!deviceZoneLogAggregates.isEmpty()}">
+                <div class="row">
+                    <table class="table table-hover small nomargin-left-right">
+                        <thead>
+                        <tr>
+                            <th class="col-md-1">#</th>
+                            <th class="col-md-2">Nom de la zone</th>
+                            <th class="col-md-2">Boitier</th>
+                            <th class="col-md-2">Date</th>
+                            <th class="col-md-3">Etat</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <g:each in="${deviceZoneLogAggregates}" var="deviceZoneLogAggregate">
+                            <g:set var="zone" value="${deviceZoneLogAggregate.zone}"/>
+                            <g:set var="device" value="${deviceZoneLogAggregate.device}"/>
+                            <tr class="clickable-row"
+                                data-href="${createLink(controller: "zone", action: "devicesLog", id1: zone.id, id2: device.id)}">
+                                <td>${deviceZoneLogAggregate.id}</td>
+                                <td>${zone.name}</td>
+                                <td>${device.name}</td>
+                                <td>
+                                    <g:formatDate format="EEEE dd MMMM HH'h'mm"
+                                                  date="${deviceZoneLogAggregate.dateCreated}"/>
+                                </td>
+                                <td>
+                                    <g:if test="${deviceZoneLogAggregate.isRaised}">
+                                        <i class="glyphicon glyphicon-log-in"></i>
+                                        &nbsp;
+                                        Entrée dans la zone
+                                    </g:if>
+                                    <g:else>
+                                        <i class="glyphicon glyphicon-log-out"></i>
+                                        &nbsp;
+                                        Sortie de la zone
+                                    </g:else>
+                                </td>
+                            </tr>
+                        </g:each>
+                        </tbody>
+                    </table>
+                </div>
+            </g:if>
         </div>
     </div>
 </div>

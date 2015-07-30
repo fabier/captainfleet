@@ -6,30 +6,29 @@ import grails.transaction.Transactional
 class DeviceZoneLogService {
 
     DeviceZoneService deviceZoneService
+    UtilService utilService
 
-    List<DeviceZoneLog> sortByMostRecentFirst(List<DeviceZoneLog> deviceZoneLogs) {
-        deviceZoneLogs.sort { a, b ->
-            -a.dateCreated.compareTo(b.dateCreated)
-        }
+    List<DeviceZoneLog> getDeviceZoneLogsByDeviceAndZone(Device device, Zone zone) {
+        DeviceZoneLog.findAllByDeviceAndZone(device, zone)
     }
 
-    List<DeviceZoneLog> getDeviceZoneLogsByZone(Zone zone) {
-        List<DeviceZone> deviceZones = deviceZoneService.getDeviceZonesByZone(zone)
-        return DeviceZoneLog.createCriteria().list {
-            inList("deviceZone", deviceZones)
-        }
+    List<DeviceZoneLogAggregate> getDeviceZoneLogAggregatesByDeviceAndZone(Device device, Zone zone) {
+        DeviceZoneLogAggregate.findAllByDeviceAndZone(device, zone)
     }
 
-    List<DeviceZoneLog> getDeviceZoneLogsByDeviceZone(DeviceZone deviceZone) {
-        DeviceZoneLog.findAllByDeviceZone(deviceZone)
+    List<DeviceZoneLogAggregate> getDeviceZoneLogAggregatesForZones(List<Zone> zones) {
+        List<DeviceZoneLogAggregate> deviceZoneLogAggregates = new ArrayList<>()
+        zones.each {
+            deviceZoneLogAggregates.addAll(DeviceZoneLogAggregate.findAllByZone(it))
+        }
+        return deviceZoneLogAggregates
     }
 
-    List<DeviceZoneLog> getDeviceZoneLogsByDeviceZone(DeviceZone deviceZone, Date dateLowerBound, Date dateUpperBound) {
-        DeviceZoneLog.findAllByDeviceZone(deviceZone)
-        DeviceZoneLog.withCriteria {
-            eq("deviceZone", deviceZone)
-            between("dateCreated", dateLowerBound, dateUpperBound)
-            order("dateCreated", "asc")
+    List<DeviceZoneLogAggregate> getDeviceZoneLogAggregatesForZonesWithinPeriod(List<Zone> zones, Date dateLowerBound, Date dateUpperBound) {
+        List<DeviceZoneLogAggregate> deviceZoneLogAggregates = new ArrayList<>()
+        zones.each {
+            deviceZoneLogAggregates.addAll(DeviceZoneLogAggregate.findAllByZoneAndDateCreatedBetween(it, dateLowerBound, dateUpperBound))
         }
+        return deviceZoneLogAggregates
     }
 }
