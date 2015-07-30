@@ -18,14 +18,14 @@
         <div class="col-md-8">
             <legend>
                 <i class="glyphicon glyphicon-bell"></i>
-                &nbsp;Logs pour la zone "${zone.name ?: zone.id}" et le boitier "${device.name}"
+                &nbsp;Logs pour la zone "${zone.name ?: zone.id}" et le boitier "${device?.name ?: device?.sigfoxId}"
             </legend>
 
 
             <g:if test="${deviceZoneLogs.isEmpty()}">
                 <div class="row">
                     <div class="alert alert-info">
-                        Aucun log pour la zone "${zone.name ?: zone.id}" et le boitier "${device.name}"
+                        Aucun log pour la zone "${zone.name ?: zone.id}" et le boitier "${device.name ?: device?.sigfoxId}"
                     </div>
                 </div>
             </g:if>
