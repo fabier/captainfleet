@@ -13,7 +13,9 @@
 <g:if test="${frameExtra.reason != null}">
     <tr>
         <td align="right" class="col-md-3">Raison</td>
-        <td class="col-md-6">${frameExtra.reason}</td>
+        <td class="col-md-6">
+            <g:getFrameErrorReason reason="${frameExtra.reason}"/>
+        </td>
         <td class="col-md-3">
             <span class="display-block">
                 <code>${frameExtra.hexaReason()}</code>
@@ -49,7 +51,7 @@
 <g:if test="${frameExtra.solarArrayVoltage != null}">
     <tr>
         <td align="right" class="col-md-3">Tension panneau solaire</td>
-        <td class="col-md-6"><g:formatNumber number="${frameExtra.solarArrayVoltage}" maxFractionDigits="3"/> V</td>
+        <td class="col-md-6"><g:formatNumber number="${frameExtra.solarArrayVoltage}" maxFractionDigits="3"locale="EN"/> V</td>
         <td class="col-md-3">
             <span class="display-block">
                 <code>${frameExtra.hexaSolarArrayVoltage8bits()}</code>
@@ -61,7 +63,7 @@
 <g:if test="${frameExtra.superCapacitorVoltage != null}">
     <tr>
         <td align="right" class="col-md-3">Tension condensateur</td>
-        <td class="col-md-6"><g:formatNumber number="${frameExtra.superCapacitorVoltage}" maxFractionDigits="3"/> V</td>
+        <td class="col-md-6"><g:formatNumber number="${frameExtra.superCapacitorVoltage}" maxFractionDigits="3"locale="EN"/> V</td>
         <td class="col-md-3">
             <span class="display-block">
                 <code>${frameExtra.hexaSuperCapacitorVoltage8bits()}</code>

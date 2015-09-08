@@ -31,79 +31,91 @@
 
 <div class="container-fluid with-map">
     <div class="row-fluid">
-        <div class="col-md-4 wrapper">
-            <g:if test="${devices}">
-                <div class="row">
-                    <div class="col-md-12">
-                        <table class="table table-hover small nomargin-left-right">
-                            <thead>
-                            <th>Liste des boitiers</th>
-                            </thead>
-                            <tbody>
-                            <g:each in="${devices}" var="device">
-                                <g:set var="frame" value="${deviceFrameMap.get(device)}"/>
-                                <tr class="clickable-row"
-                                    data-href="${raw(createLink(controller: "device", action: "map", id: device.id))}">
-                                    <td>
-                                        <div class="td-icon-ul">
-                                            <div>
-                                                <img src="${raw(createLink(controller: "mapMarker", action: "index", id: (device.mapMarkerIcon ?: defaultMapMarkerIcon).id))}">
-                                            </div>
-
-                                            <div>
-                                                <ul>
-                                                    <li><span class="text-larger bolder">${device.name}</span></li>
-                                                    <g:if test="${frame}">
-                                                        <li>
-                                                            <span class="text-xsmall text-muted">
-                                                                Dernière transmission à
-                                                                <g:formatDate format="HH'h'mm" date="${frame.time}"/>
-                                                            </span>
-                                                        </li>
-                                                        <li class="text-xsmall text-muted">
-                                                            Signal :
-                                                            <g:formatRSSI rssi="${frame.rssi}"/>
-                                                            Panneau solaire :
-                                                            <g:formatSolarArrayVoltage
-                                                                    solarArrayVoltage="${frame.frameExtra.solarArrayVoltage}"/>
-                                                            Capacité :
-                                                            <g:formatSuperCapacitorVoltage
-                                                                    superCapacitorVoltage="${frame.frameExtra.superCapacitorVoltage}"/>
-                                                        </li>
-                                                    </g:if>
-                                                    <g:else>
-                                                        <li>
-                                                            <span class="label label-warning">
-                                                                Aucune transmission depuis 24h
-                                                            </span>
-                                                        </li>
-                                                    </g:else>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </g:each>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </g:if>
-            <g:else>
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="alert alert-info">
-                            Vous n'avez pas encore de boitier associé à votre compte
+    <div class="col-md-4 wrapper">
+        <g:if test="${devices}">
+            <div class="row">
+        %{--<div class="col-md-12">--}%
+            <table class="table table-hover small nomargin-left-right">
+                <thead>
+                <th class="col-md-8">Liste des boitiers</th>
+                <th class="col-md-4"></th>
+                </thead>
+                <tbody>
+            <g:each in="${devices}" var="device">
+                <g:set var="frame" value="${deviceFrameMap.get(device)}"/>
+                <g:set var="lastFrame" value="${deviceLastFrameMap.get(device)}"/>
+                <tr class="clickable-row"
+                    data-href="${raw(createLink(controller: "device", action: "map", id: device.id))}">
+                    <td>
+                        <div style="float: left;">
+                            <img src="${raw(createLink(controller: "mapMarker", action: "index", id: (device.mapMarkerIcon ?: defaultMapMarkerIcon).id))}">
                         </div>
+                        <ul class="nodecoration">
+                            <li class="display-block">
+                                <span class="text-larger bolder">
+                                    ${device.name}
+                                </span>
+
+                                <g:if test="${frame == null}">
+                                    <span class="label label-danger">
+                                        Aucune position connue depuis 24h
+                                    </span>
+                                </g:if>
+                            </li>
+                            <li>
+                                <span class="text-xsmall text-muted">
+                                    Dernière transmission
+                                    <g:formatDate format="d MMM à HH'h'mm" date="${lastFrame.time}"/>
+                                </span>
+                            </li>
+                        </ul>
+                    </td>
+                    <td style="text-align: right;">
+                        %{--<div class="text-small text-muted text-muted">--}%
+                        %{--&nbsp;--}%
+                        %{--<span class="label label-default">--}%
+                        %{--${device.sigfoxId}--}%
+                        %{--</span>--}%
+                        %{--</div>--}%
+
+                        <div class="text-xsmall text-muted text-muted">
+                            Signal :
+                            <g:formatRSSI rssi="${lastFrame.rssi}"/>
+                            <br/>
+                            Panneau solaire :
+                            <g:formatSolarArrayVoltage
+                                    solarArrayVoltage="${lastFrame.frameExtra.solarArrayVoltage}"/>
+                            <br/>
+                            Batterie :
+                            <g:formatSuperCapacitorVoltage
+                                    superCapacitorVoltage="${lastFrame.frameExtra.superCapacitorVoltage}"/>
+                            <br/>
+                        </div>
+                    </td>
+                </div>
+            </td>
+        </tr>
+            </g:each>
+            </tbody>
+        </table>
+        %{--</div>--}%
+            </div>
+        </g:if>
+        <g:else>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="alert alert-info">
+                        Vous n'avez pas encore de boitier associé à votre compte
                     </div>
                 </div>
-            </g:else>
+            </div>
+        </g:else>
 
-            <g:render template="addDevice"/>
-        </div>
-
-        <g:render template="/templates/map8col"/>
+        <g:render template="addDevice"/>
     </div>
+
+    <g:render template="/templates/map8col"/>
+</div>
 </div>
 </body>
 </html>

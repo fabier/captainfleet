@@ -13,7 +13,8 @@
 <g:if test="${frameExtra.currentTemperature != null}">
     <tr>
         <td align="right" class="col-md-3">T° actuelle</td>
-        <td class="col-md-6"><g:formatNumber number="${frameExtra.currentTemperature}" maxFractionDigits="1"/> °C</td>
+        <td class="col-md-6"><g:formatNumber number="${frameExtra.currentTemperature}" maxFractionDigits="1"
+                                             locale="EN"/> °C</td>
         <td class="col-md-3">
             <span class="display-block">
                 <code>${frameExtra.hexaCurrentTemperature()}</code>
@@ -25,7 +26,8 @@
 <g:if test="${frameExtra.averageTemperature != null}">
     <tr>
         <td align="right" class="col-md-3">T° moyenne</td>
-        <td class="col-md-6"><g:formatNumber number="${frameExtra.averageTemperature}" maxFractionDigits="1"/> °C</td>
+        <td class="col-md-6"><g:formatNumber number="${frameExtra.averageTemperature}" maxFractionDigits="1"
+                                             locale="EN"/> °C</td>
         <td class="col-md-3">
             <span class="display-block">
                 <code>${frameExtra.hexaAverageTemperature()}</code>
@@ -37,7 +39,8 @@
 <g:if test="${frameExtra.minTemperature != null}">
     <tr>
         <td align="right" class="col-md-3">T° min</td>
-        <td class="col-md-6"><g:formatNumber number="${frameExtra.minTemperature}" maxFractionDigits="1"/> °C</td>
+        <td class="col-md-6"><g:formatNumber number="${frameExtra.minTemperature}" maxFractionDigits="1"
+                                             locale="EN"/> °C</td>
         <td class="col-md-3">
             <span class="display-block">
                 <code>${frameExtra.hexaMinTemperature()}</code>
@@ -49,7 +52,8 @@
 <g:if test="${frameExtra.maxTemperature != null}">
     <tr>
         <td align="right" class="col-md-3">T° max</td>
-        <td class="col-md-6"><g:formatNumber number="${frameExtra.maxTemperature}" maxFractionDigits="1"/> °C</td>
+        <td class="col-md-6"><g:formatNumber number="${frameExtra.maxTemperature}" maxFractionDigits="1"
+                                             locale="EN"/> °C</td>
         <td class="col-md-3">
             <span class="display-block">
                 <code>${frameExtra.hexaMaxTemperature()}</code>

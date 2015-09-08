@@ -22,10 +22,11 @@ class CommonController {
         utilService.sortBaseEntities(devices)
 
         Map<Device, Frame> deviceFrameMap = new HashMap<>()
+        Map<Device, Frame> deviceLastFrameMap = new HashMap<>()
 
         devices?.each {
-            Frame lastFrame = frameService.getLastFrameWithGeolocationWithin24Hours(it)
-            deviceFrameMap.put(it, lastFrame)
+            deviceLastFrameMap.put(it, frameService.getLastFrame(it))
+            deviceFrameMap.put(it, frameService.getLastFrameWithGeolocationWithin24Hours(it))
         }
 
         MapOptions mapOptions = mapService.buildFromDeviceFrameMap(deviceFrameMap)
@@ -34,6 +35,7 @@ class CommonController {
                 devices             : devices,
                 mapOptions          : mapOptions,
                 deviceFrameMap      : deviceFrameMap,
+                deviceLastFrameMap  : deviceLastFrameMap,
                 defaultMapMarkerIcon: mapMarkerIconService.getDefault()
         ]
     }

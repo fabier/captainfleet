@@ -22,7 +22,7 @@ class DashboardController {
         utilService.sortBaseEntities(devices)
         def framesMap = [:]
         def lastFrameMap = [:]
-        def deviceGraphDataMap = [:]
+        def deviceGraphVoltageDataMap = [:]
         def deviceGraphTemperatureDataMap = [:]
         def deviceGraphRSSIDataMap = [:]
         devices.each {
@@ -33,15 +33,22 @@ class DashboardController {
             Frame lastFrame = frameService.getLastFrame(it)
             lastFrameMap.put(it, lastFrame)
 
-            def deviceGraphData = []
+            def deviceGraphVoltageData = []
             def deviceGraphTemperatureData = []
             def deviceGraphRSSIData = []
             frames.each {
-                deviceGraphData.add([it.time, it.frameExtra?.superCapacitorVoltage, it.frameExtra?.solarArrayVoltage])
-                deviceGraphTemperatureData.add([it.time, it.frameExtra?.currentTemperature, it.frameExtra?.averageTemperature, it.frameExtra?.maxTemperature, it.frameExtra?.minTemperature])
-                deviceGraphRSSIData.add([it.time, it.rssiMax, it.rssiAvg, it.rssiMin])
+                FrameExtra frameExtra = it.frameExtra
+                if (frameExtra?.superCapacitorVoltage || frameExtra?.superCapacitorVoltage) {
+                    deviceGraphVoltageData.add([it.time, frameExtra?.superCapacitorVoltage, frameExtra?.solarArrayVoltage])
+                }
+                if (frameExtra?.currentTemperature || frameExtra?.averageTemperature || frameExtra?.maxTemperature || frameExtra?.minTemperature) {
+                    deviceGraphTemperatureData.add([it.time, frameExtra?.currentTemperature, frameExtra?.averageTemperature, frameExtra?.maxTemperature, frameExtra?.minTemperature])
+                }
+                if (it.rssiMax || it.rssiAvg || it.rssiMin) {
+                    deviceGraphRSSIData.add([it.time, it.rssiMax, it.rssiAvg, it.rssiMin])
+                }
             }
-            deviceGraphDataMap.put(it, deviceGraphData)
+            deviceGraphVoltageDataMap.put(it, deviceGraphVoltageData)
             deviceGraphTemperatureDataMap.put(it, deviceGraphTemperatureData)
             deviceGraphRSSIDataMap.put(it, deviceGraphRSSIData)
         }
@@ -66,7 +73,7 @@ class DashboardController {
         }
 
         render view: "devices", model: [devices                      : devices, framesMap: framesMap, lastFrameMap: lastFrameMap,
-                                        deviceGraphDataMap           : deviceGraphDataMap, deviceGraphDataColumns: deviceGraphDataColumns,
+                                        deviceGraphDataMap           : deviceGraphVoltageDataMap, deviceGraphDataColumns: deviceGraphDataColumns,
                                         deviceGraphTemperatureDataMap: deviceGraphTemperatureDataMap, deviceGraphTemperatureDataColumns: deviceGraphTemperatureDataColumns,
                                         deviceGraphRSSIDataMap       : deviceGraphRSSIDataMap, deviceGraphRSSIDataColumns: deviceGraphRSSIDataColumns
         ]

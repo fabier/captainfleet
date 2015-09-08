@@ -105,24 +105,31 @@ class CaptainFleetTagLib {
             float rssi = attr.rssi
 
             String valueAsText
-            String spanClass
+//            String spanClass
+            String color
             if (rssi > -80) {
                 valueAsText = "excellent"
-                spanClass = "label label-success"
+//                spanClass = "label label-success"
+                color = "5cb85c"
             } else if (rssi > -100) {
                 valueAsText = "très bon"
-                spanClass = "label label-success"
+//                spanClass = "label label-success"
+                color = "5cb85c"
             } else if (rssi > -120) {
                 valueAsText = "correct"
-                spanClass = "label label-success"
+//                spanClass = "label label-success"
+                color = "5cb85c"
             } else {
                 valueAsText = "faible"
-                spanClass = "label label-warning"
+//                spanClass = "label label-warning"
+                color = "f0ad4e"
             }
 
-            out << raw("<span class=\"${spanClass}\">${valueAsText}</span>")
+//            out << raw("<span class=\"${spanClass}\">${valueAsText}</span>")
+            out << raw("<i class=\"glyphicon glyphicon-ok-sign\" style=\"color: #${color};\" title=\"${valueAsText}\"></i>")
         } else {
-            out << raw("<span class=\"label label-warning\">inconnu</span>")
+//            out << raw("<span class=\"label label-warning\">inconnu</span>")
+            out << raw("<i class=\"glyphicon glyphicon-ok-sign\" style=\"color: #d0d0d0;\"></i>")
         }
     }
 
@@ -131,24 +138,31 @@ class CaptainFleetTagLib {
             float solarArrayVoltage = attr.solarArrayVoltage
 
             String valueAsText
-            String spanClass
+//            String spanClass
+            String color
             if (solarArrayVoltage > 2.4) {
                 valueAsText = "excellent"
-                spanClass = "label label-success"
+//                spanClass = "label label-success"
+                color = "5cb85c"
             } else if (solarArrayVoltage > 2.0) {
                 valueAsText = "très bon"
-                spanClass = "label label-success"
+//                spanClass = "label label-success"
+                color = "5cb85c"
             } else if (solarArrayVoltage > 1.0) {
                 valueAsText = "correct"
-                spanClass = "label label-success"
+//                spanClass = "label label-success"
+                color = "5cb85c"
             } else {
                 valueAsText = "faible"
-                spanClass = "label label-warning"
+//                spanClass = "label label-warning"
+                color = "f0ad4e"
             }
 
-            out << raw("<span class=\"${spanClass}\">${valueAsText}</span>")
+//            out << raw("<span class=\"${spanClass}\">${valueAsText}</span>")
+            out << raw("<i class=\"glyphicon glyphicon-ok-sign\" style=\"color: #${color};\" title=\"${valueAsText}\"></i>")
         } else {
-            out << raw("<span class=\"label label-warning\">inconnu</span>")
+//            out << raw("<span class=\"label label-warning\">inconnu</span>")
+            out << raw("<i class=\"glyphicon glyphicon-ok-sign\" style=\"color: #d0d0d0;\"></i>")
         }
     }
 
@@ -157,24 +171,49 @@ class CaptainFleetTagLib {
             float superCapacitorVoltage = attr.superCapacitorVoltage
 
             String valueAsText
-            String spanClass
+//            String spanClass
+            String color
             if (superCapacitorVoltage > 2.5) {
                 valueAsText = "excellent"
-                spanClass = "label label-success"
+//                spanClass = "label label-success"
+                color = "5cb85c"
             } else if (superCapacitorVoltage > 2.2) {
                 valueAsText = "très bon"
-                spanClass = "label label-success"
+//                spanClass = "label label-success"
+                color = "5cb85c"
             } else if (superCapacitorVoltage > 2.0) {
                 valueAsText = "correct"
-                spanClass = "label label-success"
+//                spanClass = "label label-success"
+                color = "5cb85c"
             } else {
                 valueAsText = "faible"
-                spanClass = "label label-warning"
+//                spanClass = "label label-warning"
+                color = "f0ad4e"
             }
 
-            out << raw("<span class=\"${spanClass}\">${valueAsText}</span>")
+//            out << raw("<span class=\"${spanClass}\">${valueAsText}</span>")
+            out << raw("<i class=\"glyphicon glyphicon-ok-sign\" style=\"color: #${color};\" title=\"${valueAsText}\"></i>")
         } else {
-            out << raw("<span class=\"label label-warning\">inconnu</span>")
+//            out << raw("<span class=\"label label-warning\">inconnu</span>")
+            out << raw("<i class=\"glyphicon glyphicon-ok-sign\" style=\"color: #d0d0d0;\"></i>")
         }
+    }
+
+    def getFrameErrorReason = { attr, body ->
+        int reason = attr.reason
+        String reasonCode = "captainfleet.frame.error.reason.${reason}"
+        out << message(code: reasonCode, default: "${reason} : Error unknown", args: [reason])
+    }
+
+    def getFrameType = { attr, body ->
+        String type = attr.type
+        String typeCode = "captainfleet.frame.type.${type}"
+        out << message(code: typeCode, default: "${typeCode}", args: [type])
+    }
+
+    def getSatelliteCount = { attr, body ->
+        int satelliteCount = attr.satelliteCount
+        String satelliteCountCode = "captainfleet.frame.satelliteCount.${satelliteCount}"
+        out << message(code: satelliteCountCode, default: "${satelliteCount} : Unknown", args: [satelliteCount])
     }
 }

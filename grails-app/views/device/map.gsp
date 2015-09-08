@@ -130,26 +130,34 @@
             <g:else>
                 <table class="table table-hover small nomargin-left-right">
                     <thead>
-                    <th>#</th>
-                    <th>Date</th>
-                    <th>Station</th>
+                    <th>Heure</th>
                     <th>Type</th>
+                    <th>Détails</th>
                     </thead>
                     <tbody>
                     <g:each in="${frames}" var="frame">
                         <tr class="clickable-row"
                             data-href="${raw(createLink(controller: "frame", action: "map", id: frame.id))}">
                             <td>
-                                ${frame.id}
+                                <span class="label label-default">
+                                    <g:formatDate format="HH:mm" date="${frame.dateCreated}"/>
+                                </span>
                             </td>
                             <td>
-                                <g:formatDate format="dd MMMM HH'h'mm" date="${frame.dateCreated}"/>
+                                <g:getFrameType type="${frame.frameType}"/>
                             </td>
                             <td>
-                                ${frame.station.sigfoxId}
-                            </td>
-                            <td>
-                                ${frame.frameType}
+                                <g:if test="${frame.frameType == captainfleet.FrameType.ERROR}">
+                                    <g:getFrameErrorReason reason="${frame.frameExtra.reason}"/>
+                                </g:if>
+                                <g:elseif test="${frame.frameType == captainfleet.FrameType.SERVICE}">
+                                    Température : ${frame.frameExtra.averageTemperature} °C
+                                </g:elseif>
+                                <g:else>
+                                    <g:formatNumber number="${frame.frameExtra.latitude}" maxFractionDigits="6"
+                                                    locale="EN"/>,<g:formatNumber number="${frame.frameExtra.longitude}"
+                                                                                  maxFractionDigits="6" locale="EN"/>
+                                </g:else>
                             </td>
                         </tr>
                     </g:each>

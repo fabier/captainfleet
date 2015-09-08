@@ -13,7 +13,9 @@
 <g:if test="${frameExtra.satelliteCount != null}">
     <tr>
         <td align="right" class="col-md-3">Nombre de satellites</td>
-        <td class="col-md-6">${frameExtra.satelliteCount}</td>
+        <td class="col-md-6">
+            <g:getSatelliteCount satelliteCount="${frameExtra.satelliteCount}"/>
+        </td>
         <td class="col-md-3">
             <span class="display-block">
                 <code>${frameExtra.hexaSatelliteCount()}</code>
@@ -49,7 +51,8 @@
 <g:if test="${frameExtra.gpsTimeToFix != null}">
     <tr>
         <td align="right" class="col-md-3">GPS TimeToFix</td>
-        <td class="col-md-6"><g:formatNumber number="${frameExtra.gpsTimeToFix}" maxFractionDigits="3"/> s</td>
+        <td class="col-md-6"><g:formatNumber number="${frameExtra.gpsTimeToFix}" maxFractionDigits="3"
+                                             locale="EN"/> s</td>
         <td class="col-md-3">
             <span class="display-block">
                 <code>${frameExtra.hexaGpsTimeToFix()}</code>
@@ -61,7 +64,7 @@
 <g:if test="${frameExtra.speed != null}">
     <tr>
         <td align="right" class="col-md-3">Vitesse</td>
-        <td class="col-md-6"><g:formatNumber number="${frameExtra.speed}" maxFractionDigits="3"/> km/h</td>
+        <td class="col-md-6"><g:formatNumber number="${frameExtra.speed}" maxFractionDigits="3" locale="EN"/> km/h</td>
         <td class="col-md-3">
             <span class="display-block">
                 <code>${frameExtra.hexaSpeed()}</code>
@@ -73,7 +76,7 @@
 <g:if test="${frameExtra.azimuth != null}">
     <tr>
         <td align="right" class="col-md-3">Azimuth</td>
-        <td class="col-md-6"><g:formatNumber number="${frameExtra.azimuth}" maxFractionDigits="3"/> °</td>
+        <td class="col-md-6"><g:formatNumber number="${frameExtra.azimuth}" maxFractionDigits="3" locale="EN"/> °</td>
         <td class="col-md-3">
             <span class="display-block">
                 <code>${frameExtra.hexaAzimuth()}</code>
@@ -85,7 +88,8 @@
 <g:if test="${frameExtra.solarArrayVoltage != null}">
     <tr>
         <td align="right" class="col-md-3">Tension panneau solaire</td>
-        <td class="col-md-6"><g:formatNumber number="${frameExtra.solarArrayVoltage}" maxFractionDigits="3"/> V</td>
+        <td class="col-md-6"><g:formatNumber number="${frameExtra.solarArrayVoltage}" maxFractionDigits="3"
+                                             locale="EN"/> V</td>
         <td class="col-md-3">
             <span class="display-block">
                 <code>${frameExtra.hexaSolarArrayVoltage()}</code>
@@ -97,7 +101,8 @@
 <g:if test="${frameExtra.superCapacitorVoltage != null}">
     <tr>
         <td align="right" class="col-md-3">Tension condensateur</td>
-        <td class="col-md-6"><g:formatNumber number="${frameExtra.superCapacitorVoltage}" maxFractionDigits="3"/> V</td>
+        <td class="col-md-6"><g:formatNumber number="${frameExtra.superCapacitorVoltage}" maxFractionDigits="3"
+                                             locale="EN"/> V</td>
         <td class="col-md-3">
             <span class="display-block">
                 <code>${frameExtra.hexaSuperCapacitorVoltage()}</code>

@@ -51,7 +51,7 @@
             <g:if test="${frameExtra.latitude != null}">
                 <tr>
                     <td align="right" class="col-md-3">Latitude</td>
-                    <td class="col-md-6"><g:formatNumber number="${frameExtra.latitude}" maxFractionDigits="6"/></td>
+                    <td class="col-md-6"><g:formatNumber number="${frameExtra.latitude}" maxFractionDigits="6" locale="EN"/></td>
                     <td class="col-md-3">
                         <span class="display-block">
                             <code>${frameExtra.hexaLatitude()}</code>
@@ -63,7 +63,8 @@
             <g:if test="${frameExtra.longitude != null}">
                 <tr>
                     <td align="right" class="col-md-3">Longitude</td>
-                    <td class="col-md-6"><g:formatNumber number="${frameExtra.longitude}" maxFractionDigits="6"/></td>
+                    <td class="col-md-6"><g:formatNumber number="${frameExtra.longitude}" maxFractionDigits="6"
+                                                         locale="EN"/></td>
                     <td class="col-md-3">
                         <span class="display-block">
                             <code>${frameExtra.hexaLongitude()}</code>
