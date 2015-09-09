@@ -27,8 +27,8 @@ class DeviceZone extends BaseDomain {
         isRaised nullable: true
     }
 
-    static void removeAll(Zone a) {
-        DeviceZone.where { zone == a }.deleteAll()
+    static void removeAll(Zone z) {
+        DeviceZone.where { zone == z }.deleteAll()
     }
 
     static void removeAll(Device d) {

@@ -35,4 +35,8 @@ class DeviceZoneLogAggregate extends BaseDomain {
         isRaised nullable: true
         frame nullable: true
     }
+
+    static void removeAll(Zone z) {
+        DeviceZoneLogAggregate.where { zone == z }.deleteAll()
+    }
 }
