@@ -21,11 +21,11 @@ class UserZone extends BaseDomain {
         instance.save(flush: flush)
     }
 
-    static void removeAll(Zone a) {
-        UserZone.where { zone == a }.deleteAll()
+    static void removeAll(Zone z) {
+        where { zone == z }.deleteAll()
     }
 
     static void removeAll(User u) {
-        UserZone.where { user == u }.deleteAll()
+        where { user == u }.deleteAll()
     }
 }

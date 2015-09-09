@@ -29,11 +29,11 @@ class DeviceZoneLog extends BaseDomain {
         frame nullable: true
     }
 
-    static void removeAll(Zone a) {
-        DeviceZoneLog.where { zone == a }.deleteAll()
+    static void removeAll(Zone z) {
+        where { zone == z }.deleteAll()
     }
 
     static void removeAll(Device d) {
-        DeviceZone.where { device == d }.deleteAll()
+        where { device == d }.deleteAll()
     }
 }

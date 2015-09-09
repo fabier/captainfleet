@@ -134,6 +134,7 @@ class ZoneController {
             UserZone.removeAll(zone)
             DeviceZone.removeAll(zone)
             DeviceZoneLog.removeAll(zone)
+            DeviceZoneLogAggregate.removeAll(zone)
             zone.delete()
         }
         redirect action: "index"
