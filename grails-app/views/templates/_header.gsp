@@ -10,7 +10,10 @@
                 <span class="icon-bar"></span>
             </button>
             <g:link uri="/" class="navbar-brand danger">
-                CaptainFleet
+                <span>
+                    <g:img dir="images" file="favicons/favicon-32x32.png" class="logo-top-frontpage"/>
+                    CaptainFleet
+                </span>
             </g:link>
         </div>
 
@@ -32,7 +35,7 @@
                         </g:link>
                     </li>
                     <li class="${controllerName in ["common"]\
-                             || controllerName in ["device", "frame"] && actionName in ["map"] ? "active" : ""}">
+                              || controllerName in ["device", "frame"] && actionName in ["map"] ? "active" : ""}">
                         <g:link controller="common" action="index" class="lateral-menu">
                             <i class="glyphicon glyphicon-map-marker"></i>
                             &nbsp;Carte

@@ -20,7 +20,12 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand page-scroll" href="#page-top">CaptainFleet</a>
+            <a class="navbar-brand page-scroll" href="#page-top">
+                <span>
+                    <g:img dir="images" file="favicons/favicon-32x32.png" class="logo-top-frontpage"/>
+                    CaptainFleet
+                </span>
+            </a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -46,7 +51,11 @@
 <header>
     <div class="header-content">
         <div class="header-content-inner">
-            <h1>CaptainFleet</h1>
+
+            <h1>
+                <g:img dir="images" file="favicons/favicon-96x96.png"/>
+                CaptainFleet
+            </h1>
             <hr>
 
             <p>
