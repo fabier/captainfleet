@@ -295,16 +295,16 @@
                         </div>
 
                         <div class="price">
-                            <h3>39<span class="symbol">€</span></h3>
-                            <h4>
-                                par mois
-                                <br/>
-                                + <span class="initial-price">100€</span> à la commande
-                            </h4>
+                            %{--<h3>39<span class="symbol">€</span></h3>--}%
+                            %{--<h4>--}%
+                            %{--par mois--}%
+                            %{--<br/>--}%
+                            %{--+ <span class="initial-price">100€</span> à la commande--}%
+                            %{--</h4>--}%
                         </div>
 
                         <g:link controller="public" action="order" id="1" class="btn btn-success">
-                            Commander !
+                            Nous contacter
                         </g:link>
                     </div>
                 </div>
@@ -332,16 +332,16 @@
                         </div>
 
                         <div class="price">
-                            <h3>99<span class="symbol">€</span></h3>
-                            <h4>
-                                par mois
-                                <br/>
-                                + <span class="initial-price">200€</span> à la commande
-                            </h4>
+                            %{--<h3>99<span class="symbol">€</span></h3>--}%
+                            %{--<h4>--}%
+                            %{--par mois--}%
+                            %{--<br/>--}%
+                            %{--+ <span class="initial-price">200€</span> à la commande--}%
+                            %{--</h4>--}%
                         </div>
 
                         <g:link controller="public" action="order" id="2" class="btn btn-success">
-                            Commander !
+                            Nous contacter
                         </g:link>
                     </div>
                 </div>
@@ -369,16 +369,16 @@
                         </div>
 
                         <div class="price">
-                            <h3>399<span class="symbol">€</span></h3>
-                            <h4>
-                                par mois
-                                <br/>
-                                + <span class="initial-price">1000€</span> à la commande
-                            </h4>
+                            %{--<h3>399<span class="symbol">€</span></h3>--}%
+                            %{--<h4>--}%
+                            %{--par mois--}%
+                            %{--<br/>--}%
+                            %{--+ <span class="initial-price">1000€</span> à la commande--}%
+                            %{--</h4>--}%
                         </div>
 
                         <g:link controller="public" action="order" id="3" class="btn btn-success">
-                            Commander !
+                            Nous contacter
                         </g:link>
                     </div>
                 </div>
