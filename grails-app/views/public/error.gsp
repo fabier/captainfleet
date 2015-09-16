@@ -13,14 +13,7 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            %{--<g:if env="development">--}%
             <g:renderException exception="${exception}"/>
-            %{--</g:if>--}%
-            %{--<g:else>--}%
-            %{--<ul class="errors">--}%
-            %{--<li>An error has occurred</li>--}%
-            %{--</ul>--}%
-            %{--</g:else>--}%
         </div>
     </div>
 </div>
