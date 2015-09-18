@@ -26,4 +26,8 @@ class UserDevice extends BaseDomain {
             userDevice.delete(flush: flush)
         }
     }
+
+    static void removeAll(User u) {
+        UserDevice.where { user == u }.deleteAll()
+    }
 }

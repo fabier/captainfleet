@@ -43,17 +43,23 @@
                     <table class="table table-hover small nomargin-left-right">
                         <thead>
                         <tr>
-                            <th>
+                            <th class="col-md-1">
                                 #
                             </th>
-                            <th>
+                            <th class="col-md-2">
                                 Nom
                             </th>
-                            <th>
+                            <th class="col-md-3">
                                 Email
                             </th>
-                            <th>
+                            <th class="col-md-1">
+                                Date de création
+                            </th>
+                            <th class="col-md-1">
                                 Actif
+                            </th>
+                            <th class="col-md-4">
+                                Supprimer
                             </th>
                         </tr>
                         </thead>
@@ -71,12 +77,22 @@
                                     ${fieldValue(bean: user, field: "email")}
                                 </td>
                                 <td>
-                                    <g:if test="${user.enabled}">
-                                        <i class="glyphicon glyphicon-check"></i>
-                                    </g:if>
-                                    <g:else>
-                                        <i class="glyphicon glyphicon-unchecked"></i>
-                                    </g:else>
+                                    <g:formatDate date="${user.dateCreated}" format="d MMM yyyy"/>
+                                </td>
+                                <td>
+                                    <g:link controller="user" action="toggleEnabled" id="${user.id}" params="${params}">
+                                        <g:if test="${user.enabled}">
+                                            <i class="glyphicon glyphicon-check"></i>
+                                        </g:if>
+                                        <g:else>
+                                            <i class="glyphicon glyphicon-unchecked"></i>
+                                        </g:else>
+                                    </g:link>
+                                </td>
+                                <td>
+                                    <g:link controller="user" action="delete" id="${user.id}" params="${params}">
+                                        <i class="glyphicon glyphicon-trash"></i>
+                                    </g:link>
                                 </td>
                             </tr>
                         </g:each>
@@ -86,7 +102,7 @@
                     <g:if test="${totalCount > results.size()}">
                         <div class="text-center">
                             <ul class="pagination">
-                                <g:paginate next="&gt;" prev="&lt;" maxsteps="5" action="search"
+                                <g:paginate next="&gt;" prev="&lt;" maxsteps="5" action="userSearch"
                                             total="${totalCount}"/>
                             </ul>
                         </div>
