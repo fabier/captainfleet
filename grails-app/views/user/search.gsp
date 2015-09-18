@@ -58,7 +58,10 @@
                             <th class="col-md-1">
                                 Actif
                             </th>
-                            <th class="col-md-4">
+                            <th class="col-md-1">
+                                Verrouillé
+                            </th>
+                            <th class="col-md-3">
                                 Supprimer
                             </th>
                         </tr>
@@ -86,6 +89,16 @@
                                         </g:if>
                                         <g:else>
                                             <i class="glyphicon glyphicon-unchecked"></i>
+                                        </g:else>
+                                    </g:link>
+                                </td>
+                                <td>
+                                    <g:link controller="user" action="toggleLocked" id="${user.id}" params="${params}">
+                                        <g:if test="${user.accountLocked}">
+                                            <i class="glyphicon glyphicon-lock"></i>
+                                        </g:if>
+                                        <g:else>
+                                            <i class="glyphicon glyphicon-minus"></i>
                                         </g:else>
                                     </g:link>
                                 </td>

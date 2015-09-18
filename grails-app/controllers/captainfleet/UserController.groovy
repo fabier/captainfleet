@@ -34,6 +34,15 @@ class UserController extends grails.plugin.springsecurity.ui.UserController {
         redirect action: "userSearch", params: params
     }
 
+    def toggleLocked(long id) {
+        User user = User.get(id)
+        if (user != null) {
+            user.accountLocked = !user.accountLocked
+            user.save()
+        }
+        redirect action: "userSearch", params: params
+    }
+
     def userSearch() {
 
         boolean useOffset = params.containsKey('offset')
