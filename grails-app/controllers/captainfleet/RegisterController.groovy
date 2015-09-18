@@ -55,18 +55,37 @@ class RegisterController extends grails.plugin.springsecurity.ui.RegisterControl
 
         // Préparation et envoi du mail
         try {
+            // Envoi du mail à destination de l'utilisateur
             String url = generateLink('verifyRegistration', [t: registrationCode.token])
             def conf = SpringSecurityUtils.securityConfig
+            def emailFrom = conf.ui.register.emailFrom // noreply
+            def emailTo = command.email
+            def emailSubject = conf.ui.register.emailSubject // Création de compte
+
             def body = conf.ui.register.emailBody
             if (body.contains('$')) {
                 body = evaluate(body, [user: user, url: url])
             }
             mailService.sendMail {
-                to command.email
-                from conf.ui.register.emailFrom
-                subject conf.ui.register.emailSubject
+                to emailTo
+                from emailFrom
+                subject emailSubject
                 html body.toString()
             }
+
+            // Email à destination de CaptainFleet (interne)
+            emailTo = conf.ui.register.emailTo
+            def emailBodyToInternalEmailAccount = conf.ui.register.emailBodyToInternalEmailAccount
+            if (emailBodyToInternalEmailAccount.contains('$')) {
+                emailBodyToInternalEmailAccount = evaluate(emailBodyToInternalEmailAccount, [user: user])
+            }
+            mailService.sendMail {
+                to emailTo
+                from emailFrom
+                subject emailSubject
+                html emailBodyToInternalEmailAccount.toString()
+            }
+
             render view: 'index', model: [emailSent: true]
         } catch (Exception e) {
             // Le mail n'est pas parti, on affiche une erreur

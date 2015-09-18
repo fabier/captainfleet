@@ -81,12 +81,27 @@ Vous venez de créer un compte sur <a href="http://www.captainfleet.com">Captain
 Merci de <strong><a href="$url">cliquer ici</a></strong> pour terminer la procédure d'enregistrement, ou copier coller l'adresse suivante dans votre navigateur :<br/>
 $url<br/>
 <br/>
-Merci de ne pas répondre à ce message automatique.
+Merci de ne pas répondre à ce message automatique.<br/>
+<br/>
+L'équipe CaptainFleet
 '''
                     emailFrom = 'CaptainFleet <noreply@captainfleet.com>'
                     emailSubject = 'CaptainFleet - Création de compte'
                     defaultRoleNames = ['ROLE_USER']
                     postRegisterUrl = null // use defaultTargetUrl if not set
+                    emailTo = 'contact@captainfleet.com'
+                    emailBodyToInternalEmailAccount = '''\
+Bonjour,<br/>
+<br/>
+Un nouvel utilisateur vient d'être créé sur <a href="http://www.captainfleet.com">CaptainFleet</a>.<br/>
+<br/>
+  Nom : <b>$user.username</b><br/>
+Email : <b>$user.email</b><br/>
+<br/>
+Merci de ne pas répondre à ce message automatique.<br/>
+<br/>
+L'équipe CaptainFleet
+'''
                 }
 
                 forgotPassword {
@@ -95,11 +110,13 @@ Hi $user.username,<br/>
 <br/>
 Vous, ou quelqu'un se faisant passer pour vous, venez de faire une demande de mise à zéro de votre mot de passe sur <a href="http://www.captainfleet.com">CaptainFleet</a>.<br/>
 <br/>
-SI vous n'avez pas fait cette demande, alors ignorez ce message et supprimez le, aucun changement de sera appliqué à votre compte.<br/>
+Si vous n'avez pas fait cette demande, alors ignorez ce message et supprimez le, aucun changement de sera appliqué à votre compte.<br/>
 <br/>
 Si vous êtes bien celui qui a fait la demande, alors <a href="$url">cliquez ici</a> pour remettre à zéro votre mot de passe.
 <br/>
-Merci de ne pas répondre à ce message automatique.
+Merci de ne pas répondre à ce message automatique.<br/>
+<br/>
+L'équipe CaptainFleet
 '''
                     emailFrom = 'CaptainFleet <noreply@captainfleet.com>'
                     emailSubject = 'CaptainFleet - Réinitialisation du mot de passe'
