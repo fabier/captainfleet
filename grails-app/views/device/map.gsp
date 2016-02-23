@@ -153,10 +153,13 @@
                                 <g:elseif test="${frame.frameType == captainfleet.FrameType.SERVICE}">
                                     Température : ${frame.frameExtra.averageTemperature} °C
                                 </g:elseif>
-                                <g:else>
+                                <g:elseif test="${frame.frameType == captainfleet.FrameType.MESSAGE}">
                                     <g:formatNumber number="${frame.frameExtra.latitude}" maxFractionDigits="6"
                                                     locale="EN"/>,<g:formatNumber number="${frame.frameExtra.longitude}"
                                                                                   maxFractionDigits="6" locale="EN"/>
+                                </g:elseif>
+                                <g:else>
+                                    <code>0x${frame.data}</code>
                                 </g:else>
                             </td>
                         </tr>
