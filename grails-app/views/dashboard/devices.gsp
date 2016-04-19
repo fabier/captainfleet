@@ -90,15 +90,3 @@
 </div>
 </body>
 </html>
-
-
-
-%{--<gvisualization:lineCoreChart hAxis="${new Expando([title: 'x'])}"--}%
-%{--vAxis="${new Expando([title: 'y', viewWindowMode: 'explicit', viewWindow: new Expando([min: -5, max: 5])])}"--}%
-%{--curveType="function"--}%
-%{--elementId="linechart"--}%
-%{--width="${400}"--}%
-%{--height="${240}"--}%
-%{--title="Function Graph"--}%
-%{--columns="${deviceGraphDataColumnsMap.get(device)}"--}%
-%{--data="${deviceGraphDataMap.get(device)}"/>--}%
