@@ -1,11 +1,7 @@
 package captainfleet.admin
 
-import captainfleet.MapMarkerIcon
-import captainfleet.MapMarkerIconService
+import captainfleet.*
 import org.springframework.security.access.annotation.Secured
-import captainfleet.Device
-import captainfleet.DeviceService
-import captainfleet.Frame
 
 @Secured("hasRole('ROLE_ADMIN')")
 class AdminDeviceController {
@@ -48,8 +44,9 @@ class AdminDeviceController {
                 [max: params.max ?: 10, offset: params.offset ?: 0, sort: "name", order: "asc"])
         int totalCount = Device.countByNameIlike("%${params.name ?: ""}%")
         render view: "search", model: [
-                results   : devices,
-                totalCount: totalCount
+                results             : devices,
+                totalCount          : totalCount,
+                defaultMapMarkerIcon: mapMarkerIconService.getDefault()
         ]
     }
 
