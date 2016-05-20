@@ -4,8 +4,6 @@ import grails.plugin.springsecurity.SpringSecurityService
 import org.apache.commons.lang3.time.DateUtils
 import org.springframework.security.access.annotation.Secured
 
-import java.util.regex.Pattern
-
 @Secured("hasRole('ROLE_USER')")
 class DeviceController {
 
@@ -27,21 +25,36 @@ class DeviceController {
 
     def index() {
         User user = springSecurityService.currentUser
-        def devices = UserDevice.findAllByUser(user)*.device
-        if (params.name) {
-            Pattern pattern = Pattern.compile(".*${params.name}.*", Pattern.CASE_INSENSITIVE)
-            devices = devices.findAll {
-                pattern.matcher(it.name ?: "").matches() || pattern.matcher(it.code ?: "").matches() || pattern.matcher(it.sigfoxId ?: "").matches()
+
+        int offset = params.offset ? Integer.parseInt(params.offset) : 0
+        int max = params.max ? Integer.parseInt(params.max) : 10
+
+        int totalCount = Device.createCriteria().count {
+            createAlias "userDevices", "ud"
+            eq "ud.user", user
+            if (params.name) {
+                or {
+                    ilike "name", "%${params.name}%"
+                    ilike "code", "%${params.name}%"
+                    ilike "sigfoxId", "%${params.name}%"
+                }
             }
         }
 
-        int offset = params.offset ?: 0
-        int max = params.max ?: 10
-        int totalCount = devices.size()
-        int endIndex = Math.min(totalCount, offset + max)
+        List<Device> devices = Device.createCriteria().list([max: max, offset: offset]) {
+            createAlias "userDevices", "ud"
+            eq "ud.user", user
+            if (params.name) {
+                or {
+                    ilike "name", "%${params.name}%"
+                    ilike "code", "%${params.name}%"
+                    ilike "sigfoxId", "%${params.name}%"
+                }
+            }
+        }
 
         render view: "index", model: [
-                devices             : devices.subList(offset, endIndex),
+                devices             : devices,
                 totalCount          : totalCount,
                 defaultMapMarkerIcon: mapMarkerIconService.getDefault()
         ]

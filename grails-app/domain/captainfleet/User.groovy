@@ -18,6 +18,10 @@ class User {
 
     static transients = ['springSecurityService']
 
+    static hasMany = [
+            userDevices: UserDevice
+    ]
+
     static constraints = {
         username blank: false
         password blank: false

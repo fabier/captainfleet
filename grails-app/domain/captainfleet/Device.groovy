@@ -22,7 +22,11 @@ class Device extends BaseEntity {
      */
     MapMarkerIcon mapMarkerIcon
 
-    static hasMany = [frames: Frame, deviceZoneLogAggregates: DeviceZoneLogAggregate]
+    static hasMany = [
+            frames                 : Frame,
+            deviceZoneLogAggregates: DeviceZoneLogAggregate,
+            userDevices            : UserDevice
+    ]
 
     static constraints = {
         sigfoxId nullable: false, unique: true
