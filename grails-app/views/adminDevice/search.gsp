@@ -17,24 +17,26 @@
 
         <div class="col-md-10">
             <div class="row">
-                <div class="col-md-6">
-                    <g:form action='deviceSearch' name='deviceSearchForm' class="form-horizontal">
-                        <div class="form-group">
-                            <label for="name" class="col-md-2 control-label">Nom</label>
+                <g:form action='deviceSearch' name='deviceSearchForm' class="form-horizontal">
+                    <div class="form-group">
+                        <label for="name" class="col-md-1 control-label">Nom</label>
 
-                            <div class="col-md-8">
-                                <input class="form-control" id="name" name="name" placeholder="Recherche"
-                                       value="${params.name ?: ""}"/>
-                            </div>
-
-                            <div class="col-md-2">
-                                <button type="submit" class="btn btn-primary">
-                                    Rechercher
-                                </button>
-                            </div>
+                        <div class="col-md-4">
+                            <input class="form-control" id="name" name="name" placeholder="Recherche"
+                                   value="${params.name ?: ""}"/>
                         </div>
-                    </g:form>
-                </div>
+
+                        <div class="col-md-7">
+                            <button type="submit" class="btn btn-primary">
+                                Rechercher
+                            </button>
+                            <g:link action="create" class="btn btn-primary">
+                                <i class="glyphicon glyphicon-plus-sign"></i>
+                                &nbsp;Créer
+                            </g:link>
+                        </div>
+                    </div>
+                </g:form>
             </div>
 
             <div class="row">

@@ -40,14 +40,57 @@ class AdminDeviceController {
     }
 
     def deviceSearch() {
-        def devices = Device.findAllByNameIlike("%${params.name ?: ""}%",
-                [max: params.max ?: 10, offset: params.offset ?: 0, sort: "name", order: "asc"])
-        int totalCount = Device.countByNameIlike("%${params.name ?: ""}%")
+        int max = params.max ? Integer.parseInt(params.max) : 10
+        int offset = params.offset ? Integer.parseInt(params.offset) : 0
+
+        int totalCount = Device.createCriteria().count() {
+            if (params.name) {
+                or {
+                    ilike "name", "%${params.name}%"
+                    ilike "sigfoxId", "%${params.name}%"
+                }
+            }
+        }
+        def devices = Device.createCriteria().list([max: max, offset: offset]) {
+            if (params.name) {
+                or {
+                    ilike "name", "%${params.name}%"
+                    ilike "sigfoxId", "%${params.name}%"
+                }
+            }
+            order "name", "asc"
+        }
         render view: "search", model: [
                 results             : devices,
                 totalCount          : totalCount,
                 defaultMapMarkerIcon: mapMarkerIconService.getDefault()
         ]
+    }
+
+    def create() {
+        def mapMarkerIcons = MapMarkerIcon.all
+        def defaultMapMarker = mapMarkerIconService.getDefault()
+        render view: "create", model: [mapMarkerIcons: mapMarkerIcons, defaultMapMarker: defaultMapMarker]
+    }
+
+    def save() {
+        Device device = new Device(
+                name: params.name ?: params.sigfoxId,
+                sigfoxId: params.sigfoxId,
+                mapMarkerIcon: MapMarkerIcon.get(params.mapMarkerIcon)
+        )
+
+        if (device.validate()) {
+            deviceService.generateNewUniqueCodeForDevice(device)
+            device.save()
+            flash.message = "Enregistrement effectué"
+            redirect action: "create"
+        } else {
+            flash.warning = "Impossible de créer ce boitier.<br/>" +
+                    "Vérifiez que le code sigfox est bon, et que le nom est bien renseigné.<br/>" +
+                    "Vérifiez aussi que le code n'existe pas déjà."
+            redirect action: "create", params: params
+        }
     }
 
     def update(long id) {
