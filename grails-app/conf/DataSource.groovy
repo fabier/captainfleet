@@ -6,6 +6,13 @@ dataSource {
     dialect = org.hibernatespatial.postgis.PostgisDialect
     username = "dev"
     password = "dev"
+    properties {
+        initialSize = 1
+        maxActive = 16
+        minIdle = 1
+        maxIdle = 4
+        maxWait = 10000
+    }
 //    logSql = true
 }
 
