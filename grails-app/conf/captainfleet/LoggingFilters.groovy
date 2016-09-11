@@ -5,7 +5,7 @@ import log.AccessLog
 class LoggingFilters {
 
     def filters = {
-        allButImage(controller: 'mapMarker', invert: true) {
+        allButImageAndSigFoxWS(controller: 'mapMarker|sigFoxWS', invert: true) {
             before = {
                 def remoteAddr = request.getRemoteAddr()
                 boolean shouldLogToDatabase = true

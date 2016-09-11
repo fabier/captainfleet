@@ -217,9 +217,10 @@ class FrameService {
         }
     }
 
-    def doCreateFrame(Map params, FrameProtocol frameProtocol) {
+    Frame doCreateFrame(Map params, FrameProtocol frameProtocol) {
         Frame frame = createAndSaveFrameFromParams(frameProtocol, params)
         checkIfAnyZoneIsToRaiseForFrame(frame)
+        return frame
     }
 
     def checkIfAnyZoneIsToRaiseForFrame(Frame frame) {
@@ -323,7 +324,7 @@ class FrameService {
         }
     }
 
-    Frame createAndSaveFrameFromParams(FrameProtocol frameProtocol, params) {
+    Frame createAndSaveFrameFromParams(FrameProtocol frameProtocol, Map params) {
         SigFoxWSData sigFoxWSData = parserService.tryParseSigFoxWSData(params)
 
         Frame frame = new Frame(

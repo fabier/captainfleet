@@ -14,7 +14,14 @@ class SigFoxWSController {
      * @return
      */
     def v1() {
-        frameService.doCreateFrame(params, FrameProtocol.V1)
+        def frame = frameService.doCreateFrame(params, FrameProtocol.V1)
+
+        // On loggue uniquement si on vient de créer la frame et qu'il ne s'agit pas d'un duplicate
+        if (frame != null && !frame.duplicate) {
+            def remoteAddr = request.getRemoteAddr()
+            log.info "${request.forwardURI} -> $params (${remoteAddr})"
+        }
+
         render text: "OK"
     }
 
@@ -23,7 +30,14 @@ class SigFoxWSController {
      * @return
      */
     def v2() {
-        frameService.doCreateFrame(params, FrameProtocol.V2)
+        def frame = frameService.doCreateFrame(params, FrameProtocol.V2)
+
+        // On loggue uniquement si on vient de créer la frame et qu'il ne s'agit pas d'un duplicate
+        if (frame != null && !frame.duplicate) {
+            def remoteAddr = request.getRemoteAddr()
+            log.info "${request.forwardURI} -> $params (${remoteAddr})"
+        }
+
         render text: "OK"
     }
 }

@@ -68,7 +68,7 @@ class ParserService {
      * @param params
      * @return
      */
-    SigFoxWSData tryParseSigFoxWSData(GrailsParameterMap params) {
+    SigFoxWSData tryParseSigFoxWSData(Map params) {
         Device device = null
         if (params.id == null) {
             // Pas de symbole device transmis !
