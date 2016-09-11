@@ -13,7 +13,7 @@ class LoggingFilters {
                 if ("127.0.0.1".equals(remoteAddr) || "0:0:0:0:0:0:0:1".equals(remoteAddr)) {
                     // On n'enregistre pas en base
                     shouldLogToDatabase = false
-                    if (controllerName.equals("public") && actionName.equals("index")) {
+                    if (controllerName.equals("public") && (actionName == null || actionName.equals("index"))) {
                         // Acces depuis nagios certainement pour vérifer le bon fonctionnement du service
                         // On ne loggue pas sur fichier
                         shouldLogToFile = false
