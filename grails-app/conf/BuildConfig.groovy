@@ -40,7 +40,7 @@ grails.project.dependency.resolution = {
 
     dependencies {
         // Driver base de données
-        runtime 'org.postgresql:postgresql:9.4-1201-jdbc41'
+        runtime 'org.postgresql:postgresql:42.0.0.jre7'
 
         // Cache entities
         compile 'net.sf.ehcache:ehcache:2.8.5'
