@@ -34,8 +34,8 @@ environments {
     }
     production {
         dataSource {
-            username = "grails"
-            password = "P639rb98n4H3YD4E7q"
+            username = "captainfleet"
+            password = "M2bq7e2UhXi0dqe4gVQC"
         }
     }
 }
