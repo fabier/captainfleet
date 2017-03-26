@@ -50,8 +50,8 @@ grails.project.dependency.resolution = {
 
         // Base de données géographique
         compile "com.vividsolutions:jts:1.13"
-        compile('org.postgis:postgis-jdbc:2.1.0') {
-            exclude 'postgresql:postgresql:9.1-901.jdbc3'
+        compile('net.postgis:postgis-jdbc:2.2.1') {
+            exclude 'postgresql:postgresql:9.4.1208.jre7'
         }
         compile('org.hibernatespatial:hibernate-spatial-postgis:1.1.1') {
             exclude 'org.hibernate:hibernate-core:3.6.0.Final'
